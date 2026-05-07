@@ -302,7 +302,7 @@ tbody tr:hover{background:var(--bg)}
 .mn-ic svg{width:19px;height:19px}
 
 @media(max-width:767px){
-  .fab{bottom:80px;right:16px;width:48px;height:48px;border-radius:14px;}
+  .fab.visible{bottom:80px;right:16px;width:48px;height:48px;border-radius:14px;display:flex}
   .fab-label{bottom:136px;right:16px;}
 
   #sa.on{grid-template-columns:1fr;height:auto}
@@ -316,8 +316,30 @@ tbody tr:hover{background:var(--bg)}
   .modal{max-width:100%;border-radius:18px}
 }
 @media(min-width:768px){
-  .fab{display:flex}
+  .fab.visible{display:flex}
   .main{height:100dvh}
+}
+
+@media(max-width:767px){
+  .topbar{
+    background:linear-gradient(135deg,#0A1628 0%,#0C1A34 100%);
+    border-bottom:1px solid rgba(255,255,255,.06);
+  }
+  .tb-title{color:#fff}
+  .tb-av{background:linear-gradient(135deg,var(--orange) 0%,#FBBF24 100%)}
+  /* Dark mobile nav */
+  .mob-nav{
+    background:linear-gradient(180deg,#0C1A34 0%,#0A1628 100%);
+    border-top:1px solid rgba(255,255,255,.06);
+  }
+  .mn-item{color:rgba(255,255,255,.38);background:transparent;border:none}
+  .mn-item.on{color:#60A5FA}
+  .mn-item svg{stroke:currentColor}
+  /* Red logout item */
+  .mn-item[onclick*="logout"]{color:rgba(239,68,68,.7)}
+  .mn-item[onclick*="logout"]:hover{color:var(--red)}
+  /* Logo in topbar stays white */
+  .tb-logo-svg svg path,.sb-logo-svg svg path{fill:#fff !important}
 }
 </style>
 </head>
@@ -349,27 +371,27 @@ tbody tr:hover{background:var(--bg)}
     </div>
     <nav class="sb-nav">
       <div class="nsec">Principal</div>
-      <div class="ni on" onclick="nav(this,'v-dash','Dashboard')">
+      <div class="ni on" data-view="v-dash" onclick="nav(this,'v-dash','Dashboard')">
         <span class="ni-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></span>Dashboard
       </div>
-      <div class="ni" onclick="nav(this,'v-assign','Asignar puntos')">
+      <div class="ni" data-view="v-assign" onclick="nav(this,'v-assign','Asignar puntos')">
         <span class="ni-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>Asignar puntos
       </div>
       <div class="nsec">Gestión</div>
-      <div class="ni" onclick="nav(this,'v-employees','Empleados')">
+      <div class="ni" data-view="v-employees" onclick="nav(this,'v-employees','Empleados')">
         <span class="ni-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></span>Empleados
       </div>
-      <div class="ni" onclick="nav(this,'v-activities','Actividades')">
+      <div class="ni" data-view="v-activities" onclick="nav(this,'v-activities','Actividades')">
         <span class="ni-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>Actividades
       </div>
-      <div class="ni" onclick="nav(this,'v-rewards','Recompensas')">
+      <div class="ni" data-view="v-rewards" onclick="nav(this,'v-rewards','Recompensas')">
         <span class="ni-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg></span>Recompensas
       </div>
       <div class="nsec">Reportes</div>
-      <div class="ni" onclick="nav(this,'v-history','Historial global')">
+      <div class="ni" data-view="v-history" onclick="nav(this,'v-history','Historial global')">
         <span class="ni-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>Historial global
       </div>
-      <div class="ni" onclick="nav(this,'v-redemptions','Canjes')">
+      <div class="ni" data-view="v-redemptions" onclick="nav(this,'v-redemptions','Canjes')">
         <span class="ni-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></span>Canjes<div class="ni-dot" style="margin-left:auto;width:7px;height:7px;border-radius:50%;background:var(--orange);flex-shrink:0"></div>
       </div>
     </nav>
@@ -401,7 +423,7 @@ tbody tr:hover{background:var(--bg)}
           <div><div class="ph-ey">Resumen</div><h1>Dashboard</h1><p>Planta Saltillo · Mayo 2026</p></div>
           <div class="ph-btns">
             <button class="btn-sec" onclick="exportExcel('Dashboard')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Exportar Excel</button>
-            <button class="btn-act" onclick="nav(document.querySelector('.ni:nth-child(2)'),'v-assign','Asignar puntos')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Asignar puntos</button>
+            <button class="btn-act" onclick="nav(null,'v-assign','Asignar puntos')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Asignar puntos</button>
           </div>
         </div>
         <div class="kpis">
@@ -679,12 +701,13 @@ tbody tr:hover{background:var(--bg)}
       <button class="mn-item" onclick="mNav(this,'v-assign','Asignar puntos')"><div class="mn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>Asignar</button>
       <button class="mn-item" onclick="mNav(this,'v-employees','Empleados')"><div class="mn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>Empleados</button>
       <button class="mn-item" onclick="mNav(this,'v-redemptions','Canjes')"><div class="mn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>Canjes</button>
+      <button class="mn-item" onclick="logout()" style="color:var(--red)"><div class="mn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div>Salir</button>
     </div>
   </nav>
 </div><!-- /sa -->
 
 <!-- FLOATING CTA -->
-<button class="fab" id="fab" onclick="nav(document.querySelector('.ni:nth-child(2)'),'v-assign','Asignar puntos')" title="Asignar puntos" onmouseenter="showFabLabel()" onmouseleave="hideFabLabel()">
+<button class="fab" id="fab" onclick="nav(null,'v-assign','Asignar puntos')" title="Asignar puntos" onmouseenter="showFabLabel()" onmouseleave="hideFabLabel()">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
 </button>
 <div class="fab-label" id="fab-label">Asignar puntos</div>
@@ -754,7 +777,7 @@ tbody tr:hover{background:var(--bg)}
     <div class="modal-foot">
       <button class="btn-sec" onclick="closeModal('emp-detail-modal')">Cerrar</button>
       <button class="btn-danger" onclick="deleteEmployee()">Eliminar empleado</button>
-      <button class="btn-act" onclick="closeModal('emp-detail-modal');nav(document.querySelector('.ni:nth-child(2)'),'v-assign','Asignar puntos')">⚡ Asignar puntos</button>
+      <button class="btn-act" onclick="closeModal('emp-detail-modal');nav(null,'v-assign','Asignar puntos')">⚡ Asignar puntos</button>
     </div>
   </div>
 </div>
@@ -873,11 +896,11 @@ let editingEmp=null, editingAct=null, editingRwd=null, deleteCb=null, approvingI
 
 // ═══ SCREEN ═══
 function showFab(){
-  document.getElementById('fab').style.display='flex';
+  document.getElementById('fab').classList.add('visible');
   document.getElementById('fab-label').style.display='none';
 }
 function hideFab(){
-  document.getElementById('fab').style.display='none';
+  document.getElementById('fab').classList.remove('visible');
   document.getElementById('fab-label').style.display='none';
 }
 function goApp(){
@@ -890,19 +913,30 @@ function logout(){toast('Cerrando sesión...');hideFab();setTimeout(()=>{documen
 // ═══ NAV ═══
 function nav(el,id,title){
   document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
-  if(el)el.classList.add('on');
+  if(el) el.classList.add('on');
+  else syncSidebarNav(id);
   showView(id,title);
 }
 function mNav(el,id,title){
   document.querySelectorAll('.mn-item').forEach(n=>n.classList.remove('on'));
   if(el)el.classList.add('on');
+  syncSidebarNav(id);
   showView(id,title);
+}
+function syncSidebarNav(id){
+  // Mark the correct sidebar item based on data-view
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  const match=document.querySelector('.ni[data-view="'+id+'"]');
+  if(match)match.classList.add('on');
 }
 function showView(id,title){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
   document.getElementById(id).classList.add('on');
   document.getElementById('tb-title').textContent=title;
   document.querySelector('.page').scrollTop=0;
+  // Hide FAB when on assign view, show otherwise
+  if(id==='v-assign') hideFab();
+  else showFab();
 }
 
 // ═══ RENDER ALL ═══
