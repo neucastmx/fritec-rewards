@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<title>Fritec Rewards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#0047FF;--blue-d:#0039CC;--blue-s:#EEF2FF;
+  --navy:#0C1830;--navy2:#152446;
+  --gold:#F59E0B;--gold-s:#FEF3C7;
+  --bg:#F3F5FA;--white:#fff;
+  --t1:#0F172A;--t2:#4B5563;--t3:#94A3B8;
+  --bdr:#E2E8F0;
+  --green:#10B981;--green-s:#DCFCE7;
+  --red:#EF4444;--red-s:#FEE2E2;
+  --r:12px;--rl:18px;--rx:22px;
+  --sh:0 1px 2px rgba(0,0,0,.04),0 3px 12px rgba(0,0,0,.06);
+  --shm:0 6px 24px rgba(0,0,0,.10);
+  --sw:236px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{height:100%;font-size:16px}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-height:100%;-webkit-font-smoothing:antialiased}
+img{display:block;object-fit:cover}
+button,input,select,textarea{font-family:inherit;outline:none}
+h1,h2,h3,.syne{font-family:'Inter',sans-serif}
+
+/* SCREEN */
+.s{display:none}.s.on{display:flex;flex-direction:column}
+#sa.on{display:grid;flex-direction:unset}
+
+/* ══ SPLASH ══ */
+#ss{min-height:100dvh;align-items:center;justify-content:center;gap:22px;background:linear-gradient(148deg,#060F22 0%,#0C1830 50%,#1040C0 100%)}
+.spl-logo{display:flex;flex-direction:column;align-items:center;gap:10px;animation:pop .55s cubic-bezier(.34,1.56,.64,1) both}
+.spl-logo img{height:36px;width:auto;filter:brightness(0) invert(1)}
+.spl-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.4)}
+.spl-sub{font-family:'Inter',sans-serif;font-size:13px;font-weight:500;color:rgba(255,255,255,.38);letter-spacing:.12em;text-transform:uppercase;animation:fu .4s .15s both}
+.spl-bar{width:120px;height:2px;background:rgba(255,255,255,.1);border-radius:1px;overflow:hidden;animation:fu .4s .25s both}
+.spl-fill{height:100%;background:#fff;border-radius:1px;animation:bf 2.1s .4s ease forwards;width:0}
+@keyframes pop{from{transform:scale(.2);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes fu{from{transform:translateY(7px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes bf{to{width:100%}}
+
+/* ══ ONBOARDING ══ */
+#sob{min-height:100dvh;background:#060F22;overflow:hidden;position:relative}
+.ob-glow{position:absolute;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(0,71,255,.28) 0%,transparent 64%);top:-60px;left:50%;transform:translateX(-50%);pointer-events:none}
+.ob-top{flex-shrink:0;display:flex;justify-content:space-between;align-items:center;padding:20px 22px;position:relative;z-index:2}
+.ob-step{font-family:'Inter',sans-serif;font-size:10px;letter-spacing:.14em;color:rgba(255,255,255,.22);text-transform:uppercase;font-weight:600}
+.ob-skip{font-size:13px;color:rgba(255,255,255,.28);background:none;border:none;cursor:pointer;padding:6px}
+.ob-mid{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:0 28px;position:relative;z-index:2;gap:26px}
+.ob-slide{display:none;flex-direction:column;align-items:center;text-align:center;gap:26px;width:100%;max-width:340px}
+.ob-slide.on{display:flex}
+.fc{display:inline-flex;align-items:center;gap:13px;background:rgba(255,255,255,.08);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:18px 22px;box-shadow:0 14px 44px rgba(0,71,255,.22);animation:fl 3.4s ease-in-out infinite}
+@keyframes fl{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-12px) rotate(-2deg)}}
+.fc-ic{width:46px;height:46px;border-radius:13px;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.fc-v{font-family:'Inter',sans-serif;font-size:26px;font-weight:800;color:#fff}
+.fc-l{font-size:11px;color:rgba(255,255,255,.38);text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+.ob-txt h2{font-family:'Inter',sans-serif;font-size:clamp(24px,6vw,30px);font-weight:800;color:#fff;line-height:1.15}
+.ob-txt p{font-size:15px;color:rgba(255,255,255,.48);line-height:1.65;margin-top:8px}
+.ob-foot{flex-shrink:0;padding:22px 22px 48px;z-index:2}
+.ob-dots{display:flex;gap:6px;justify-content:center;margin-bottom:16px}
+.dot{width:6px;height:6px;border-radius:3px;background:rgba(255,255,255,.16);transition:all .3s}
+.dot.on{background:#fff;width:20px}
+.btn-main{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:16px 22px;border-radius:13px;background:var(--blue);border:none;cursor:pointer;font-size:15px;font-weight:600;color:#fff;transition:all .2s}
+.btn-main:hover{background:var(--blue-d);box-shadow:0 8px 24px rgba(0,71,255,.3)}
+.btn-main:active{transform:scale(.97)}
+
+/* ══ AUTH ══ */
+#sl,#sr{min-height:100dvh;background:#fff}
+.aw{display:flex;min-height:100dvh;height:100dvh}
+.al{width:420px;flex:0 0 420px;background:linear-gradient(155deg,#0C1830 0%,#0047FF 100%);padding:44px 42px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+@media(min-width:1100px){.al{width:480px;flex:0 0 480px}}
+.al-grid{position:absolute;inset:0;opacity:.05;background-image:repeating-linear-gradient(0deg,rgba(255,255,255,1) 0,rgba(255,255,255,1) 1px,transparent 0,transparent 44px),repeating-linear-gradient(90deg,rgba(255,255,255,1) 0,rgba(255,255,255,1) 1px,transparent 0,transparent 44px)}
+.al-brand{display:flex;align-items:center;gap:10px;position:relative;z-index:1}
+.al-brand img{height:28px;width:auto;filter:brightness(0) invert(1)}
+.al-sub-brand{font-family:'Inter',sans-serif;font-size:12px;font-weight:600;color:rgba(255,255,255,.38);letter-spacing:.14em;text-transform:uppercase;position:relative;z-index:1;margin-top:6px}
+.al-body{position:relative;z-index:1}
+.al-ey{font-size:10px;color:rgba(255,255,255,.28);letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px;font-weight:600;font-family:'Inter',sans-serif}
+.al-body h2{font-family:'Inter',sans-serif;font-size:clamp(21px,2vw,28px);font-weight:800;color:#fff;line-height:1.2;margin-bottom:12px}
+.al-body p{font-size:14px;color:rgba(255,255,255,.46);line-height:1.65}
+.al-stats{display:flex;gap:24px;flex-wrap:wrap;position:relative;z-index:1}
+.al-sv{font-family:'Inter',sans-serif;font-size:19px;font-weight:800;color:#fff}
+.al-sl{font-size:11px;color:rgba(255,255,255,.36);margin-top:2px}
+.ar{flex:1;padding:40px 48px;display:flex;flex-direction:column;justify-content:center;overflow-y:auto;height:100dvh;min-height:100dvh;max-width:560px}
+
+.mob-logo{display:none;align-items:center;gap:10px;margin-bottom:28px}
+.mob-logo img{height:22px;width:auto}
+.ar-inner{width:100%;max-width:420px}.ar h1{font-family:'Inter',sans-serif;font-size:25px;font-weight:800;color:var(--t1);margin-bottom:4px}
+.ar .sub{font-size:14px;color:var(--t2);margin-bottom:26px}
+.fg{margin-bottom:15px}
+.fg label{display:block;font-size:13px;font-weight:500;color:var(--t2);margin-bottom:6px}
+.fi{width:100%;padding:12px 14px;border:1.5px solid var(--bdr);border-radius:10px;background:#F8FAFC;font-size:14px;color:var(--t1);transition:border-color .2s,box-shadow .2s,background .2s}
+.fi:focus{border-color:var(--blue);background:#fff;box-shadow:0 0 0 3px rgba(0,71,255,.08)}
+.fiw{position:relative}.fiw .fi{padding-right:40px}
+.fi-ic{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--t3);font-size:15px;cursor:pointer;background:none;border:none;padding:0}
+.seg-tabs{display:flex;background:var(--bg);border-radius:10px;padding:3px;margin-bottom:20px;gap:3px}
+.seg-tab{flex:1;padding:9px;text-align:center;border-radius:8px;font-size:13px;font-weight:600;color:var(--t3);cursor:pointer;transition:all .2s;border:none;background:transparent}
+.seg-tab.on{background:#fff;color:var(--t1);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.btn-p{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:13px 20px;border-radius:10px;background:var(--blue);border:none;cursor:pointer;font-size:15px;font-weight:600;color:#fff;transition:all .2s;margin-top:6px}
+.btn-p:hover{background:var(--blue-d);box-shadow:0 6px 20px rgba(0,71,255,.26)}
+.btn-p:active{transform:scale(.98)}
+.btn-g{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:12px 20px;border-radius:10px;background:#F3F4F6;border:1.5px solid var(--bdr);color:var(--t1);font-size:14px;font-weight:500;cursor:pointer;transition:all .2s}
+.btn-g:hover{background:#EAECEF}
+.lnk{color:var(--blue);font-weight:500;cursor:pointer;font-size:13px}
+.lnk:hover{text-decoration:underline}
+.ctxt{text-align:center;font-size:14px;color:var(--t2);margin-top:16px}
+.div{display:flex;align-items:center;gap:10px;margin:14px 0}
+.div-l{flex:1;height:1px;background:var(--bdr)}
+.div-t{font-size:12px;color:var(--t3)}
+@media(max-width:767px){
+  .al{display:none}
+  .ar{padding:36px 22px;justify-content:flex-start;padding-top:50px}
+  .mob-logo{display:flex}
+}
+
+/* ══ FORGOT PASSWORD ══ */
+#sfp{min-height:100dvh;background:#fff;align-items:center;justify-content:center}
+.fp-box{width:100%;max-width:420px;padding:24px;margin:0 20px}
+.fp-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--t2);cursor:pointer;margin-bottom:24px;background:none;border:none;font-family:inherit}
+.fp-back:hover{color:var(--blue)}
+
+/* ══ APP SHELL ══ */
+#sa{background:var(--bg)}
+@media(min-width:768px){#sa.on{grid-template-columns:var(--sw) 1fr;height:100dvh;overflow:hidden}}
+
+/* SIDEBAR */
+/* ─── SIDEBAR ─── */
+.sidebar{
+  display:none;flex-direction:column;height:100dvh;position:sticky;top:0;
+  overflow-y:auto;width:var(--sw);flex-shrink:0;
+  background:linear-gradient(180deg,#0A1628 0%,#0C1A34 100%);
+  border-right:1px solid rgba(255,255,255,.04);
+}
+@media(min-width:768px){.sidebar{display:flex}}
+.sb-hd{padding:24px 20px 18px;border-bottom:1px solid rgba(255,255,255,.05)}
+.sb-logo-svg{margin-bottom:4px}
+.sb-tag{font-size:9px;color:rgba(255,255,255,.2);letter-spacing:.14em;text-transform:uppercase;margin-top:5px;font-weight:600;font-family:'Inter',sans-serif}
+.sb-nav{flex:1;padding:8px 12px}
+.nsec{
+  font-size:9px;color:rgba(255,255,255,.22);text-transform:uppercase;
+  letter-spacing:.14em;font-weight:700;padding:16px 10px 5px;
+  font-family:'Inter',sans-serif;
+}
+/* Nav items */
+.ni{
+  display:flex;align-items:center;gap:10px;padding:9px 10px;
+  border-radius:10px;cursor:pointer;color:rgba(255,255,255,.44);
+  font-size:13px;font-weight:500;margin-bottom:1px;transition:all .18s;
+  position:relative;
+}
+.ni:hover{color:rgba(255,255,255,.9);background:rgba(255,255,255,.055)}
+.ni.on{color:#fff;font-weight:600;background:rgba(0,71,255,.18)}
+.ni.on::after{
+  content:'';position:absolute;right:0;top:50%;transform:translateY(-50%);
+  width:3px;height:60%;background:var(--blue);border-radius:2px 0 0 2px;
+}
+/* Icon box */
+.ni-ic{
+  width:30px;height:30px;border-radius:8px;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;transition:all .18s;
+  background:rgba(255,255,255,.05);
+}
+.ni-ic svg{width:14px;height:14px;transition:all .18s}
+.ni:hover .ni-ic{background:rgba(255,255,255,.1)}
+.ni.on .ni-ic{background:rgba(0,71,255,.25);box-shadow:0 2px 8px rgba(0,71,255,.2)}
+/* Bottom user */
+.sb-user{
+  margin:8px 12px 16px;padding:10px 12px;
+  border-radius:12px;background:rgba(255,255,255,.04);
+  display:flex;align-items:center;gap:10px;cursor:pointer;
+  flex-shrink:0;transition:background .18s;border:1px solid rgba(255,255,255,.06);
+}
+.sb-user:hover{background:rgba(255,255,255,.08)}
+.sb-av{
+  width:32px;height:32px;border-radius:10px;
+  background:linear-gradient(135deg,var(--blue) 0%,#3B82F6 100%);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Inter',sans-serif;font-size:11px;font-weight:700;color:#fff;
+  flex-shrink:0;
+}
+.sb-un{font-size:12px;font-weight:600;color:rgba(255,255,255,.9);line-height:1.3}
+.sb-uc{font-size:10px;color:rgba(255,255,255,.3);margin-top:1px}
+
+/* MAIN */
+.main{display:flex;flex-direction:column;overflow:hidden;height:100dvh}
+@media(max-width:767px){.main{height:auto;min-height:100dvh}}
+
+/* TOPBAR */
+.topbar{background:#fff;border-bottom:1px solid var(--bdr);display:flex;align-items:center;gap:12px;padding:0 20px;height:56px;flex-shrink:0;position:sticky;top:0;z-index:50}
+.tb-logo-svg{display:flex;align-items:center;flex-shrink:0}
+.tb-gap{flex:1}
+
+@media(min-width:900px){}
+.tb-pts{text-align:right;white-space:nowrap;flex-shrink:0}
+.tb-pts-n{font-family:'Inter',sans-serif;font-size:15px;font-weight:800;color:var(--blue);line-height:1.2}
+.tb-pts-l{font-size:10px;color:var(--t3);line-height:1}
+.tb-logo-svg{display:flex;align-items:center}
+.tb-av{width:30px;height:30px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;cursor:pointer}
+@media(max-width:767px){.topbar{padding:0 14px}}
+
+/* PAGE */
+.page{flex:1;overflow-y:auto;padding:22px 22px 28px}
+@media(max-width:767px){.page{padding:14px 14px 84px}}
+.view{display:none}.view.on{display:block}
+
+/* PAGE HEADER */
+.ph{margin-bottom:20px}
+.ph-ey{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;font-weight:600;margin-bottom:3px;font-family:'Inter',sans-serif}
+.ph h1{font-family:'Inter',sans-serif;font-size:clamp(20px,2.2vw,25px);font-weight:800;color:var(--t1);line-height:1.2}
+.ph p{font-size:14px;color:var(--t2);margin-top:3px}
+
+/* ── HOME ── */
+.home-l{display:grid;gap:18px}
+@media(min-width:1024px){.home-l{grid-template-columns:1fr 300px;align-items:start}}
+
+/* MEMBER CARD */
+.mc{background:linear-gradient(135deg,#0C1830 0%,#163580 55%,#0047FF 100%);border-radius:var(--rx);padding:22px 24px;color:#fff;position:relative;overflow:hidden;margin-bottom:14px;box-shadow:0 10px 36px rgba(0,71,255,.18)}
+.mc-grid{position:absolute;inset:0;opacity:.05;background-image:repeating-linear-gradient(0deg,rgba(255,255,255,1) 0,rgba(255,255,255,1) 1px,transparent 0,transparent 44px),repeating-linear-gradient(90deg,rgba(255,255,255,1) 0,rgba(255,255,255,1) 1px,transparent 0,transparent 44px)}
+.mc-top{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1;margin-bottom:20px}
+.mc-brand img{height:16px;width:auto;filter:brightness(0) invert(1);opacity:.85}
+.mc-st{background:rgba(255,255,255,.12);border-radius:20px;padding:4px 10px;font-size:11px;font-weight:600;color:#fff;display:flex;align-items:center;gap:4px}
+.mc-st::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0}
+.mc-mid{position:relative;z-index:1;margin-bottom:20px}
+.mc-pl{font-size:10px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.1em;margin-bottom:2px;font-family:'Inter',sans-serif}
+.mc-pts{font-family:'Inter',sans-serif;font-size:42px;font-weight:900;line-height:1;letter-spacing:-.02em}
+.mc-bot{display:flex;justify-content:space-between;align-items:flex-end;position:relative;z-index:1}
+.mc-name{font-family:'Inter',sans-serif;font-size:12px;font-weight:700;letter-spacing:.05em}
+.mc-id{font-size:11px;color:rgba(255,255,255,.36);margin-top:3px}
+.mc-qr-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:6px 12px;font-size:11px;font-weight:600;color:#fff;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .2s;backdrop-filter:blur(4px)}
+.mc-qr-btn:hover{background:rgba(255,255,255,.22)}
+.mc-qr-btn svg{width:14px;height:14px}
+
+/* PROGRESS */
+.prog{background:#fff;border-radius:var(--r);padding:15px 17px;box-shadow:var(--sh);margin-bottom:14px}
+.prog-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.prog-lbl{font-size:12px;font-weight:600;color:var(--t2)}
+.prog-val{font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:var(--t1)}
+.prog-tr{height:7px;background:var(--bg);border-radius:4px;overflow:hidden;margin-bottom:7px}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--blue),#60A5FA);border-radius:4px}
+.prog-hint{font-size:12px;color:var(--t3)}
+.prog-hint strong{color:var(--t1)}
+
+/* QUICK ACTIONS */
+.qa{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px}
+.qa-btn{background:#fff;border:1.5px solid var(--bdr);border-radius:var(--r);padding:16px 10px;display:flex;flex-direction:column;align-items:center;gap:9px;cursor:pointer;transition:all .2s;box-shadow:var(--sh)}
+.qa-btn:hover{border-color:var(--blue);box-shadow:var(--shm);transform:translateY(-2px)}
+.qa-btn:active{transform:scale(.97)}
+.qa-icon{width:42px;height:42px;border-radius:11px;background:var(--blue-s);display:flex;align-items:center;justify-content:center}
+.qa-icon svg{width:20px;height:20px;color:var(--blue)}
+.qa-label{font-size:12px;font-weight:600;color:var(--t1);text-align:center;line-height:1.3}
+
+/* SECTION HEADER */
+.sec-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.sec-title{font-family:'Inter',sans-serif;font-size:15px;font-weight:700;color:var(--t1)}
+.sec-lnk{font-size:13px;color:var(--blue);font-weight:500;cursor:pointer}
+
+/* REWARD PREVIEW */
+.rp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+@media(max-width:500px){.rp-grid{grid-template-columns:repeat(2,1fr)}}
+.rp-card{background:#fff;border-radius:var(--r);overflow:hidden;cursor:pointer;transition:all .2s;box-shadow:var(--sh);border:1px solid var(--bdr)}
+.rp-card:hover{transform:translateY(-2px);box-shadow:var(--shm)}
+.rp-img{height:90px;overflow:hidden;background:#E2E8F0}
+.rp-img img{width:100%;height:100%;transition:transform .3s}
+.rp-card:hover .rp-img img{transform:scale(1.05)}
+.rp-body{padding:10px 11px}
+.rp-cat{font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:2px}
+.rp-nm{font-size:12px;font-weight:600;color:var(--t1);margin-bottom:4px;line-height:1.3}
+.rp-pts{font-family:'Inter',sans-serif;font-size:13px;font-weight:700;color:var(--blue)}
+
+/* PANELS */
+.panel{background:#fff;border-radius:var(--r);box-shadow:var(--sh);border:1px solid var(--bdr);overflow:hidden;margin-bottom:14px}
+.panel:last-child{margin-bottom:0}
+.panel-hd{padding:14px 16px 0;display:flex;justify-content:space-between;align-items:center}
+.panel-title{font-size:13px;font-weight:700;color:var(--t1)}
+.panel-lnk{font-size:12px;color:var(--blue);font-weight:500;cursor:pointer}
+.act-list{padding:6px 4px}
+.act{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;transition:background .15s}
+.act:hover{background:var(--bg)}
+.act-ic{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.act-ic svg{width:16px;height:16px}
+.act-ic.g{background:#DCFCE7;color:#059669}
+.act-ic.r{background:#FEE2E2;color:#DC2626}
+.act-ic.y{background:#FEF3C7;color:#D97706}
+.act-b{flex:1;min-width:0}
+.act-nm{font-size:12px;font-weight:600;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.act-s{font-size:11px;color:var(--t3);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.act-p{font-family:'Inter',sans-serif;font-size:12px;font-weight:700;white-space:nowrap;flex-shrink:0}
+.act-p.g{color:var(--green)}.act-p.r{color:var(--red)}
+.ms{padding:13px 16px 15px}
+.ms-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ms-box{background:var(--bg);border-radius:9px;padding:12px 13px}
+.ms-l{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;font-weight:600;margin-bottom:3px}
+.ms-v{font-family:'Inter',sans-serif;font-size:18px;font-weight:800}
+.ms-v.g{color:var(--green)}.ms-v.r{color:var(--red)}
+.hp{padding:14px 16px 16px}
+.hp p{font-size:13px;color:var(--t2);margin-bottom:11px;line-height:1.5}
+.btn-out{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:10px;background:transparent;border:1.5px solid var(--bdr);border-radius:8px;font-size:13px;font-weight:600;color:var(--t1);cursor:pointer;transition:all .2s}
+.btn-out:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-s)}
+
+/* MY CARD */
+.card-wrap{max-width:500px;margin:0 auto}
+.mc-lg{background:linear-gradient(135deg,#0C1830 0%,#163580 55%,#0047FF 100%);border-radius:var(--rx);padding:28px;color:#fff;position:relative;overflow:hidden;margin-bottom:18px;box-shadow:0 14px 44px rgba(0,71,255,.2)}
+.mc-lg .mc-pts{font-size:52px}
+
+/* MARKETPLACE */
+.mkt-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px;flex-wrap:wrap;gap:8px}
+.pts-pill{background:var(--blue-s);border:1px solid rgba(0,71,255,.14);color:var(--blue);padding:6px 13px;border-radius:20px;font-size:12px;font-weight:700}
+.pills{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:15px;scrollbar-width:none}
+.pills::-webkit-scrollbar{display:none}
+.pill{padding:6px 14px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;background:#fff;border:1.5px solid var(--bdr);color:var(--t2);transition:all .15s;flex-shrink:0}
+.pill:hover{border-color:var(--blue);color:var(--blue)}
+.pill.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.rg{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:14px}
+@media(max-width:480px){.rg{grid-template-columns:repeat(2,1fr);gap:10px}}
+.rcf{background:#fff;border-radius:var(--r);overflow:hidden;cursor:pointer;box-shadow:var(--sh);border:1px solid var(--bdr);transition:all .2s}
+.rcf:hover{transform:translateY(-2px);box-shadow:var(--shm)}
+.rcf:active{transform:scale(.97)}
+.rc-img{height:140px;overflow:hidden;background:#E2E8F0}
+.rc-img img{width:100%;height:100%;transition:transform .3s}
+.rcf:hover .rc-img img{transform:scale(1.04)}
+@media(max-width:480px){.rc-img{height:100px}}
+.rc-body{padding:12px}
+.rc-cat{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:3px}
+.rc-nm{font-size:13px;font-weight:600;color:var(--t1);margin-bottom:4px;line-height:1.35}
+.rc-stock{font-size:11px;color:var(--t3);margin-bottom:8px}
+.rc-bot{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.rc-pv{font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:var(--blue)}
+.rc-btn{padding:6px 12px;background:var(--blue);border:none;border-radius:6px;font-size:11px;font-weight:600;color:#fff;cursor:pointer;transition:all .18s;font-family:inherit;white-space:nowrap;flex-shrink:0}
+.rc-btn:hover{background:var(--blue-d)}.rc-btn:active{transform:scale(.94)}
+.rc-btn:disabled{background:var(--t3);cursor:not-allowed;opacity:.5}
+
+/* HISTORY */
+.hs-row{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px}
+@media(min-width:700px){.hs-row{grid-template-columns:repeat(4,1fr)}}
+.hs{background:#fff;border-radius:var(--r);padding:14px 16px;box-shadow:var(--sh);border:1px solid var(--bdr)}
+.hs-l{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:4px}
+.hs-v{font-family:'Inter',sans-serif;font-size:20px;font-weight:800;color:var(--t1)}
+.hs-v.g{color:var(--green)}.hs-v.r{color:var(--red)}
+.hs-s{font-size:11px;color:var(--t3);margin-top:2px}
+.hg{margin-bottom:18px}
+.hd-label{font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;padding:0 0 8px;border-bottom:1px solid var(--bdr);margin-bottom:2px}
+.hl2{background:#fff;border-radius:var(--r);box-shadow:var(--sh);border:1px solid var(--bdr);overflow:hidden}
+.hi{display:flex;align-items:center;gap:10px;padding:12px 15px;border-bottom:1px solid var(--bdr);transition:background .15s}
+.hi:last-child{border-bottom:none}.hi:hover{background:var(--bg)}
+.hi-ic{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.hi-ic.g{background:#DCFCE7}.hi-ic.r{background:#FEE2E2}.hi-ic.y{background:#FEF3C7}
+.hi-b{flex:1;min-width:0}
+.hi-n{font-size:13px;font-weight:600;color:var(--t1)}
+.hi-s{font-size:12px;color:var(--t3);margin-top:1px}
+.hi-p{font-family:'Inter',sans-serif;font-size:13px;font-weight:700;white-space:nowrap}
+.hi-p.g{color:var(--green)}.hi-p.r{color:var(--red)}
+
+/* PROFILE */
+.p-hero{text-align:center;padding:26px 20px 20px}
+.p-av{width:64px;height:64px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:22px;font-weight:700;color:#fff;margin:0 auto 12px}
+.p-nm{font-family:'Inter',sans-serif;font-size:18px;font-weight:800;color:var(--t1)}
+.p-mt{font-size:13px;color:var(--t2);margin-top:3px}
+.pst{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px}
+@media(min-width:600px){.pst{grid-template-columns:repeat(4,1fr)}}
+.ps{background:#fff;border-radius:var(--r);padding:13px 15px;box-shadow:var(--sh);border:1px solid var(--bdr);text-align:center}
+.ps-l{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:5px}
+.ps-v{font-family:'Inter',sans-serif;font-size:20px;font-weight:800;color:var(--t1)}
+.sett{background:#fff;border-radius:var(--r);box-shadow:var(--sh);border:1px solid var(--bdr);overflow:hidden;margin-bottom:13px}
+.sett-title{padding:11px 15px;font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--bdr);font-family:'Inter',sans-serif}
+.si{display:flex;align-items:center;gap:10px;padding:12px 15px;border-bottom:1px solid var(--bdr);cursor:pointer;transition:background .15s}
+.si:last-child{border-bottom:none}.si:hover{background:var(--bg)}
+.si-ic{width:30px;height:30px;border-radius:7px;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.si-ic svg{width:15px;height:15px;color:var(--t2)}
+.si-b{flex:1}
+.si-l{font-size:13px;font-weight:600;color:var(--t1)}
+.si-s{font-size:12px;color:var(--t3);margin-top:1px}
+.si-arr{color:var(--t3);font-size:14px}
+.danger{color:var(--red)!important}
+
+/* EARN — CATALOG FORMAT */
+.earn-intro{background:#fff;border-radius:var(--r);padding:18px 20px;box-shadow:var(--sh);border:1px solid var(--bdr);margin-bottom:18px}
+.earn-intro p{font-size:14px;color:var(--t2);line-height:1.65}
+.earn-cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.ec{background:#fff;border-radius:var(--r);box-shadow:var(--sh);border:1px solid var(--bdr);overflow:hidden}
+.ec-hd{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;cursor:pointer;transition:background .15s;gap:12px}
+.ec-hd:hover{background:var(--bg)}
+.ec-left{display:flex;align-items:center;gap:11px}
+.ec-ic{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ec-ic svg{width:18px;height:18px}
+.ec-ht{font-size:13px;font-weight:700;color:var(--t1)}
+.ec-hf{font-size:11px;color:var(--t3);margin-top:1px}
+.ec-tog{font-size:16px;color:var(--t3);transition:transform .2s;line-height:1;flex-shrink:0}
+.ec-tog.open{transform:rotate(45deg)}
+.ec-bd{display:none;border-top:1px solid var(--bdr)}
+.ec-bd-inner{padding:4px 0}
+.er{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-bottom:1px solid var(--bdr)}
+.er:last-child{border-bottom:none}
+.er-l{font-size:13px;color:var(--t2)}
+.er-p{font-family:'Inter',sans-serif;font-size:13px;font-weight:700;color:var(--green)}
+
+/* MODAL */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.46);z-index:200;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px)}
+.overlay.on{display:flex}
+.sheet{background:#fff;border-radius:22px 22px 0 0;padding:20px 20px 32px;width:100%;max-width:480px;animation:shU .28s cubic-bezier(.4,0,.2,1);max-height:92dvh;overflow-y:auto}
+@keyframes shU{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.sh-handle{width:32px;height:4px;background:var(--bdr);border-radius:2px;margin:0 auto 16px}
+.sh-img{width:100%;height:160px;object-fit:cover;border-radius:12px;margin-bottom:14px;background:#E5E7EB;display:block}
+.sh-title{font-family:'Inter',sans-serif;font-size:18px;font-weight:800;color:var(--t1);margin-bottom:2px}
+.sh-cat{font-size:13px;color:var(--t3);margin-bottom:14px}
+.sh-rows{border-top:1px solid var(--bdr)}
+.sdr{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--bdr)}
+.sdr:last-of-type{border-bottom:none}
+.sdr-k{font-size:13px;color:var(--t3)}
+.sdr-v{font-size:13px;font-weight:600;color:var(--t1)}
+.sh-desc{font-size:13px;color:var(--t2);line-height:1.65;padding:11px 0}
+.sh-btns{display:flex;gap:8px;margin-top:6px}
+.sh-btns .btn-p{flex:1;margin-top:0}
+.sh-btns .btn-g{flex:0 0 auto;width:auto;padding:12px 18px}
+
+/* QR MODAL */
+.qr-modal-inner{text-align:center;padding:8px 0 4px}
+.qr-modal-logo{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:6px}
+.qr-modal-logo img{height:18px;width:auto}
+.qr-modal-sub{font-size:11px;color:var(--t3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px}
+.qr-svg-wrap{width:180px;height:180px;margin:0 auto 14px;background:#fff;border-radius:12px;padding:8px;border:1px solid var(--bdr)}
+.qr-svg-wrap svg{width:100%;height:100%}
+.qr-valid{font-size:12px;color:var(--t3);margin-bottom:4px}
+
+/* TOAST */
+.toast{position:fixed;top:18px;right:18px;background:var(--navy);color:#fff;padding:11px 16px;border-radius:10px;font-size:14px;font-weight:500;z-index:300;box-shadow:0 8px 28px rgba(0,0,0,.2);animation:toIn .28s ease both;display:flex;align-items:center;gap:8px;max-width:calc(100vw - 28px)}
+@keyframes toIn{from{transform:translateX(110%);opacity:0}to{transform:translateX(0);opacity:1}}
+
+/* MOBILE NAV */
+.mob-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--bdr);z-index:100;padding-bottom:env(safe-area-inset-bottom)}
+.mob-nav-inner{display:flex}
+.mn-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px 7px;cursor:pointer;color:var(--t3);font-size:10px;font-weight:600;transition:color .15s}
+.mn-item.on{color:var(--blue)}
+.mn-ic{width:22px;height:22px;display:flex;align-items:center;justify-content:center}
+.mn-ic svg{width:20px;height:20px}
+@media(max-width:767px){.mob-nav{display:block}}
+
+/* FP SCREEN */
+.fp-outer{width:100%;max-width:440px;padding:48px 24px 24px;margin:0 auto;background:#fff;min-height:100dvh}
+@media(min-width:768px){
+  .fp-outer{background:#fff;border-radius:20px;padding:40px 44px;box-shadow:0 4px 32px rgba(0,0,0,.08);border:1px solid var(--bdr);max-width:480px;min-height:auto}
+  #sfp{background:var(--bg)}
+}
+.fp-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--t2);cursor:pointer;margin-bottom:24px;background:none;border:none;font-family:inherit;padding:0}
+.fp-back:hover{color:var(--blue)}
+/* MOBILE LOGIN CENTERED */
+@media(max-width:767px){
+  .ar{padding-top:0;padding-bottom:0;justify-content:center}
+  .mob-logo{justify-content:center;margin-bottom:28px}
+  .mob-logo svg{height:30px !important}
+  #sl .ar,.sreg .ar{padding-top:56px}
+}
+
+/* ── CARD LINK VIEW ── */
+.cl-hero{background:linear-gradient(135deg,#0C1830 0%,#163580 55%,#0047FF 100%);border-radius:var(--rx);padding:28px;color:#fff;position:relative;overflow:hidden;margin-bottom:20px;box-shadow:0 10px 36px rgba(0,71,255,.18)}
+.cl-hero-grid{position:absolute;inset:0;opacity:.05;background-image:repeating-linear-gradient(0deg,rgba(255,255,255,1) 0,rgba(255,255,255,1) 1px,transparent 0,transparent 44px),repeating-linear-gradient(90deg,rgba(255,255,255,1) 0,rgba(255,255,255,1) 1px,transparent 0,transparent 44px)}
+.cl-hero-tag{font-size:10px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.12em;margin-bottom:12px;font-family:'Inter',sans-serif;position:relative;z-index:1}
+.cl-hero-title{font-family:'Inter',sans-serif;font-size:20px;font-weight:800;color:#fff;margin-bottom:8px;position:relative;z-index:1}
+.cl-hero-desc{font-size:14px;color:rgba(255,255,255,.6);line-height:1.6;position:relative;z-index:1;max-width:520px}
+.cl-steps{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:24px}
+.cl-step{background:#fff;border-radius:var(--r);padding:18px;box-shadow:var(--sh);border:1px solid var(--bdr);display:flex;flex-direction:column;gap:10px}
+.cl-step-num{width:28px;height:28px;border-radius:8px;background:var(--blue-s);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:13px;font-weight:800;color:var(--blue);flex-shrink:0}
+.cl-step-title{font-size:13px;font-weight:700;color:var(--t1)}
+.cl-step-desc{font-size:12px;color:var(--t2);line-height:1.55}
+.cl-form{background:#fff;border-radius:var(--r);padding:22px;box-shadow:var(--sh);border:1px solid var(--bdr);max-width:500px}
+.cl-form h3{font-family:'Inter',sans-serif;font-size:15px;font-weight:700;color:var(--t1);margin-bottom:4px}
+.cl-form p{font-size:13px;color:var(--t2);margin-bottom:18px;line-height:1.5}
+.card-input-wrap{display:flex;gap:10px;align-items:flex-end;margin-bottom:14px}
+.card-num-input{flex:1;padding:13px 14px;border:1.5px solid var(--bdr);border-radius:10px;background:#F8FAFC;font-size:16px;font-family:'Inter',sans-serif;font-weight:600;color:var(--t1);letter-spacing:.1em;outline:none;transition:all .2s}
+.card-num-input:focus{border-color:var(--blue);background:#fff;box-shadow:0 0 0 3px rgba(0,71,255,.08)}
+.cl-linked-badge{display:inline-flex;align-items:center;gap:8px;background:var(--green-s);border:1px solid rgba(16,185,129,.2);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;color:#065F46}
+.cl-linked-badge svg{width:14px;height:14px;color:var(--green)}
+.cl-linked-card{background:#fff;border-radius:var(--r);padding:20px;box-shadow:var(--sh);border:1.5px solid rgba(16,185,129,.25);max-width:500px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.cl-card-visual{display:flex;align-items:center;gap:14px}
+.cl-card-chip{width:38px;height:28px;background:linear-gradient(135deg,#C8870C,#F5C842);border-radius:4px;flex-shrink:0}
+.cl-card-info{}
+.cl-card-number{font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:var(--t1);letter-spacing:.08em}
+.cl-card-status{font-size:12px;color:var(--green);margin-top:2px;font-weight:500}
+.cl-card-actions{display:flex;gap:8px}
+.btn-danger-sm{padding:7px 14px;border:1.5px solid var(--red-s);border-radius:8px;background:#fff;font-size:12px;font-weight:600;color:var(--red);cursor:pointer;transition:all .2s}
+.btn-danger-sm:hover{background:var(--red-s)}
+
+</style>
+</head>
+<body>
+
+<!-- ══ SPLASH ══ -->
+<div id="ss" class="s on">
+  <div class="spl-logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 997.89 215" style="height:38px;width:auto;display:block" aria-label="Fritec"><path d="M861.73,58.89c-16,1.47-37.11,7.46-51,14.45-10.6,5.34-23.99,15.19-33.11,24.36-14.35,14.43-23.12,28.5-29.97,48.1-3.09,8.84-3.32,10.4-3.37,22.5-.05,12.7.03,13.15,3.24,19.7,5.63,11.46,15.41,18.49,32.01,23,6.16,1.68,10.8,2.1,23.2,2.14,14.79.04,21.5-.71,38.6-4.36l5.1-1.09,8.65-19.3c4.75-10.6,8.65-19.53,8.65-19.8s-2.8.27-6.3,1.24c-24.6,6.8-43.99,4.24-50.36-6.64-2.39-4.08-2.59-5.25-2.14-12.45.44-6.97,1.09-9.15,5.28-17.65,13.66-27.7,45.02-42.09,73.52-33.74,10.29,3.01,9.16,4.04,18.63-16.96,4.64-10.3,8.29-18.98,8.07-19.2-1.49-1.49-32.9-5.73-38.7-5.23-.83.07-5.3.48-10,.91h0Z" fill="#ffffff"/><path d="M493.03,61.6l-12.1.31-9.6,21.3c-5.27,11.7-9.6,21.59-9.6,21.95s10.9.76,24.3.9l24.3.25-23.25,51.5c-12.78,28.3-23.27,52.06-23.3,52.75-.04.99,5.8,1.2,27.6,1l27.65-.25,23.6-52.7,23.6-52.7,24.85-.3,24.85-.3,9.9-21.95c5.46-12.1,9.9-22.08,9.9-22.25,0-.38-125.6.05-142.7.49h0Z" fill="#ffffff"/><path d="M646.39,61.61c-1.48,2.5-66.67,148.38-66.67,149.2,0,1.06,126,.19,127.2-.88.69-.62,15.8-33.72,15.8-34.62,0-.27-16.2-.5-36-.5s-36-.34-36-.75,1.86-4.9,4.15-10l4.15-9.25,34.4-.25,34.4-.25,7.85-17.5,7.85-17.5-34-.25c-30.7-.23-33.94-.41-33.4-1.85.33-.89,2.48-5.8,4.8-11l4.2-9.4,35.95-.25,35.95-.25,7.85-17.45c4.32-9.6,7.85-17.58,7.85-17.75,0-.7-125.92-.2-126.33.5h0Z" fill="#ffffff"/><path d="M85.03,113.56c-12.78,28.5-27.92,62.2-33.7,75l-10.5,23.25,28.1-.25,28.1-.25,11.7-26,11.7-26,4.4-.3c2.42-.17,17.65-.61,33.85-1l29.45-.7,7.75-17c4.29-9.4,7.77-17.34,7.8-17.75.03-.41-14.85-.75-33.05-.75-26.1,0-32.99-.26-32.6-1.25.27-.69,2.64-6.1,5.25-12l4.75-10.75,34.6-.05,34.6-.05,7.2-16.2c3.96-8.9,7.49-16.99,7.85-17.95.62-1.66-2.7-1.75-61.7-1.75h-62.35l-23.2,51.75h0Z" fill="#ffffff"/><path d="M245.38,67.01c-1.29,2.92-16.35,36.4-33.5,74.5-17.15,38.1-31.15,69.45-31.15,69.75s12.45.55,27.75.55h27.75l11.4-25.5,11.4-25.5h6.85c3.8,0,6.85.13,6.85.3.01,1.1,27.82,107.83,28.2,108.2.27.27,12.9.39,28,.25l27.5-.25-16.35-63.5c-8.99-34.9-16.35-63.73-16.35-64s3-1.29,6.7-2.26c12.3-3.23,22.88-9.28,31.9-18.23,8.65-8.58,13-15.31,16.31-25.21,5.38-16.1.61-26.38-14.61-31.51-6.69-2.25-7.65-2.29-61.55-2.59l-54.75-.3-2.35,5.3h0ZM314.43,97.1c3.93,2.07,4.94,5.31,3.26,10.41-2.41,7.3-7.25,13.28-13.46,16.64-3.42,1.85-6.05,2.21-18.25,2.51l-14.25.35,3.55-7.85c1.96-4.32,5.19-11.6,7.2-16.2l3.65-8.35,12.55.4c9.3.3,13.38.84,15.75,2.09h0Z" fill="#ffffff"/><path d="M380.23,133.06c-17.61,39.2-32.76,72.94-33.7,75l-1.7,3.75,28.1-.25,28.1-.25,33.3-74c18.31-40.7,33.32-74.34,33.35-74.75.03-.41-12.4-.75-27.7-.75h-27.75l-32,71.25h0Z" fill="#ffffff"/></svg></div>
+  <div class="spl-sub">Rewards</div>
+  <div class="spl-bar"><div class="spl-fill"></div></div>
+</div>
+
+<!-- ══ ONBOARDING ══ -->
+<div id="sob" class="s">
+  <div class="ob-glow"></div>
+  <div class="ob-top">
+    <div class="ob-step" id="ob-step">01 / 03</div>
+    <button class="ob-skip" onclick="go('sl')">Omitir</button>
+  </div>
+  <div class="ob-mid">
+    <div class="ob-slide on" id="ob0">
+      <div class="fc"><div class="fc-ic">⭐</div><div><div class="fc-v">+250</div><div class="fc-l">Puntos ganados</div></div></div>
+      <div class="ob-txt"><h2>Cada esfuerzo se reconoce.</h2><p>Acumula puntos por asistencia, capacitaciones, ideas Kaizen, cero accidentes y mucho más.</p></div>
+    </div>
+    <div class="ob-slide" id="ob1">
+      <div class="fc" style="animation-delay:.3s;background:rgba(245,158,11,.1)"><div class="fc-ic">🎁</div><div><div class="fc-v">1,200 pts</div><div class="fc-l">= Vale $500 MXN</div></div></div>
+      <div class="ob-txt"><h2>Canjea por lo que más quieres.</h2><p>Vales, herramientas, EPP, combustible, entretenimiento y días libres esperan por ti.</p></div>
+    </div>
+    <div class="ob-slide" id="ob2">
+      <div class="fc" style="animation-delay:.6s;background:rgba(16,185,129,.1)"><div class="fc-ic">🏆</div><div><div class="fc-v">¡Tú decides!</div><div class="fc-l">Usa tus puntos</div></div></div>
+      <div class="ob-txt"><h2>Tú decides cómo usar tus puntos.</h2><p>Sin niveles. Acumula libremente y canjea cuando quieras por recompensas reales.</p></div>
+    </div>
+  </div>
+  <div class="ob-foot">
+    <div class="ob-dots"><div class="dot on" id="d0"></div><div class="dot" id="d1"></div><div class="dot" id="d2"></div></div>
+    <button class="btn-main" onclick="obNext()">Siguiente →</button>
+  </div>
+</div>
+
+<!-- ══ LOGIN ══ -->
+<div id="sl" class="s">
+  <div class="aw">
+    <div class="al">
+      <div class="al-grid"></div>
+      <div>
+        <div class="al-brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 997.89 215" style="height:26px;width:auto;display:block" aria-label="Fritec"><path d="M861.73,58.89c-16,1.47-37.11,7.46-51,14.45-10.6,5.34-23.99,15.19-33.11,24.36-14.35,14.43-23.12,28.5-29.97,48.1-3.09,8.84-3.32,10.4-3.37,22.5-.05,12.7.03,13.15,3.24,19.7,5.63,11.46,15.41,18.49,32.01,23,6.16,1.68,10.8,2.1,23.2,2.14,14.79.04,21.5-.71,38.6-4.36l5.1-1.09,8.65-19.3c4.75-10.6,8.65-19.53,8.65-19.8s-2.8.27-6.3,1.24c-24.6,6.8-43.99,4.24-50.36-6.64-2.39-4.08-2.59-5.25-2.14-12.45.44-6.97,1.09-9.15,5.28-17.65,13.66-27.7,45.02-42.09,73.52-33.74,10.29,3.01,9.16,4.04,18.63-16.96,4.64-10.3,8.29-18.98,8.07-19.2-1.49-1.49-32.9-5.73-38.7-5.23-.83.07-5.3.48-10,.91h0Z" fill="#ffffff"/><path d="M493.03,61.6l-12.1.31-9.6,21.3c-5.27,11.7-9.6,21.59-9.6,21.95s10.9.76,24.3.9l24.3.25-23.25,51.5c-12.78,28.3-23.27,52.06-23.3,52.75-.04.99,5.8,1.2,27.6,1l27.65-.25,23.6-52.7,23.6-52.7,24.85-.3,24.85-.3,9.9-21.95c5.46-12.1,9.9-22.08,9.9-22.25,0-.38-125.6.05-142.7.49h0Z" fill="#ffffff"/><path d="M646.39,61.61c-1.48,2.5-66.67,148.38-66.67,149.2,0,1.06,126,.19,127.2-.88.69-.62,15.8-33.72,15.8-34.62,0-.27-16.2-.5-36-.5s-36-.34-36-.75,1.86-4.9,4.15-10l4.15-9.25,34.4-.25,34.4-.25,7.85-17.5,7.85-17.5-34-.25c-30.7-.23-33.94-.41-33.4-1.85.33-.89,2.48-5.8,4.8-11l4.2-9.4,35.95-.25,35.95-.25,7.85-17.45c4.32-9.6,7.85-17.58,7.85-17.75,0-.7-125.92-.2-126.33.5h0Z" fill="#ffffff"/><path d="M85.03,113.56c-12.78,28.5-27.92,62.2-33.7,75l-10.5,23.25,28.1-.25,28.1-.25,11.7-26,11.7-26,4.4-.3c2.42-.17,17.65-.61,33.85-1l29.45-.7,7.75-17c4.29-9.4,7.77-17.34,7.8-17.75.03-.41-14.85-.75-33.05-.75-26.1,0-32.99-.26-32.6-1.25.27-.69,2.64-6.1,5.25-12l4.75-10.75,34.6-.05,34.6-.05,7.2-16.2c3.96-8.9,7.49-16.99,7.85-17.95.62-1.66-2.7-1.75-61.7-1.75h-62.35l-23.2,51.75h0Z" fill="#ffffff"/><path d="M245.38,67.01c-1.29,2.92-16.35,36.4-33.5,74.5-17.15,38.1-31.15,69.45-31.15,69.75s12.45.55,27.75.55h27.75l11.4-25.5,11.4-25.5h6.85c3.8,0,6.85.13,6.85.3.01,1.1,27.82,107.83,28.2,108.2.27.27,12.9.39,28,.25l27.5-.25-16.35-63.5c-8.99-34.9-16.35-63.73-16.35-64s3-1.29,6.7-2.26c12.3-3.23,22.88-9.28,31.9-18.23,8.65-8.58,13-15.31,16.31-25.21,5.38-16.1.61-26.38-14.61-31.51-6.69-2.25-7.65-2.29-61.55-2.59l-54.75-.3-2.35,5.3h0ZM314.43,97.1c3.93,2.07,4.94,5.31,3.26,10.41-2.41,7.3-7.25,13.28-13.46,16.64-3.42,1.85-6.05,2.21-18.25,2.51l-14.25.35,3.55-7.85c1.96-4.32,5.19-11.6,7.2-16.2l3.65-8.35,12.55.4c9.3.3,13.38.84,15.75,2.09h0Z" fill="#ffffff"/><path d="M380.23,133.06c-17.61,39.2-32.76,72.94-33.7,75l-1.7,3.75,28.1-.25,28.1-.25,33.3-74c18.31-40.7,33.32-74.34,33.35-74.75.03-.41-12.4-.75-27.7-.75h-27.75l-32,71.25h0Z" fill="#ffffff"/></svg></div>
+        <div class="al-sub-brand">Rewards</div>
+      </div>
+      <div class="al-body">
+        <div class="al-ey">Edición 2026</div>
+        <h2>Tu trabajo construye la planta. Y tu planta construye tus beneficios.</h2>
+        <p style="margin-top:10px">Acumula puntos por desempeño, asistencia y participación. Canjea por vales, herramientas y experiencias.</p>
+      </div>
+      <div class="al-stats">
+        <div><div class="al-sv">+12,400</div><div class="al-sl">Trabajadores activos</div></div>
+        <div><div class="al-sv">87M+</div><div class="al-sl">Puntos otorgados</div></div>
+        <div><div class="al-sv">240+</div><div class="al-sl">Recompensas</div></div>
+      </div>
+    </div>
+    <div class="ar">
+      <div class="mob-logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 997.89 215" style="height:22px;width:auto;display:block" aria-label="Fritec"><path d="M861.73,58.89c-16,1.47-37.11,7.46-51,14.45-10.6,5.34-23.99,15.19-33.11,24.36-14.35,14.43-23.12,28.5-29.97,48.1-3.09,8.84-3.32,10.4-3.37,22.5-.05,12.7.03,13.15,3.24,19.7,5.63,11.46,15.41,18.49,32.01,23,6.16,1.68,10.8,2.1,23.2,2.14,14.79.04,21.5-.71,38.6-4.36l5.1-1.09,8.65-19.3c4.75-10.6,8.65-19.53,8.65-19.8s-2.8.27-6.3,1.24c-24.6,6.8-43.99,4.24-50.36-6.64-2.39-4.08-2.59-5.25-2.14-12.45.44-6.97,1.09-9.15,5.28-17.65,13.66-27.7,45.02-42.09,73.52-33.74,10.29,3.01,9.16,4.04,18.63-16.96,4.64-10.3,8.29-18.98,8.07-19.2-1.49-1.49-32.9-5.73-38.7-5.23-.83.07-5.3.48-10,.91h0Z" fill="#0047FF"/><path d="M493.03,61.6l-12.1.31-9.6,21.3c-5.27,11.7-9.6,21.59-9.6,21.95s10.9.76,24.3.9l24.3.25-23.25,51.5c-12.78,28.3-23.27,52.06-23.3,52.75-.04.99,5.8,1.2,27.6,1l27.65-.25,23.6-52.7,23.6-52.7,24.85-.3,24.85-.3,9.9-21.95c5.46-12.1,9.9-22.08,9.9-22.25,0-.38-125.6.05-142.7.49h0Z" fill="#0047FF"/><path d="M646.39,61.61c-1.48,2.5-66.67,148.38-66.67,149.2,0,1.06,126,.19,127.2-.88.69-.62,15.8-33.72,15.8-34.62,0-.27-16.2-.5-36-.5s-36-.34-36-.75,1.86-4.9,4.15-10l4.15-9.25,34.4-.25,34.4-.25,7.85-17.5,7.85-17.5-34-.25c-30.7-.23-33.94-.41-33.4-1.85.33-.89,2.48-5.8,4.8-11l4.2-9.4,35.95-.25,35.95-.25,7.85-17.45c4.32-9.6,7.85-17.58,7.85-17.75,0-.7-125.92-.2-126.33.5h0Z" fill="#0047FF"/><path d="M85.03,113.56c-12.78,28.5-27.92,62.2-33.7,75l-10.5,23.25,28.1-.25,28.1-.25,11.7-26,11.7-26,4.4-.3c2.42-.17,17.65-.61,33.85-1l29.45-.7,7.75-17c4.29-9.4,7.77-17.34,7.8-17.75.03-.41-14.85-.75-33.05-.75-26.1,0-32.99-.26-32.6-1.25.27-.69,2.64-6.1,5.25-12l4.75-10.75,34.6-.05,34.6-.05,7.2-16.2c3.96-8.9,7.49-16.99,7.85-17.95.62-1.66-2.7-1.75-61.7-1.75h-62.35l-23.2,51.75h0Z" fill="#0047FF"/><path d="M245.38,67.01c-1.29,2.92-16.35,36.4-33.5,74.5-17.15,38.1-31.15,69.45-31.15,69.75s12.45.55,27.75.55h27.75l11.4-25.5,11.4-25.5h6.85c3.8,0,6.85.13,6.85.3.01,1.1,27.82,107.83,28.2,108.2.27.27,12.9.39,28,.25l27.5-.25-16.35-63.5c-8.99-34.9-16.35-63.73-16.35-64s3-1.29,6.7-2.26c12.3-3.23,22.88-9.28,31.9-18.23,8.65-8.58,13-15.31,16.31-25.21,5.38-16.1.61-26.38-14.61-31.51-6.69-2.25-7.65-2.29-61.55-2.59l-54.75-.3-2.35,5.3h0ZM314.43,97.1c3.93,2.07,4.94,5.31,3.26,10.41-2.41,7.3-7.25,13.28-13.46,16.64-3.42,1.85-6.05,2.21-18.25,2.51l-14.25.35,3.55-7.85c1.96-4.32,5.19-11.6,7.2-16.2l3.65-8.35,12.55.4c9.3.3,13.38.84,15.75,2.09h0Z" fill="#0047FF"/><path d="M380.23,133.06c-17.61,39.2-32.76,72.94-33.7,75l-1.7,3.75,28.1-.25,28.1-.25,33.3-74c18.31-40.7,33.32-74.34,33.35-74.75.03-.41-12.4-.75-27.7-.75h-27.75l-32,71.25h0Z" fill="#0047FF"/></svg></div>
+      <h1>Bienvenido de vuelta</h1>
+      <p class="sub">Ingresa con tu código de empleado o correo.</p>
+      <!-- TABS -->
+      <div class="seg-tabs">
+        <button class="seg-tab on" id="tab-code" onclick="switchLoginTab('code')">Código empleado</button>
+        <button class="seg-tab" id="tab-email" onclick="switchLoginTab('email')">Correo electrónico</button>
+      </div>
+      <div id="login-code-form">
+        <div class="fg"><label>Código de empleado</label><input class="fi" type="text" placeholder="FRT-04821" id="inp-code"></div>
+      </div>
+      <div id="login-email-form" style="display:none">
+        <div class="fg"><label>Correo electrónico</label><input class="fi" type="email" placeholder="correo@fritec.com" id="inp-email"></div>
+      </div>
+      <div class="fg">
+        <label>Contraseña</label>
+        <div class="fiw">
+          <input class="fi" type="password" placeholder="••••••••" id="inp-pass">
+          <button class="fi-ic" onclick="togglePass('inp-pass',this)" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div style="text-align:right;margin-top:6px"><span class="lnk" onclick="go('sfp')">¿Olvidaste tu contraseña?</span></div>
+      </div>
+      <button class="btn-p" onclick="goApp()">Iniciar sesión →</button>
+      <p class="ctxt">¿Primera vez? <span class="lnk" onclick="go('sreg')">Regístrate aquí</span></p>
+    </div>
+  </div>
+</div>
+
+<!-- ══ REGISTER ══ -->
+<div id="sreg" class="s">
+  <div class="aw">
+    <div class="al">
+      <div class="al-grid"></div>
+      <div>
+        <div class="al-brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 997.89 215" style="height:26px;width:auto;display:block" aria-label="Fritec"><path d="M861.73,58.89c-16,1.47-37.11,7.46-51,14.45-10.6,5.34-23.99,15.19-33.11,24.36-14.35,14.43-23.12,28.5-29.97,48.1-3.09,8.84-3.32,10.4-3.37,22.5-.05,12.7.03,13.15,3.24,19.7,5.63,11.46,15.41,18.49,32.01,23,6.16,1.68,10.8,2.1,23.2,2.14,14.79.04,21.5-.71,38.6-4.36l5.1-1.09,8.65-19.3c4.75-10.6,8.65-19.53,8.65-19.8s-2.8.27-6.3,1.24c-24.6,6.8-43.99,4.24-50.36-6.64-2.39-4.08-2.59-5.25-2.14-12.45.44-6.97,1.09-9.15,5.28-17.65,13.66-27.7,45.02-42.09,73.52-33.74,10.29,3.01,9.16,4.04,18.63-16.96,4.64-10.3,8.29-18.98,8.07-19.2-1.49-1.49-32.9-5.73-38.7-5.23-.83.07-5.3.48-10,.91h0Z" fill="#ffffff"/><path d="M493.03,61.6l-12.1.31-9.6,21.3c-5.27,11.7-9.6,21.59-9.6,21.95s10.9.76,24.3.9l24.3.25-23.25,51.5c-12.78,28.3-23.27,52.06-23.3,52.75-.04.99,5.8,1.2,27.6,1l27.65-.25,23.6-52.7,23.6-52.7,24.85-.3,24.85-.3,9.9-21.95c5.46-12.1,9.9-22.08,9.9-22.25,0-.38-125.6.05-142.7.49h0Z" fill="#ffffff"/><path d="M646.39,61.61c-1.48,2.5-66.67,148.38-66.67,149.2,0,1.06,126,.19,127.2-.88.69-.62,15.8-33.72,15.8-34.62,0-.27-16.2-.5-36-.5s-36-.34-36-.75,1.86-4.9,4.15-10l4.15-9.25,34.4-.25,34.4-.25,7.85-17.5,7.85-17.5-34-.25c-30.7-.23-33.94-.41-33.4-1.85.33-.89,2.48-5.8,4.8-11l4.2-9.4,35.95-.25,35.95-.25,7.85-17.45c4.32-9.6,7.85-17.58,7.85-17.75,0-.7-125.92-.2-126.33.5h0Z" fill="#ffffff"/><path d="M85.03,113.56c-12.78,28.5-27.92,62.2-33.7,75l-10.5,23.25,28.1-.25,28.1-.25,11.7-26,11.7-26,4.4-.3c2.42-.17,17.65-.61,33.85-1l29.45-.7,7.75-17c4.29-9.4,7.77-17.34,7.8-17.75.03-.41-14.85-.75-33.05-.75-26.1,0-32.99-.26-32.6-1.25.27-.69,2.64-6.1,5.25-12l4.75-10.75,34.6-.05,34.6-.05,7.2-16.2c3.96-8.9,7.49-16.99,7.85-17.95.62-1.66-2.7-1.75-61.7-1.75h-62.35l-23.2,51.75h0Z" fill="#ffffff"/><path d="M245.38,67.01c-1.29,2.92-16.35,36.4-33.5,74.5-17.15,38.1-31.15,69.45-31.15,69.75s12.45.55,27.75.55h27.75l11.4-25.5,11.4-25.5h6.85c3.8,0,6.85.13,6.85.3.01,1.1,27.82,107.83,28.2,108.2.27.27,12.9.39,28,.25l27.5-.25-16.35-63.5c-8.99-34.9-16.35-63.73-16.35-64s3-1.29,6.7-2.26c12.3-3.23,22.88-9.28,31.9-18.23,8.65-8.58,13-15.31,16.31-25.21,5.38-16.1.61-26.38-14.61-31.51-6.69-2.25-7.65-2.29-61.55-2.59l-54.75-.3-2.35,5.3h0ZM314.43,97.1c3.93,2.07,4.94,5.31,3.26,10.41-2.41,7.3-7.25,13.28-13.46,16.64-3.42,1.85-6.05,2.21-18.25,2.51l-14.25.35,3.55-7.85c1.96-4.32,5.19-11.6,7.2-16.2l3.65-8.35,12.55.4c9.3.3,13.38.84,15.75,2.09h0Z" fill="#ffffff"/><path d="M380.23,133.06c-17.61,39.2-32.76,72.94-33.7,75l-1.7,3.75,28.1-.25,28.1-.25,33.3-74c18.31-40.7,33.32-74.34,33.35-74.75.03-.41-12.4-.75-27.7-.75h-27.75l-32,71.25h0Z" fill="#ffffff"/></svg></div>
+        <div class="al-sub-brand">Rewards</div>
+      </div>
+      <div class="al-body">
+        <h2>Únete al programa de reconocimiento Fritec.</h2>
+        <p style="margin-top:10px">Crea tu cuenta, vincula tu credencial y empieza a ganar puntos desde hoy.</p>
+      </div>
+      <div class="al-stats">
+        <div><div class="al-sv">+100 pts</div><div class="al-sl">Bono bienvenida</div></div>
+        <div><div class="al-sv">Sin costo</div><div class="al-sl">100% gratuito</div></div>
+      </div>
+    </div>
+    <div class="ar">
+      <div class="mob-logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 997.89 215" style="height:22px;width:auto;display:block" aria-label="Fritec"><path d="M861.73,58.89c-16,1.47-37.11,7.46-51,14.45-10.6,5.34-23.99,15.19-33.11,24.36-14.35,14.43-23.12,28.5-29.97,48.1-3.09,8.84-3.32,10.4-3.37,22.5-.05,12.7.03,13.15,3.24,19.7,5.63,11.46,15.41,18.49,32.01,23,6.16,1.68,10.8,2.1,23.2,2.14,14.79.04,21.5-.71,38.6-4.36l5.1-1.09,8.65-19.3c4.75-10.6,8.65-19.53,8.65-19.8s-2.8.27-6.3,1.24c-24.6,6.8-43.99,4.24-50.36-6.64-2.39-4.08-2.59-5.25-2.14-12.45.44-6.97,1.09-9.15,5.28-17.65,13.66-27.7,45.02-42.09,73.52-33.74,10.29,3.01,9.16,4.04,18.63-16.96,4.64-10.3,8.29-18.98,8.07-19.2-1.49-1.49-32.9-5.73-38.7-5.23-.83.07-5.3.48-10,.91h0Z" fill="#0047FF"/><path d="M493.03,61.6l-12.1.31-9.6,21.3c-5.27,11.7-9.6,21.59-9.6,21.95s10.9.76,24.3.9l24.3.25-23.25,51.5c-12.78,28.3-23.27,52.06-23.3,52.75-.04.99,5.8,1.2,27.6,1l27.65-.25,23.6-52.7,23.6-52.7,24.85-.3,24.85-.3,9.9-21.95c5.46-12.1,9.9-22.08,9.9-22.25,0-.38-125.6.05-142.7.49h0Z" fill="#0047FF"/><path d="M646.39,61.61c-1.48,2.5-66.67,148.38-66.67,149.2,0,1.06,126,.19,127.2-.88.69-.62,15.8-33.72,15.8-34.62,0-.27-16.2-.5-36-.5s-36-.34-36-.75,1.86-4.9,4.15-10l4.15-9.25,34.4-.25,34.4-.25,7.85-17.5,7.85-17.5-34-.25c-30.7-.23-33.94-.41-33.4-1.85.33-.89,2.48-5.8,4.8-11l4.2-9.4,35.95-.25,35.95-.25,7.85-17.45c4.32-9.6,7.85-17.58,7.85-17.75,0-.7-125.92-.2-126.33.5h0Z" fill="#0047FF"/><path d="M85.03,113.56c-12.78,28.5-27.92,62.2-33.7,75l-10.5,23.25,28.1-.25,28.1-.25,11.7-26,11.7-26,4.4-.3c2.42-.17,17.65-.61,33.85-1l29.45-.7,7.75-17c4.29-9.4,7.77-17.34,7.8-17.75.03-.41-14.85-.75-33.05-.75-26.1,0-32.99-.26-32.6-1.25.27-.69,2.64-6.1,5.25-12l4.75-10.75,34.6-.05,34.6-.05,7.2-16.2c3.96-8.9,7.49-16.99,7.85-17.95.62-1.66-2.7-1.75-61.7-1.75h-62.35l-23.2,51.75h0Z" fill="#0047FF"/><path d="M245.38,67.01c-1.29,2.92-16.35,36.4-33.5,74.5-17.15,38.1-31.15,69.45-31.15,69.75s12.45.55,27.75.55h27.75l11.4-25.5,11.4-25.5h6.85c3.8,0,6.85.13,6.85.3.01,1.1,27.82,107.83,28.2,108.2.27.27,12.9.39,28,.25l27.5-.25-16.35-63.5c-8.99-34.9-16.35-63.73-16.35-64s3-1.29,6.7-2.26c12.3-3.23,22.88-9.28,31.9-18.23,8.65-8.58,13-15.31,16.31-25.21,5.38-16.1.61-26.38-14.61-31.51-6.69-2.25-7.65-2.29-61.55-2.59l-54.75-.3-2.35,5.3h0ZM314.43,97.1c3.93,2.07,4.94,5.31,3.26,10.41-2.41,7.3-7.25,13.28-13.46,16.64-3.42,1.85-6.05,2.21-18.25,2.51l-14.25.35,3.55-7.85c1.96-4.32,5.19-11.6,7.2-16.2l3.65-8.35,12.55.4c9.3.3,13.38.84,15.75,2.09h0Z" fill="#0047FF"/><path d="M380.23,133.06c-17.61,39.2-32.76,72.94-33.7,75l-1.7,3.75,28.1-.25,28.1-.25,33.3-74c18.31-40.7,33.32-74.34,33.35-74.75.03-.41-12.4-.75-27.7-.75h-27.75l-32,71.25h0Z" fill="#0047FF"/></svg></div>
+      <h1>Crear cuenta</h1>
+      <p class="sub">Completa tus datos de empleado.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="fg"><label>Nombre</label><input class="fi" type="text" placeholder="Carlos"></div>
+        <div class="fg"><label>Apellido</label><input class="fi" type="text" placeholder="Mendoza"></div>
+      </div>
+      <div class="fg"><label>Código de empleado</label><input class="fi" type="text" placeholder="FRT-XXXXX"></div>
+      <div class="fg"><label>Correo electrónico</label><input class="fi" type="email" placeholder="correo@fritec.com"></div>
+      <div class="fg">
+        <label>Contraseña</label>
+        <div class="fiw">
+          <input class="fi" type="password" placeholder="Mínimo 8 caracteres" id="inp-reg-pass">
+          <button class="fi-ic" onclick="togglePass('inp-reg-pass',this)" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+      </div>
+      <button class="btn-p" onclick="goApp()">Crear mi cuenta →</button>
+      <p class="ctxt">¿Ya tienes cuenta? <span class="lnk" onclick="go('sl')">Inicia sesión</span></p>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FORGOT PASSWORD ══ -->
+<div id="sfp" class="s" style="min-height:100dvh;align-items:center;justify-content:center;background:var(--bg);padding:0 0">
+  <div class="fp-outer">
+    <button class="fp-back" onclick="go('sl')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      Volver al login
+    </button>
+    <div style="margin-bottom:6px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 997.89 215" style="height:22px;width:auto;display:block" aria-label="Fritec"><path d="M861.73,58.89c-16,1.47-37.11,7.46-51,14.45-10.6,5.34-23.99,15.19-33.11,24.36-14.35,14.43-23.12,28.5-29.97,48.1-3.09,8.84-3.32,10.4-3.37,22.5-.05,12.7.03,13.15,3.24,19.7,5.63,11.46,15.41,18.49,32.01,23,6.16,1.68,10.8,2.1,23.2,2.14,14.79.04,21.5-.71,38.6-4.36l5.1-1.09,8.65-19.3c4.75-10.6,8.65-19.53,8.65-19.8s-2.8.27-6.3,1.24c-24.6,6.8-43.99,4.24-50.36-6.64-2.39-4.08-2.59-5.25-2.14-12.45.44-6.97,1.09-9.15,5.28-17.65,13.66-27.7,45.02-42.09,73.52-33.74,10.29,3.01,9.16,4.04,18.63-16.96,4.64-10.3,8.29-18.98,8.07-19.2-1.49-1.49-32.9-5.73-38.7-5.23-.83.07-5.3.48-10,.91h0Z" fill="#0047FF"/><path d="M493.03,61.6l-12.1.31-9.6,21.3c-5.27,11.7-9.6,21.59-9.6,21.95s10.9.76,24.3.9l24.3.25-23.25,51.5c-12.78,28.3-23.27,52.06-23.3,52.75-.04.99,5.8,1.2,27.6,1l27.65-.25,23.6-52.7,23.6-52.7,24.85-.3,24.85-.3,9.9-21.95c5.46-12.1,9.9-22.08,9.9-22.25,0-.38-125.6.05-142.7.49h0Z" fill="#0047FF"/><path d="M646.39,61.61c-1.48,2.5-66.67,148.38-66.67,149.2,0,1.06,126,.19,127.2-.88.69-.62,15.8-33.72,15.8-34.62,0-.27-16.2-.5-36-.5s-36-.34-36-.75,1.86-4.9,4.15-10l4.15-9.25,34.4-.25,34.4-.25,7.85-17.5,7.85-17.5-34-.25c-30.7-.23-33.94-.41-33.4-1.85.33-.89,2.48-5.8,4.8-11l4.2-9.4,35.95-.25,35.95-.25,7.85-17.45c4.32-9.6,7.85-17.58,7.85-17.75,0-.7-125.92-.2-126.33.5h0Z" fill="#0047FF"/><path d="M85.03,113.56c-12.78,28.5-27.92,62.2-33.7,75l-10.5,23.25,28.1-.25,28.1-.25,11.7-26,11.7-26,4.4-.3c2.42-.17,17.65-.61,33.85-1l29.45-.7,7.75-17c4.29-9.4,7.77-17.34,7.8-17.75.03-.41-14.85-.75-33.05-.75-26.1,0-32.99-.26-32.6-1.25.27-.69,2.64-6.1,5.25-12l4.75-10.75,34.6-.05,34.6-.05,7.2-16.2c3.96-8.9,7.49-16.99,7.85-17.95.62-1.66-2.7-1.75-61.7-1.75h-62.35l-23.2,51.75h0Z" fill="#0047FF"/><path d="M245.38,67.01c-1.29,2.92-16.35,36.4-33.5,74.5-17.15,38.1-31.15,69.45-31.15,69.75s12.45.55,27.75.55h27.75l11.4-25.5,11.4-25.5h6.85c3.8,0,6.85.13,6.85.3.01,1.1,27.82,107.83,28.2,108.2.27.27,12.9.39,28,.25l27.5-.25-16.35-63.5c-8.99-34.9-16.35-63.73-16.35-64s3-1.29,6.7-2.26c12.3-3.23,22.88-9.28,31.9-18.23,8.65-8.58,13-15.31,16.31-25.21,5.38-16.1.61-26.38-14.61-31.51-6.69-2.25-7.65-2.29-61.55-2.59l-54.75-.3-2.35,5.3h0ZM314.43,97.1c3.93,2.07,4.94,5.31,3.26,10.41-2.41,7.3-7.25,13.28-13.46,16.64-3.42,1.85-6.05,2.21-18.25,2.51l-14.25.35,3.55-7.85c1.96-4.32,5.19-11.6,7.2-16.2l3.65-8.35,12.55.4c9.3.3,13.38.84,15.75,2.09h0Z" fill="#0047FF"/><path d="M380.23,133.06c-17.61,39.2-32.76,72.94-33.7,75l-1.7,3.75,28.1-.25,28.1-.25,33.3-74c18.31-40.7,33.32-74.34,33.35-74.75.03-.41-12.4-.75-27.7-.75h-27.75l-32,71.25h0Z" fill="#0047FF"/></svg></div>
+    <h1 style="font-family:'Inter',sans-serif;font-size:22px;font-weight:800;color:var(--t1);margin-bottom:4px">Restablecer contraseña</h1>
+    <p style="font-size:14px;color:var(--t2);margin-bottom:24px">Te enviaremos un enlace para restablecer tu contraseña.</p>
+    <div id="fp-form">
+      <div class="fg"><label>Correo electrónico o código de empleado</label><input class="fi" type="text" placeholder="correo@fritec.com o FRT-XXXXX" id="inp-fp"></div>
+      <button class="btn-p" onclick="sendReset()">Enviar enlace de restablecimiento →</button>
+    </div>
+    <div id="fp-sent" style="display:none;text-align:center;padding:20px 0">
+      <div style="width:56px;height:56px;background:var(--green-s);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:24px">✅</div>
+      <h2 style="font-family:'Inter',sans-serif;font-size:18px;font-weight:700;color:var(--t1);margin-bottom:8px">Revisa tu correo</h2>
+      <p style="font-size:14px;color:var(--t2);margin-bottom:20px">Si el correo o código existe en el sistema, recibirás las instrucciones en los próximos minutos.</p>
+      <button class="btn-g" onclick="go('sl')">Volver al inicio de sesión</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ APP ══ -->
+<div id="sa" class="s">
+  <aside class="sidebar">
+    <div class="sb-hd">
+      <div class="sb-logo-svg"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 997.89 215" style="height:20px;width:auto;display:block" aria-label="Fritec"><path d="M861.73,58.89c-16,1.47-37.11,7.46-51,14.45-10.6,5.34-23.99,15.19-33.11,24.36-14.35,14.43-23.12,28.5-29.97,48.1-3.09,8.84-3.32,10.4-3.37,22.5-.05,12.7.03,13.15,3.24,19.7,5.63,11.46,15.41,18.49,32.01,23,6.16,1.68,10.8,2.1,23.2,2.14,14.79.04,21.5-.71,38.6-4.36l5.1-1.09,8.65-19.3c4.75-10.6,8.65-19.53,8.65-19.8s-2.8.27-6.3,1.24c-24.6,6.8-43.99,4.24-50.36-6.64-2.39-4.08-2.59-5.25-2.14-12.45.44-6.97,1.09-9.15,5.28-17.65,13.66-27.7,45.02-42.09,73.52-33.74,10.29,3.01,9.16,4.04,18.63-16.96,4.64-10.3,8.29-18.98,8.07-19.2-1.49-1.49-32.9-5.73-38.7-5.23-.83.07-5.3.48-10,.91h0Z" fill="#ffffff"/><path d="M493.03,61.6l-12.1.31-9.6,21.3c-5.27,11.7-9.6,21.59-9.6,21.95s10.9.76,24.3.9l24.3.25-23.25,51.5c-12.78,28.3-23.27,52.06-23.3,52.75-.04.99,5.8,1.2,27.6,1l27.65-.25,23.6-52.7,23.6-52.7,24.85-.3,24.85-.3,9.9-21.95c5.46-12.1,9.9-22.08,9.9-22.25,0-.38-125.6.05-142.7.49h0Z" fill="#ffffff"/><path d="M646.39,61.61c-1.48,2.5-66.67,148.38-66.67,149.2,0,1.06,126,.19,127.2-.88.69-.62,15.8-33.72,15.8-34.62,0-.27-16.2-.5-36-.5s-36-.34-36-.75,1.86-4.9,4.15-10l4.15-9.25,34.4-.25,34.4-.25,7.85-17.5,7.85-17.5-34-.25c-30.7-.23-33.94-.41-33.4-1.85.33-.89,2.48-5.8,4.8-11l4.2-9.4,35.95-.25,35.95-.25,7.85-17.45c4.32-9.6,7.85-17.58,7.85-17.75,0-.7-125.92-.2-126.33.5h0Z" fill="#ffffff"/><path d="M85.03,113.56c-12.78,28.5-27.92,62.2-33.7,75l-10.5,23.25,28.1-.25,28.1-.25,11.7-26,11.7-26,4.4-.3c2.42-.17,17.65-.61,33.85-1l29.45-.7,7.75-17c4.29-9.4,7.77-17.34,7.8-17.75.03-.41-14.85-.75-33.05-.75-26.1,0-32.99-.26-32.6-1.25.27-.69,2.64-6.1,5.25-12l4.75-10.75,34.6-.05,34.6-.05,7.2-16.2c3.96-8.9,7.49-16.99,7.85-17.95.62-1.66-2.7-1.75-61.7-1.75h-62.35l-23.2,51.75h0Z" fill="#ffffff"/><path d="M245.38,67.01c-1.29,2.92-16.35,36.4-33.5,74.5-17.15,38.1-31.15,69.45-31.15,69.75s12.45.55,27.75.55h27.75l11.4-25.5,11.4-25.5h6.85c3.8,0,6.85.13,6.85.3.01,1.1,27.82,107.83,28.2,108.2.27.27,12.9.39,28,.25l27.5-.25-16.35-63.5c-8.99-34.9-16.35-63.73-16.35-64s3-1.29,6.7-2.26c12.3-3.23,22.88-9.28,31.9-18.23,8.65-8.58,13-15.31,16.31-25.21,5.38-16.1.61-26.38-14.61-31.51-6.69-2.25-7.65-2.29-61.55-2.59l-54.75-.3-2.35,5.3h0ZM314.43,97.1c3.93,2.07,4.94,5.31,3.26,10.41-2.41,7.3-7.25,13.28-13.46,16.64-3.42,1.85-6.05,2.21-18.25,2.51l-14.25.35,3.55-7.85c1.96-4.32,5.19-11.6,7.2-16.2l3.65-8.35,12.55.4c9.3.3,13.38.84,15.75,2.09h0Z" fill="#ffffff"/><path d="M380.23,133.06c-17.61,39.2-32.76,72.94-33.7,75l-1.7,3.75,28.1-.25,28.1-.25,33.3-74c18.31-40.7,33.32-74.34,33.35-74.75.03-.41-12.4-.75-27.7-.75h-27.75l-32,71.25h0Z" fill="#ffffff"/></svg></div>
+      <div class="sb-tag">Rewards · Programa de reconocimiento</div>
+    </div>
+    <nav class="sb-nav">
+      <div class="nsec">Mi cuenta</div>
+      <div class="ni on" onclick="nav(this,'v-home','Inicio')">
+        <span class="ni-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>Inicio
+      </div>
+      <div class="ni" onclick="nav(this,'v-card','Mi Tarjeta')">
+        <span class="ni-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></span>Mi Tarjeta
+      </div>
+      <div class="ni" onclick="nav(this,'v-cardlink','Mi tarjeta física')">
+        <span class="ni-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span>Tarjeta física
+      </div>
+      <div class="ni" onclick="nav(this,'v-mkt','Recompensas')">
+        <span class="ni-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg></span>Recompensas
+      </div>
+      <div class="ni" onclick="nav(this,'v-hist','Mi historial')">
+        <span class="ni-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>Mi historial
+      </div>
+      <div class="ni" onclick="nav(this,'v-prof','Mi perfil')">
+        <span class="ni-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>Mi perfil
+      </div>
+      <div class="nsec">Ayuda</div>
+      <div class="ni" onclick="nav(this,'v-earn','Cómo ganar puntos')">
+        <span class="ni-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>Cómo ganar puntos
+      </div>
+    </nav>
+    <div class="sb-user"><div class="sb-av">CM</div><div><div class="sb-un">Carlos Mendoza</div><div class="sb-uc">FRT-04821</div></div></div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="tb-logo-svg"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 997.89 215" style="height:16px;width:auto;display:block" aria-label="Fritec"><path d="M861.73,58.89c-16,1.47-37.11,7.46-51,14.45-10.6,5.34-23.99,15.19-33.11,24.36-14.35,14.43-23.12,28.5-29.97,48.1-3.09,8.84-3.32,10.4-3.37,22.5-.05,12.7.03,13.15,3.24,19.7,5.63,11.46,15.41,18.49,32.01,23,6.16,1.68,10.8,2.1,23.2,2.14,14.79.04,21.5-.71,38.6-4.36l5.1-1.09,8.65-19.3c4.75-10.6,8.65-19.53,8.65-19.8s-2.8.27-6.3,1.24c-24.6,6.8-43.99,4.24-50.36-6.64-2.39-4.08-2.59-5.25-2.14-12.45.44-6.97,1.09-9.15,5.28-17.65,13.66-27.7,45.02-42.09,73.52-33.74,10.29,3.01,9.16,4.04,18.63-16.96,4.64-10.3,8.29-18.98,8.07-19.2-1.49-1.49-32.9-5.73-38.7-5.23-.83.07-5.3.48-10,.91h0Z" fill="#0047FF"/><path d="M493.03,61.6l-12.1.31-9.6,21.3c-5.27,11.7-9.6,21.59-9.6,21.95s10.9.76,24.3.9l24.3.25-23.25,51.5c-12.78,28.3-23.27,52.06-23.3,52.75-.04.99,5.8,1.2,27.6,1l27.65-.25,23.6-52.7,23.6-52.7,24.85-.3,24.85-.3,9.9-21.95c5.46-12.1,9.9-22.08,9.9-22.25,0-.38-125.6.05-142.7.49h0Z" fill="#0047FF"/><path d="M646.39,61.61c-1.48,2.5-66.67,148.38-66.67,149.2,0,1.06,126,.19,127.2-.88.69-.62,15.8-33.72,15.8-34.62,0-.27-16.2-.5-36-.5s-36-.34-36-.75,1.86-4.9,4.15-10l4.15-9.25,34.4-.25,34.4-.25,7.85-17.5,7.85-17.5-34-.25c-30.7-.23-33.94-.41-33.4-1.85.33-.89,2.48-5.8,4.8-11l4.2-9.4,35.95-.25,35.95-.25,7.85-17.45c4.32-9.6,7.85-17.58,7.85-17.75,0-.7-125.92-.2-126.33.5h0Z" fill="#0047FF"/><path d="M85.03,113.56c-12.78,28.5-27.92,62.2-33.7,75l-10.5,23.25,28.1-.25,28.1-.25,11.7-26,11.7-26,4.4-.3c2.42-.17,17.65-.61,33.85-1l29.45-.7,7.75-17c4.29-9.4,7.77-17.34,7.8-17.75.03-.41-14.85-.75-33.05-.75-26.1,0-32.99-.26-32.6-1.25.27-.69,2.64-6.1,5.25-12l4.75-10.75,34.6-.05,34.6-.05,7.2-16.2c3.96-8.9,7.49-16.99,7.85-17.95.62-1.66-2.7-1.75-61.7-1.75h-62.35l-23.2,51.75h0Z" fill="#0047FF"/><path d="M245.38,67.01c-1.29,2.92-16.35,36.4-33.5,74.5-17.15,38.1-31.15,69.45-31.15,69.75s12.45.55,27.75.55h27.75l11.4-25.5,11.4-25.5h6.85c3.8,0,6.85.13,6.85.3.01,1.1,27.82,107.83,28.2,108.2.27.27,12.9.39,28,.25l27.5-.25-16.35-63.5c-8.99-34.9-16.35-63.73-16.35-64s3-1.29,6.7-2.26c12.3-3.23,22.88-9.28,31.9-18.23,8.65-8.58,13-15.31,16.31-25.21,5.38-16.1.61-26.38-14.61-31.51-6.69-2.25-7.65-2.29-61.55-2.59l-54.75-.3-2.35,5.3h0ZM314.43,97.1c3.93,2.07,4.94,5.31,3.26,10.41-2.41,7.3-7.25,13.28-13.46,16.64-3.42,1.85-6.05,2.21-18.25,2.51l-14.25.35,3.55-7.85c1.96-4.32,5.19-11.6,7.2-16.2l3.65-8.35,12.55.4c9.3.3,13.38.84,15.75,2.09h0Z" fill="#0047FF"/><path d="M380.23,133.06c-17.61,39.2-32.76,72.94-33.7,75l-1.7,3.75,28.1-.25,28.1-.25,33.3-74c18.31-40.7,33.32-74.34,33.35-74.75.03-.41-12.4-.75-27.7-.75h-27.75l-32,71.25h0Z" fill="#0047FF"/></svg></div>
+      <div class="tb-gap"></div>
+      <div class="tb-pts"><div class="tb-pts-n" id="tb-pts-n">8,420</div><div class="tb-pts-l">puntos</div></div>
+      <div class="tb-av" onclick="nav(document.querySelector('.ni:nth-child(6)'),'v-prof','Mi perfil')">CM</div>
+    </header>
+
+    <div class="page">
+
+      <!-- HOME -->
+      <div class="view on" id="v-home">
+        <div class="ph"><div class="ph-ey">Hola</div><h1>Bienvenido, Carlos.</h1><p>Operador de Línea — Planta Saltillo</p></div>
+        <div class="home-l">
+          <div>
+            <div class="mc">
+              <div class="mc-grid"></div>
+              <div class="mc-top">
+                <div class="mc-brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 997.89 215" style="height:14px;width:auto;display:block" aria-label="Fritec"><path d="M861.73,58.89c-16,1.47-37.11,7.46-51,14.45-10.6,5.34-23.99,15.19-33.11,24.36-14.35,14.43-23.12,28.5-29.97,48.1-3.09,8.84-3.32,10.4-3.37,22.5-.05,12.7.03,13.15,3.24,19.7,5.63,11.46,15.41,18.49,32.01,23,6.16,1.68,10.8,2.1,23.2,2.14,14.79.04,21.5-.71,38.6-4.36l5.1-1.09,8.65-19.3c4.75-10.6,8.65-19.53,8.65-19.8s-2.8.27-6.3,1.24c-24.6,6.8-43.99,4.24-50.36-6.64-2.39-4.08-2.59-5.25-2.14-12.45.44-6.97,1.09-9.15,5.28-17.65,13.66-27.7,45.02-42.09,73.52-33.74,10.29,3.01,9.16,4.04,18.63-16.96,4.64-10.3,8.29-18.98,8.07-19.2-1.49-1.49-32.9-5.73-38.7-5.23-.83.07-5.3.48-10,.91h0Z" fill="#ffffff"/><path d="M493.03,61.6l-12.1.31-9.6,21.3c-5.27,11.7-9.6,21.59-9.6,21.95s10.9.76,24.3.9l24.3.25-23.25,51.5c-12.78,28.3-23.27,52.06-23.3,52.75-.04.99,5.8,1.2,27.6,1l27.65-.25,23.6-52.7,23.6-52.7,24.85-.3,24.85-.3,9.9-21.95c5.46-12.1,9.9-22.08,9.9-22.25,0-.38-125.6.05-142.7.49h0Z" fill="#ffffff"/><path d="M646.39,61.61c-1.48,2.5-66.67,148.38-66.67,149.2,0,1.06,126,.19,127.2-.88.69-.62,15.8-33.72,15.8-34.62,0-.27-16.2-.5-36-.5s-36-.34-36-.75,1.86-4.9,4.15-10l4.15-9.25,34.4-.25,34.4-.25,7.85-17.5,7.85-17.5-34-.25c-30.7-.23-33.94-.41-33.4-1.85.33-.89,2.48-5.8,4.8-11l4.2-9.4,35.95-.25,35.95-.25,7.85-17.45c4.32-9.6,7.85-17.58,7.85-17.75,0-.7-125.92-.2-126.33.5h0Z" fill="#ffffff"/><path d="M85.03,113.56c-12.78,28.5-27.92,62.2-33.7,75l-10.5,23.25,28.1-.25,28.1-.25,11.7-26,11.7-26,4.4-.3c2.42-.17,17.65-.61,33.85-1l29.45-.7,7.75-17c4.29-9.4,7.77-17.34,7.8-17.75.03-.41-14.85-.75-33.05-.75-26.1,0-32.99-.26-32.6-1.25.27-.69,2.64-6.1,5.25-12l4.75-10.75,34.6-.05,34.6-.05,7.2-16.2c3.96-8.9,7.49-16.99,7.85-17.95.62-1.66-2.7-1.75-61.7-1.75h-62.35l-23.2,51.75h0Z" fill="#ffffff"/><path d="M245.38,67.01c-1.29,2.92-16.35,36.4-33.5,74.5-17.15,38.1-31.15,69.45-31.15,69.75s12.45.55,27.75.55h27.75l11.4-25.5,11.4-25.5h6.85c3.8,0,6.85.13,6.85.3.01,1.1,27.82,107.83,28.2,108.2.27.27,12.9.39,28,.25l27.5-.25-16.35-63.5c-8.99-34.9-16.35-63.73-16.35-64s3-1.29,6.7-2.26c12.3-3.23,22.88-9.28,31.9-18.23,8.65-8.58,13-15.31,16.31-25.21,5.38-16.1.61-26.38-14.61-31.51-6.69-2.25-7.65-2.29-61.55-2.59l-54.75-.3-2.35,5.3h0ZM314.43,97.1c3.93,2.07,4.94,5.31,3.26,10.41-2.41,7.3-7.25,13.28-13.46,16.64-3.42,1.85-6.05,2.21-18.25,2.51l-14.25.35,3.55-7.85c1.96-4.32,5.19-11.6,7.2-16.2l3.65-8.35,12.55.4c9.3.3,13.38.84,15.75,2.09h0Z" fill="#ffffff"/><path d="M380.23,133.06c-17.61,39.2-32.76,72.94-33.7,75l-1.7,3.75,28.1-.25,28.1-.25,33.3-74c18.31-40.7,33.32-74.34,33.35-74.75.03-.41-12.4-.75-27.7-.75h-27.75l-32,71.25h0Z" fill="#ffffff"/></svg></div>
+                <div class="mc-st">ACTIVO</div>
+              </div>
+              <div class="mc-mid"><div class="mc-pl">SALDO DE PUNTOS</div><div class="mc-pts" id="mc-pts-display">8,420</div></div>
+              <div class="mc-bot">
+                <div><div class="mc-name">CARLOS MENDOZA</div><div class="mc-id">FRT-04821 · •••• 4821</div></div>
+                <button class="mc-qr-btn" onclick="openQR()">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="5" y="5" width="3" height="3" fill="currentColor" stroke="none"/><rect x="16" y="5" width="3" height="3" fill="currentColor" stroke="none"/><rect x="5" y="16" width="3" height="3" fill="currentColor" stroke="none"/><line x1="14" y1="14" x2="14" y2="14" stroke-width="3"/><line x1="17" y1="14" x2="17" y2="14" stroke-width="3"/><line x1="20" y1="14" x2="20" y2="14" stroke-width="3"/><line x1="14" y1="17" x2="14" y2="17" stroke-width="3"/><line x1="20" y1="17" x2="20" y2="17" stroke-width="3"/><line x1="14" y1="20" x2="14" y2="20" stroke-width="3"/><line x1="17" y1="20" x2="20" y2="20" stroke-width="3"/></svg>
+                  Ver QR
+                </button>
+              </div>
+            </div>
+            <div class="prog">
+              <div class="prog-hd"><span class="prog-lbl">META: 10,000 PUNTOS</span><span class="prog-val" id="prog-val-txt">8,420 / 10,000</span></div>
+              <div class="prog-tr"><div class="prog-fill" id="prog-fill" style="width:84.2%"></div></div>
+              <div class="prog-hint">Te faltan <strong id="prog-left">1,580 pts.</strong> para alcanzar tu próxima meta.</div>
+            </div>
+            <div class="qa">
+              <div class="qa-btn" onclick="openQR()">
+                <div class="qa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="5" y="5" width="3" height="3" fill="currentColor" stroke="none"/><rect x="16" y="5" width="3" height="3" fill="currentColor" stroke="none"/><rect x="5" y="16" width="3" height="3" fill="currentColor" stroke="none"/></svg></div>
+                <div class="qa-label">Mostrar mi QR</div>
+              </div>
+              <div class="qa-btn" onclick="navQ('v-mkt','Recompensas',1)">
+                <div class="qa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg></div>
+                <div class="qa-label">Canjear puntos</div>
+              </div>
+              <div class="qa-btn" onclick="navQ('v-hist','Mi historial',2)">
+                <div class="qa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+                <div class="qa-label">Ver historial</div>
+              </div>
+            </div>
+            <div class="sec-hd">
+              <div class="sec-title">Lo que puedes canjear hoy</div>
+              <div class="sec-lnk" onclick="navQ('v-mkt','Recompensas',1)">Ver todo ›</div>
+            </div>
+            <div class="rp-grid">
+              <div class="rp-card" onclick="openSheet('Vale despensa $500 MXN','Vales','1,200',1200,'https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&q=80','Chedraui, Walmart, La Comer','48 disponibles','Válido en supermercados participantes. Sin fecha de vencimiento.')">
+                <div class="rp-img"><img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&q=80" alt="" loading="lazy"></div>
+                <div class="rp-body"><div class="rp-cat">Vales</div><div class="rp-nm">Vale despensa $500 MXN</div><div class="rp-pts">1,200 pts</div></div>
+              </div>
+              <div class="rp-card" onclick="openSheet('Lentes de seguridad','EPP','800',800,'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&q=80','EPP NOM-106','22 disponibles','Protección ocular certificada. Incluye estuche rígido.')">
+                <div class="rp-img"><img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&q=80" alt="" loading="lazy"></div>
+                <div class="rp-body"><div class="rp-cat">EPP</div><div class="rp-nm">Lentes de seguridad</div><div class="rp-pts">800 pts</div></div>
+              </div>
+              <div class="rp-card" onclick="openSheet('Boletos de cine 2×1','Entretenimiento','1,100',1100,'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400&q=80','Cinépolis','60 disponibles','2 boletos para cualquier función regular en Cinépolis.')">
+                <div class="rp-img"><img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400&q=80" alt="" loading="lazy"></div>
+                <div class="rp-body"><div class="rp-cat">Entretenimiento</div><div class="rp-nm">Boletos de cine 2×1</div><div class="rp-pts">1,100 pts</div></div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="panel">
+              <div class="panel-hd"><div class="panel-title">Movimientos recientes</div><div class="panel-lnk" onclick="navQ('v-hist','Mi historial',2)">Ver todo</div></div>
+              <div class="act-list">
+                <div class="act"><div class="act-ic g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div><div class="act-b"><div class="act-nm">Asistencia perfecta — Sem 18</div><div class="act-s">Validado Supervisor Ramírez</div></div><div class="act-p g">+250 P</div></div>
+                <div class="act"><div class="act-ic g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg></div><div class="act-b"><div class="act-nm">Capacitación: Seguridad ISO</div><div class="act-s">Curso completado</div></div><div class="act-p g">+500 P</div></div>
+                <div class="act"><div class="act-ic y"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><div class="act-b"><div class="act-nm">Sugerencia Kaizen</div><div class="act-s">Programa Kaizen</div></div><div class="act-p g">+800 P</div></div>
+                <div class="act"><div class="act-ic r"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7"/></svg></div><div class="act-b"><div class="act-nm">Canje: Vale despensa $500</div><div class="act-s">Folio FRT-CJ-1287</div></div><div class="act-p r">−1,200 P</div></div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-hd"><div class="panel-title">Resumen del mes</div></div>
+              <div class="ms"><div class="ms-row"><div class="ms-box"><div class="ms-l">Ganados</div><div class="ms-v g">+2,150</div></div><div class="ms-box"><div class="ms-l">Canjeados</div><div class="ms-v r">−1,200</div></div></div></div>
+            </div>
+            <div class="panel">
+              <div class="panel-hd"><div class="panel-title">¿Tienes dudas?</div></div>
+              <div class="hp"><p>Revisa cómo ganar puntos o contacta a tu supervisor.</p><button class="btn-out" onclick="navQ('v-earn','Cómo ganar puntos',4)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Cómo ganar puntos</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MY CARD -->
+      <div class="view" id="v-card">
+        <div class="ph"><div class="ph-ey">Tu credencial digital</div><h1>Mi Tarjeta</h1><p>Muestra tu QR en cualquier punto autorizado.</p></div>
+        <div class="card-wrap">
+          <div class="mc mc-lg">
+            <div class="mc-grid"></div>
+            <div class="mc-top">
+              <div class="mc-brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 997.89 215" style="height:14px;width:auto;display:block" aria-label="Fritec"><path d="M861.73,58.89c-16,1.47-37.11,7.46-51,14.45-10.6,5.34-23.99,15.19-33.11,24.36-14.35,14.43-23.12,28.5-29.97,48.1-3.09,8.84-3.32,10.4-3.37,22.5-.05,12.7.03,13.15,3.24,19.7,5.63,11.46,15.41,18.49,32.01,23,6.16,1.68,10.8,2.1,23.2,2.14,14.79.04,21.5-.71,38.6-4.36l5.1-1.09,8.65-19.3c4.75-10.6,8.65-19.53,8.65-19.8s-2.8.27-6.3,1.24c-24.6,6.8-43.99,4.24-50.36-6.64-2.39-4.08-2.59-5.25-2.14-12.45.44-6.97,1.09-9.15,5.28-17.65,13.66-27.7,45.02-42.09,73.52-33.74,10.29,3.01,9.16,4.04,18.63-16.96,4.64-10.3,8.29-18.98,8.07-19.2-1.49-1.49-32.9-5.73-38.7-5.23-.83.07-5.3.48-10,.91h0Z" fill="#ffffff"/><path d="M493.03,61.6l-12.1.31-9.6,21.3c-5.27,11.7-9.6,21.59-9.6,21.95s10.9.76,24.3.9l24.3.25-23.25,51.5c-12.78,28.3-23.27,52.06-23.3,52.75-.04.99,5.8,1.2,27.6,1l27.65-.25,23.6-52.7,23.6-52.7,24.85-.3,24.85-.3,9.9-21.95c5.46-12.1,9.9-22.08,9.9-22.25,0-.38-125.6.05-142.7.49h0Z" fill="#ffffff"/><path d="M646.39,61.61c-1.48,2.5-66.67,148.38-66.67,149.2,0,1.06,126,.19,127.2-.88.69-.62,15.8-33.72,15.8-34.62,0-.27-16.2-.5-36-.5s-36-.34-36-.75,1.86-4.9,4.15-10l4.15-9.25,34.4-.25,34.4-.25,7.85-17.5,7.85-17.5-34-.25c-30.7-.23-33.94-.41-33.4-1.85.33-.89,2.48-5.8,4.8-11l4.2-9.4,35.95-.25,35.95-.25,7.85-17.45c4.32-9.6,7.85-17.58,7.85-17.75,0-.7-125.92-.2-126.33.5h0Z" fill="#ffffff"/><path d="M85.03,113.56c-12.78,28.5-27.92,62.2-33.7,75l-10.5,23.25,28.1-.25,28.1-.25,11.7-26,11.7-26,4.4-.3c2.42-.17,17.65-.61,33.85-1l29.45-.7,7.75-17c4.29-9.4,7.77-17.34,7.8-17.75.03-.41-14.85-.75-33.05-.75-26.1,0-32.99-.26-32.6-1.25.27-.69,2.64-6.1,5.25-12l4.75-10.75,34.6-.05,34.6-.05,7.2-16.2c3.96-8.9,7.49-16.99,7.85-17.95.62-1.66-2.7-1.75-61.7-1.75h-62.35l-23.2,51.75h0Z" fill="#ffffff"/><path d="M245.38,67.01c-1.29,2.92-16.35,36.4-33.5,74.5-17.15,38.1-31.15,69.45-31.15,69.75s12.45.55,27.75.55h27.75l11.4-25.5,11.4-25.5h6.85c3.8,0,6.85.13,6.85.3.01,1.1,27.82,107.83,28.2,108.2.27.27,12.9.39,28,.25l27.5-.25-16.35-63.5c-8.99-34.9-16.35-63.73-16.35-64s3-1.29,6.7-2.26c12.3-3.23,22.88-9.28,31.9-18.23,8.65-8.58,13-15.31,16.31-25.21,5.38-16.1.61-26.38-14.61-31.51-6.69-2.25-7.65-2.29-61.55-2.59l-54.75-.3-2.35,5.3h0ZM314.43,97.1c3.93,2.07,4.94,5.31,3.26,10.41-2.41,7.3-7.25,13.28-13.46,16.64-3.42,1.85-6.05,2.21-18.25,2.51l-14.25.35,3.55-7.85c1.96-4.32,5.19-11.6,7.2-16.2l3.65-8.35,12.55.4c9.3.3,13.38.84,15.75,2.09h0Z" fill="#ffffff"/><path d="M380.23,133.06c-17.61,39.2-32.76,72.94-33.7,75l-1.7,3.75,28.1-.25,28.1-.25,33.3-74c18.31-40.7,33.32-74.34,33.35-74.75.03-.41-12.4-.75-27.7-.75h-27.75l-32,71.25h0Z" fill="#ffffff"/></svg></div>
+              <div class="mc-st">ACTIVO</div>
+            </div>
+            <div class="mc-mid"><div class="mc-pl">SALDO DE PUNTOS</div><div class="mc-pts">8,420</div></div>
+            <div class="mc-bot">
+              <div><div class="mc-name">CARLOS MENDOZA</div><div class="mc-id">FRT-04821 · •••• 4821</div></div>
+              <button class="mc-qr-btn" onclick="openQR()" style="padding:8px 16px;font-size:13px">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="5" y="5" width="3" height="3" fill="currentColor" stroke="none"/><rect x="16" y="5" width="3" height="3" fill="currentColor" stroke="none"/><rect x="5" y="16" width="3" height="3" fill="currentColor" stroke="none"/></svg>
+                Ver QR dinámico
+              </button>
+            </div>
+          </div>
+          <div style="background:#fff;border-radius:var(--r);padding:18px;box-shadow:var(--sh);border:1px solid var(--bdr)">
+            <h3 style="font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:var(--t1);margin-bottom:12px">Cómo usar tu tarjeta</h3>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="display:flex;align-items:center;gap:11px;padding:10px 12px;background:var(--bg);border-radius:9px">
+                <div style="width:30px;height:30px;background:var(--blue-s);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="5" y="5" width="3" height="3" fill="var(--blue)" stroke="none"/><rect x="16" y="5" width="3" height="3" fill="var(--blue)" stroke="none"/><rect x="5" y="16" width="3" height="3" fill="var(--blue)" stroke="none"/></svg></div>
+                <div><div style="font-size:13px;font-weight:600;color:var(--t1)">Muestra el QR</div><div style="font-size:12px;color:var(--t3)">Toca "Ver QR" en tu tarjeta digital</div></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:11px;padding:10px 12px;background:var(--bg);border-radius:9px">
+                <div style="width:30px;height:30px;background:var(--green-s);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                <div><div style="font-size:13px;font-weight:600;color:var(--t1)">Acércalo al lector</div><div style="font-size:12px;color:var(--t3)">En cualquier punto autorizado de la planta</div></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:11px;padding:10px 12px;background:var(--bg);border-radius:9px">
+                <div style="width:30px;height:30px;background:var(--gold-s);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                <div><div style="font-size:13px;font-weight:600;color:var(--t1)">Acumula puntos</div><div style="font-size:12px;color:var(--t3)">Se suman automáticamente a tu saldo</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MARKETPLACE -->
+      <div class="view" id="v-mkt">
+        <div class="ph"><div class="ph-ey">Marketplace</div><h1>Recompensas</h1><p>Elige lo que quieras canjear con tus puntos.</p></div>
+        <div class="mkt-top"><div></div><div class="pts-pill" id="mkt-pts-pill">Tienes · 8,420 pts</div></div>
+        <div class="pills">
+          <div class="pill on" onclick="setPill(this)">Todos</div>
+          <div class="pill" onclick="setPill(this)">Vales</div>
+          <div class="pill" onclick="setPill(this)">Herramientas</div>
+          <div class="pill" onclick="setPill(this)">EPP</div>
+          <div class="pill" onclick="setPill(this)">Combustible</div>
+          <div class="pill" onclick="setPill(this)">Entretenimiento</div>
+          <div class="pill" onclick="setPill(this)">Tiempo libre</div>
+          <div class="pill" onclick="setPill(this)">Branded</div>
+        </div>
+        <div class="rg" id="rewards-grid">
+          <!-- Rendered by JS to support pts check -->
+        </div>
+      </div>
+
+      <!-- HISTORY -->
+      <div class="view" id="v-hist">
+        <div class="ph"><div class="ph-ey">Tu actividad</div><h1>Historial de movimientos</h1><p>Todos tus puntos ganados y canjeados.</p></div>
+        <div class="hs-row">
+          <div class="hs"><div class="hs-l">Saldo actual</div><div class="hs-v" id="hist-saldo">8,420</div><div class="hs-s" style="color:var(--green)">⚡ +2,150 este mes</div></div>
+          <div class="hs"><div class="hs-l">Total ganados</div><div class="hs-v g">+12,840</div><div class="hs-s">en 2026</div></div>
+          <div class="hs"><div class="hs-l">Total canjeados</div><div class="hs-v r">−4,420</div><div class="hs-s">5 canjes</div></div>
+          <div class="hs"><div class="hs-l">Próximo a vencer</div><div class="hs-v">320</div><div class="hs-s" style="color:var(--red)">en 14 días</div></div>
+        </div>
+        <div class="pills" style="margin-bottom:16px">
+          <div class="pill on" onclick="setPill(this)">Todos</div>
+          <div class="pill" onclick="setPill(this)">Ganados</div>
+          <div class="pill" onclick="setPill(this)">Canjes</div>
+        </div>
+        <div class="hg"><div class="hd-label">Hoy · 5 May 2026</div>
+          <div class="hl2">
+            <div class="hi"><div class="hi-ic g">✅</div><div class="hi-b"><div class="hi-n">Asistencia perfecta — Semana 18</div><div class="hi-s">Validado por Supervisor Ramírez</div></div><div class="hi-p g">+250 P</div></div>
+            <div class="hi"><div class="hi-ic g">🏅</div><div class="hi-b"><div class="hi-n">Capacitación: Seguridad ISO</div><div class="hi-s">Curso completado · Certificado emitido</div></div><div class="hi-p g">+500 P</div></div>
+          </div>
+        </div>
+        <div class="hg"><div class="hd-label">Ayer · 4 May 2026</div>
+          <div class="hl2">
+            <div class="hi"><div class="hi-ic y">⚡</div><div class="hi-b"><div class="hi-n">Sugerencia de mejora aprobada</div><div class="hi-s">Programa Kaizen — implementada</div></div><div class="hi-p g">+800 P</div></div>
+            <div class="hi"><div class="hi-ic r">🎁</div><div class="hi-b"><div class="hi-n">Canje: Vale despensa $500</div><div class="hi-s">Folio FRT-CJ-1287</div></div><div class="hi-p r">−1,200 P</div></div>
+          </div>
+        </div>
+        <div class="hg"><div class="hd-label">2 May 2026</div>
+          <div class="hl2">
+            <div class="hi"><div class="hi-ic g">🛡️</div><div class="hi-b"><div class="hi-n">Cero accidentes — Mes abril</div><div class="hi-s">Bono colectivo planta Saltillo</div></div><div class="hi-p g">+600 P</div></div>
+            <div class="hi"><div class="hi-ic y">🏆</div><div class="hi-b"><div class="hi-n">Aniversario laboral · 3 años</div><div class="hi-s">Reconocimiento RH</div></div><div class="hi-p g">+1,500 P</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROFILE -->
+      <div class="view" id="v-prof">
+        <div class="p-hero">
+          <div class="p-av">CM</div>
+          <div class="p-nm">Carlos Mendoza</div>
+          <div class="p-mt">FRT-04821 · Operador de Línea — Planta Saltillo</div>
+        </div>
+        <div class="pst">
+          <div class="ps"><div class="ps-l">Mis puntos</div><div class="ps-v" id="prof-pts">8,420</div></div>
+          <div class="ps"><div class="ps-l">Antigüedad</div><div class="ps-v">3.2 años</div></div>
+          <div class="ps"><div class="ps-l">Canjes</div><div class="ps-v">14</div></div>
+          <div class="ps"><div class="ps-l">Puntos ganados</div><div class="ps-v">12,840</div></div>
+        </div>
+        <div class="sett">
+          <div class="sett-title">Cuenta</div>
+          <div class="si"><div class="si-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="si-b"><div class="si-l">Datos personales</div><div class="si-s">Nombre, foto, contacto</div></div><span class="si-arr">›</span></div>
+          <div class="si" onclick="go('sfp')"><div class="si-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div><div class="si-b"><div class="si-l">Seguridad</div><div class="si-s">Cambiar contraseña</div></div><span class="si-arr">›</span></div>
+          <div class="si" onclick="mNav(document.querySelector('.mn-item:nth-child(2)'), 'v-cardlink','Mi tarjeta física')"><div class="si-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div><div class="si-b"><div class="si-l">Tarjeta física</div><div class="si-s">Vinculada · •••• 4821 → Ver detalles</div></div><span class="si-arr">›</span></div>
+        </div>
+        <div class="sett">
+          <div class="sett-title">Programa</div>
+          <div class="si"><div class="si-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg></div><div class="si-b"><div class="si-l">Mis logros</div><div class="si-s">6 obtenidos</div></div><span class="si-arr">›</span></div>
+          <div class="si" onclick="navQ('v-earn','Cómo ganar puntos',4)"><div class="si-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><div class="si-b"><div class="si-l">Cómo ganar puntos</div><div class="si-s">Guía del programa</div></div><span class="si-arr">›</span></div>
+          <div class="si"><div class="si-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="si-b"><div class="si-l">Reglamento</div><div class="si-s">Términos del programa</div></div><span class="si-arr">›</span></div>
+        </div>
+        <div class="sett">
+          <div class="sett-title">App</div>
+          <div class="si"><div class="si-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div><div class="si-b"><div class="si-l">Notificaciones</div><div class="si-s">Push y correo electrónico</div></div><span class="si-arr">›</span></div>
+          <div class="si" onclick="toast('Sesión cerrada'); setTimeout(()=>go('sl'),600)"><div class="si-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div><div class="si-b"><div class="si-l danger">Cerrar sesión</div></div><span class="si-arr">›</span></div>
+        </div>
+      </div>
+
+      <!-- HOW TO EARN — CATALOG FORMAT -->
+      <div class="view" id="v-earn">
+        <div class="ph"><div class="ph-ey">Guía del programa</div><h1>Cómo ganar puntos</h1><p>Todas las actividades que suman a tu saldo.</p></div>
+        <div class="earn-intro">
+          <p>Participar es sencillo: realiza estas actividades y los puntos se acreditarán automáticamente o mediante validación de tu supervisor. <strong>No hay niveles</strong> — solo acumulas y canjeas cuando quieras.</p>
+        </div>
+        <div class="earn-cats">
+          <div class="ec">
+            <div class="ec-hd" onclick="toggleEC(this)">
+              <div class="ec-left"><div class="ec-ic" style="background:#DCFCE7"><svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div><div><div class="ec-ht">Asistencia perfecta</div><div class="ec-hf">Semanal / mensual</div></div></div>
+              <span class="ec-tog">+</span>
+            </div>
+            <div class="ec-bd"><div class="ec-bd-inner"><div class="er"><span class="er-l">Semana sin faltas</span><span class="er-p">+250 P</span></div><div class="er"><span class="er-l">Mes completo sin faltas</span><span class="er-p">+1,000 P</span></div></div></div>
+          </div>
+          <div class="ec">
+            <div class="ec-hd" onclick="toggleEC(this)">
+              <div class="ec-left"><div class="ec-ic" style="background:#DBEAFE"><svg viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div><div><div class="ec-ht">Capacitaciones</div><div class="ec-hf">Cursos internos y externos</div></div></div>
+              <span class="ec-tog">+</span>
+            </div>
+            <div class="ec-bd"><div class="ec-bd-inner"><div class="er"><span class="er-l">Curso interno (2h)</span><span class="er-p">+200 P</span></div><div class="er"><span class="er-l">Certificación externa</span><span class="er-p">+500 P</span></div></div></div>
+          </div>
+          <div class="ec">
+            <div class="ec-hd" onclick="toggleEC(this)">
+              <div class="ec-left"><div class="ec-ic" style="background:#FEF3C7"><svg viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><div><div class="ec-ht">Ideas Kaizen</div><div class="ec-hf">Mejora continua</div></div></div>
+              <span class="ec-tog">+</span>
+            </div>
+            <div class="ec-bd"><div class="ec-bd-inner"><div class="er"><span class="er-l">Idea registrada</span><span class="er-p">+100 P</span></div><div class="er"><span class="er-l">Idea implementada</span><span class="er-p">+800 P</span></div></div></div>
+          </div>
+          <div class="ec">
+            <div class="ec-hd" onclick="toggleEC(this)">
+              <div class="ec-left"><div class="ec-ic" style="background:#EDE9FE"><svg viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div><div class="ec-ht">Cero accidentes</div><div class="ec-hf">Seguridad en planta</div></div></div>
+              <span class="ec-tog">+</span>
+            </div>
+            <div class="ec-bd"><div class="ec-bd-inner"><div class="er"><span class="er-l">Mes sin accidentes (bono colectivo)</span><span class="er-p">+600 P</span></div><div class="er"><span class="er-l">Trimestre sin accidentes</span><span class="er-p">+2,000 P</span></div></div></div>
+          </div>
+          <div class="ec">
+            <div class="ec-hd" onclick="toggleEC(this)">
+              <div class="ec-left"><div class="ec-ic" style="background:#FEF3C7"><svg viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div><div class="ec-ht">Reconocimientos</div><div class="ec-hf">Aniversarios y logros</div></div></div>
+              <span class="ec-tog">+</span>
+            </div>
+            <div class="ec-bd"><div class="ec-bd-inner"><div class="er"><span class="er-l">Aniversario laboral (por año)</span><span class="er-p">+500×año</span></div><div class="er"><span class="er-l">Empleado del mes</span><span class="er-p">+2,500 P</span></div></div></div>
+          </div>
+          <div class="ec">
+            <div class="ec-hd" onclick="toggleEC(this)">
+              <div class="ec-left"><div class="ec-ic" style="background:#FCE7F3"><svg viewBox="0 0 24 24" fill="none" stroke="#DB2777" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div><div><div class="ec-ht">Actividades especiales</div><div class="ec-hf">Retos y participación</div></div></div>
+              <span class="ec-tog">+</span>
+            </div>
+            <div class="ec-bd"><div class="ec-bd-inner"><div class="er"><span class="er-l">Reto mensual completado</span><span class="er-p">+300 P</span></div><div class="er"><span class="er-l">Referido empleado nuevo</span><span class="er-p">+500 P</span></div></div></div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- CARD LINK VIEW -->
+      <div class="view" id="v-cardlink">
+        <div class="ph"><div class="ph-ey">Vinculación</div><h1>Mi tarjeta física</h1><p>Conecta tu tarjeta física a tu cuenta digital.</p></div>
+
+        <!-- Hero explicativo -->
+        <div class="cl-hero">
+          <div class="cl-hero-grid"></div>
+          <div class="cl-hero-tag">¿Cómo funciona?</div>
+          <div class="cl-hero-title">Tu tarjeta física ya acumula puntos</div>
+          <div class="cl-hero-desc">Cuando pasas tu tarjeta física en cualquier punto autorizado de la planta, tus puntos se acumulan automáticamente. Al vincularla a tu cuenta digital, puedes ver tu saldo, historial y canjear recompensas desde aquí.</div>
+        </div>
+
+        <!-- Steps -->
+        <div class="cl-steps">
+          <div class="cl-step">
+            <div class="cl-step-num">1</div>
+            <div>
+              <div class="cl-step-title">Pasa tu tarjeta en el lector</div>
+              <div class="cl-step-desc">En cualquier punto autorizado de la planta, la supervisión o en el reloj checador.</div>
+            </div>
+          </div>
+          <div class="cl-step">
+            <div class="cl-step-num">2</div>
+            <div>
+              <div class="cl-step-title">Tus puntos se suman solos</div>
+              <div class="cl-step-desc">No necesitas hacer nada extra. El sistema registra cada actividad elegible automáticamente.</div>
+            </div>
+          </div>
+          <div class="cl-step">
+            <div class="cl-step-num">3</div>
+            <div>
+              <div class="cl-step-title">Vincula para ver tu saldo</div>
+              <div class="cl-step-desc">Conecta tu número de tarjeta física a esta app para consultar puntos y canjear recompensas.</div>
+            </div>
+          </div>
+          <div class="cl-step">
+            <div class="cl-step-num">4</div>
+            <div>
+              <div class="cl-step-title">Canjea cuando quieras</div>
+              <div class="cl-step-desc">Una vez vinculada, usa la app o presenta tu tarjeta en el módulo de Recursos Humanos.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estado: NO VINCULADA (default) -->
+        <div id="cl-unlinked">
+          <div class="cl-form">
+            <h3>Vincular tarjeta física</h3>
+            <p>Ingresa el número de 16 dígitos que aparece al frente de tu tarjeta física Fritec.</p>
+            <div class="fg">
+              <label>Número de tarjeta</label>
+              <div class="card-input-wrap">
+                <input class="card-num-input fi" type="text" id="card-num-input" maxlength="19" placeholder="•••• •••• •••• ••••" oninput="formatCardNum(this)">
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--blue-s);border-radius:9px;margin-bottom:16px">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span style="font-size:12px;color:var(--blue);font-weight:500">El número de tarjeta está impreso al frente de tu tarjeta física Fritec en relieve dorado.</span>
+            </div>
+            <button class="btn-p" style="margin-top:0" onclick="linkCard()">Vincular tarjeta →</button>
+          </div>
+        </div>
+
+        <!-- Estado: VINCULADA -->
+        <div id="cl-linked" style="display:none">
+          <div style="margin-bottom:14px"><span class="cl-linked-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Tarjeta vinculada correctamente</span></div>
+          <div class="cl-linked-card">
+            <div class="cl-card-visual">
+              <div class="cl-card-chip"></div>
+              <div class="cl-card-info">
+                <div class="cl-card-number">•••• •••• •••• 4821</div>
+                <div class="cl-card-status">✓ Activa y vinculada a tu cuenta</div>
+              </div>
+            </div>
+            <div class="cl-card-actions">
+              <button class="btn-danger-sm" onclick="unlinkCard()">Desvincular</button>
+            </div>
+          </div>
+          <div style="margin-top:16px;background:#fff;border-radius:var(--r);padding:16px 18px;box-shadow:var(--sh);border:1px solid var(--bdr);max-width:500px">
+            <div style="font-size:13px;font-weight:600;color:var(--t1);margin-bottom:8px">¿Ya no tienes tu tarjeta física?</div>
+            <p style="font-size:13px;color:var(--t2);margin-bottom:12px;line-height:1.55">Si perdiste tu tarjeta o necesitas un reemplazo, acude a Recursos Humanos. Tu saldo de puntos se preserva y se transfiere a la nueva tarjeta.</p>
+            <button class="btn-out">Contactar a RH</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /page -->
+  </div><!-- /main -->
+
+  <nav class="mob-nav">
+    <div class="mob-nav-inner">
+      <div class="mn-item on" onclick="mNav(this,'v-home','Inicio')"><div class="mn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>Inicio</div>
+      <div class="mn-item" onclick="mNav(this,'v-card','Mi Tarjeta')"><div class="mn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>Tarjeta</div>
+      <div class="mn-item" onclick="mNav(this,'v-mkt','Recompensas')"><div class="mn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7"/></svg></div>Canjear</div>
+      <div class="mn-item" onclick="mNav(this,'v-hist','Historial')"><div class="mn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>Historial</div>
+      <div class="mn-item" onclick="mNav(this,'v-prof','Mi perfil')"><div class="mn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>Perfil</div>
+    </div>
+  </nav>
+</div>
+
+<!-- SHEET MODAL (rewards) -->
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeSheet()">
+  <div class="sheet">
+    <div class="sh-handle"></div>
+    <img class="sh-img" id="sh-img" src="" alt="">
+    <div class="sh-title" id="sh-title"></div>
+    <div class="sh-cat" id="sh-cat"></div>
+    <div class="sh-rows">
+      <div class="sdr"><span class="sdr-k">Dónde canjear</span><span class="sdr-v" id="sh-where"></span></div>
+      <div class="sdr"><span class="sdr-k">Disponibilidad</span><span class="sdr-v" id="sh-stock"></span></div>
+      <div class="sdr"><span class="sdr-k">Costo</span><span class="sdr-v" id="sh-pts" style="color:var(--blue);font-family:'Inter',sans-serif;font-size:15px;font-weight:800"></span></div>
+      <div class="sdr"><span class="sdr-k">Tu saldo</span><span class="sdr-v" id="sh-balance" style="font-family:'Inter',sans-serif;font-weight:700"></span></div>
+    </div>
+    <p class="sh-desc" id="sh-desc"></p>
+    <div class="sh-btns">
+      <button class="btn-g" onclick="closeSheet()">Cancelar</button>
+      <button class="btn-p" id="sh-redeem" style="margin-top:0">Confirmar canje</button>
+    </div>
+  </div>
+</div>
+
+<!-- QR MODAL -->
+<div class="overlay" id="qr-overlay" onclick="if(event.target===this)closeQR()">
+  <div class="sheet" style="border-radius:22px 22px 0 0;max-width:380px">
+    <div class="sh-handle"></div>
+    <div class="qr-modal-inner">
+      <div class="qr-modal-logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 997.89 215" style="height:16px;width:auto;display:block" aria-label="Fritec"><path d="M861.73,58.89c-16,1.47-37.11,7.46-51,14.45-10.6,5.34-23.99,15.19-33.11,24.36-14.35,14.43-23.12,28.5-29.97,48.1-3.09,8.84-3.32,10.4-3.37,22.5-.05,12.7.03,13.15,3.24,19.7,5.63,11.46,15.41,18.49,32.01,23,6.16,1.68,10.8,2.1,23.2,2.14,14.79.04,21.5-.71,38.6-4.36l5.1-1.09,8.65-19.3c4.75-10.6,8.65-19.53,8.65-19.8s-2.8.27-6.3,1.24c-24.6,6.8-43.99,4.24-50.36-6.64-2.39-4.08-2.59-5.25-2.14-12.45.44-6.97,1.09-9.15,5.28-17.65,13.66-27.7,45.02-42.09,73.52-33.74,10.29,3.01,9.16,4.04,18.63-16.96,4.64-10.3,8.29-18.98,8.07-19.2-1.49-1.49-32.9-5.73-38.7-5.23-.83.07-5.3.48-10,.91h0Z" fill="#0047FF"/><path d="M493.03,61.6l-12.1.31-9.6,21.3c-5.27,11.7-9.6,21.59-9.6,21.95s10.9.76,24.3.9l24.3.25-23.25,51.5c-12.78,28.3-23.27,52.06-23.3,52.75-.04.99,5.8,1.2,27.6,1l27.65-.25,23.6-52.7,23.6-52.7,24.85-.3,24.85-.3,9.9-21.95c5.46-12.1,9.9-22.08,9.9-22.25,0-.38-125.6.05-142.7.49h0Z" fill="#0047FF"/><path d="M646.39,61.61c-1.48,2.5-66.67,148.38-66.67,149.2,0,1.06,126,.19,127.2-.88.69-.62,15.8-33.72,15.8-34.62,0-.27-16.2-.5-36-.5s-36-.34-36-.75,1.86-4.9,4.15-10l4.15-9.25,34.4-.25,34.4-.25,7.85-17.5,7.85-17.5-34-.25c-30.7-.23-33.94-.41-33.4-1.85.33-.89,2.48-5.8,4.8-11l4.2-9.4,35.95-.25,35.95-.25,7.85-17.45c4.32-9.6,7.85-17.58,7.85-17.75,0-.7-125.92-.2-126.33.5h0Z" fill="#0047FF"/><path d="M85.03,113.56c-12.78,28.5-27.92,62.2-33.7,75l-10.5,23.25,28.1-.25,28.1-.25,11.7-26,11.7-26,4.4-.3c2.42-.17,17.65-.61,33.85-1l29.45-.7,7.75-17c4.29-9.4,7.77-17.34,7.8-17.75.03-.41-14.85-.75-33.05-.75-26.1,0-32.99-.26-32.6-1.25.27-.69,2.64-6.1,5.25-12l4.75-10.75,34.6-.05,34.6-.05,7.2-16.2c3.96-8.9,7.49-16.99,7.85-17.95.62-1.66-2.7-1.75-61.7-1.75h-62.35l-23.2,51.75h0Z" fill="#0047FF"/><path d="M245.38,67.01c-1.29,2.92-16.35,36.4-33.5,74.5-17.15,38.1-31.15,69.45-31.15,69.75s12.45.55,27.75.55h27.75l11.4-25.5,11.4-25.5h6.85c3.8,0,6.85.13,6.85.3.01,1.1,27.82,107.83,28.2,108.2.27.27,12.9.39,28,.25l27.5-.25-16.35-63.5c-8.99-34.9-16.35-63.73-16.35-64s3-1.29,6.7-2.26c12.3-3.23,22.88-9.28,31.9-18.23,8.65-8.58,13-15.31,16.31-25.21,5.38-16.1.61-26.38-14.61-31.51-6.69-2.25-7.65-2.29-61.55-2.59l-54.75-.3-2.35,5.3h0ZM314.43,97.1c3.93,2.07,4.94,5.31,3.26,10.41-2.41,7.3-7.25,13.28-13.46,16.64-3.42,1.85-6.05,2.21-18.25,2.51l-14.25.35,3.55-7.85c1.96-4.32,5.19-11.6,7.2-16.2l3.65-8.35,12.55.4c9.3.3,13.38.84,15.75,2.09h0Z" fill="#0047FF"/><path d="M380.23,133.06c-17.61,39.2-32.76,72.94-33.7,75l-1.7,3.75,28.1-.25,28.1-.25,33.3-74c18.31-40.7,33.32-74.34,33.35-74.75.03-.41-12.4-.75-27.7-.75h-27.75l-32,71.25h0Z" fill="#0047FF"/></svg></div>
+      <div class="qr-modal-sub">QR Dinámico · FRT-04821</div>
+      <div class="qr-svg-wrap">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="200" height="200" fill="white"/>
+          <rect x="10" y="10" width="60" height="60" rx="4" fill="#0C1830"/><rect x="16" y="16" width="48" height="48" rx="3" fill="white"/><rect x="22" y="22" width="36" height="36" rx="2" fill="#0C1830"/>
+          <rect x="130" y="10" width="60" height="60" rx="4" fill="#0C1830"/><rect x="136" y="16" width="48" height="48" rx="3" fill="white"/><rect x="142" y="22" width="36" height="36" rx="2" fill="#0C1830"/>
+          <rect x="10" y="130" width="60" height="60" rx="4" fill="#0C1830"/><rect x="16" y="136" width="48" height="48" rx="3" fill="white"/><rect x="22" y="142" width="36" height="36" rx="2" fill="#0C1830"/>
+          <rect x="80" y="10" width="8" height="8" fill="#0C1830"/><rect x="96" y="10" width="8" height="8" fill="#0C1830"/><rect x="112" y="10" width="8" height="8" fill="#0C1830"/>
+          <rect x="80" y="26" width="8" height="8" fill="#0C1830"/><rect x="104" y="26" width="8" height="8" fill="#0C1830"/>
+          <rect x="88" y="42" width="8" height="8" fill="#0C1830"/><rect x="112" y="42" width="8" height="8" fill="#0C1830"/>
+          <rect x="10" y="80" width="8" height="8" fill="#0C1830"/><rect x="26" y="80" width="8" height="8" fill="#0C1830"/><rect x="42" y="80" width="8" height="8" fill="#0C1830"/><rect x="58" y="80" width="8" height="8" fill="#0C1830"/>
+          <rect x="80" y="80" width="8" height="8" fill="#0C1830"/><rect x="96" y="80" width="8" height="8" fill="#0C1830"/><rect x="112" y="80" width="8" height="8" fill="#0C1830"/><rect x="128" y="80" width="8" height="8" fill="#0C1830"/><rect x="144" y="80" width="8" height="8" fill="#0C1830"/><rect x="160" y="80" width="8" height="8" fill="#0C1830"/><rect x="182" y="80" width="8" height="8" fill="#0C1830"/>
+          <rect x="10" y="96" width="8" height="8" fill="#0C1830"/><rect x="42" y="96" width="8" height="8" fill="#0C1830"/><rect x="80" y="96" width="8" height="8" fill="#0C1830"/><rect x="104" y="96" width="8" height="8" fill="#0C1830"/><rect x="128" y="96" width="8" height="8" fill="#0C1830"/><rect x="160" y="96" width="8" height="8" fill="#0C1830"/><rect x="182" y="96" width="8" height="8" fill="#0C1830"/>
+          <rect x="26" y="112" width="8" height="8" fill="#0C1830"/><rect x="58" y="112" width="8" height="8" fill="#0C1830"/><rect x="88" y="112" width="8" height="8" fill="#0C1830"/><rect x="112" y="112" width="8" height="8" fill="#0C1830"/><rect x="136" y="112" width="8" height="8" fill="#0C1830"/><rect x="168" y="112" width="8" height="8" fill="#0C1830"/>
+          <rect x="80" y="128" width="8" height="8" fill="#0C1830"/><rect x="104" y="128" width="8" height="8" fill="#0C1830"/><rect x="128" y="128" width="8" height="8" fill="#0C1830"/><rect x="152" y="128" width="8" height="8" fill="#0C1830"/><rect x="176" y="128" width="8" height="8" fill="#0C1830"/>
+          <rect x="88" y="144" width="8" height="8" fill="#0C1830"/><rect x="112" y="144" width="8" height="8" fill="#0C1830"/><rect x="136" y="144" width="8" height="8" fill="#0C1830"/><rect x="160" y="144" width="8" height="8" fill="#0C1830"/>
+          <rect x="80" y="160" width="8" height="8" fill="#0C1830"/><rect x="104" y="160" width="8" height="8" fill="#0C1830"/><rect x="128" y="160" width="8" height="8" fill="#0C1830"/><rect x="152" y="160" width="8" height="8" fill="#0C1830"/><rect x="176" y="160" width="8" height="8" fill="#0C1830"/>
+          <rect x="80" y="176" width="8" height="8" fill="#0C1830"/><rect x="96" y="176" width="8" height="8" fill="#0C1830"/><rect x="120" y="176" width="8" height="8" fill="#0C1830"/><rect x="144" y="176" width="8" height="8" fill="#0C1830"/><rect x="168" y="176" width="8" height="8" fill="#0C1830"/>
+        </svg>
+      </div>
+      <div class="qr-valid">Se actualiza cada 5 minutos · <span id="qr-timer">4:58</span></div>
+      <p style="font-size:12px;color:var(--t3);margin-top:4px">Carlos Mendoza · FRT-04821</p>
+    </div>
+    <div style="margin-top:16px;padding-top:0">
+      <button class="btn-g" onclick="closeQR()" style="margin-top:8px">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+
+// ─ CARD LINK ─
+let cardLinked = true; // pre-linked state
+function initCardLink(){
+  document.getElementById('cl-unlinked').style.display = cardLinked ? 'none' : 'block';
+  document.getElementById('cl-linked').style.display = cardLinked ? 'block' : 'none';
+}
+function formatCardNum(input){
+  let v = input.value.replace(/\D/g,'').substring(0,16);
+  let parts = [];
+  for(let i=0;i<v.length;i+=4) parts.push(v.substring(i,i+4));
+  input.value = parts.join(' ');
+}
+function linkCard(){
+  const v = document.getElementById('card-num-input').value.replace(/\s/g,'');
+  if(v.length < 16){ toast('⚠️ Ingresa los 16 dígitos de tu tarjeta'); return; }
+  cardLinked = true;
+  initCardLink();
+  toast('✅ Tarjeta vinculada correctamente');
+}
+function unlinkCard(){
+  if(!confirm('¿Seguro que quieres desvincular tu tarjeta física?')) return;
+  cardLinked = false;
+  document.getElementById('card-num-input').value = '';
+  initCardLink();
+  toast('Tarjeta desvinculada');
+}
+
+// ─ POINTS STATE ─
+let userPts = 8420;
+
+const REWARDS = [
+  {name:'Vale despensa $500 MXN',cat:'Vales',pts:1200,img:'https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&q=80',where:'Chedraui, Walmart, La Comer',stock:'48 disponibles',desc:'Válido en supermercados participantes. Sin fecha de vencimiento.'},
+  {name:'Caja herramientas 24 pzas',cat:'Herramientas',pts:4500,img:'https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=400&q=80',where:'Stanley / Truper',stock:'8 disponibles',desc:'Set profesional Stanley 24 piezas. Incluye maletín de transporte.'},
+  {name:'Lentes de seguridad polarizados',cat:'EPP',pts:800,img:'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&q=80',where:'EPP NOM-106',stock:'22 disponibles',desc:'Protección ocular de alto impacto. Certificación NOM-106.'},
+  {name:'Tarjeta combustible $300 MXN',cat:'Combustible',pts:750,img:'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=400&q=80',where:'Shell y BP',stock:'35 disponibles',desc:'Prepago válido en Shell y BP de Saltillo y zona metropolitana.'},
+  {name:'Botas industriales casquillo',cat:'EPP',pts:3200,img:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=80',where:'Seguridad industrial',stock:'14 disponibles',desc:'Calzado de seguridad con puntera de acero y suela antiderrapante.'},
+  {name:'Boletos de cine 2×1',cat:'Entretenimiento',pts:1100,img:'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400&q=80',where:'Cinépolis participantes',stock:'60 disponibles',desc:'2 boletos para cualquier función regular en Cinépolis.'},
+  {name:'Bono Día Libre con goce',cat:'Tiempo libre',pts:6000,img:'https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=400&q=80',where:'RH · Planta Saltillo',stock:'10 disponibles',desc:'Un día adicional de descanso con goce de sueldo. Previa autorización.'},
+  {name:'Termo Fritec acero inoxidable',cat:'Branded',pts:950,img:'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&q=80',where:'Fritec Branded',stock:'30 disponibles',desc:'Termo 500ml con logo Fritec. Doble pared, 12h frío / 8h calor.'}
+];
+
+function renderRewards(){
+  const g = document.getElementById('rewards-grid');
+  g.innerHTML = '';
+  REWARDS.forEach(r => {
+    const canAfford = userPts >= r.pts;
+    const d = document.createElement('div');
+    d.className = 'rcf';
+    d.onclick = () => openSheet(r.name, r.cat, r.pts.toLocaleString(), r.pts, r.img, r.where, r.stock, r.desc);
+    d.innerHTML = `
+      <div class="rc-img"><img src="${r.img}" alt="" loading="lazy"></div>
+      <div class="rc-body">
+        <div class="rc-cat">${r.cat}</div>
+        <div class="rc-nm">${r.name}</div>
+        <div class="rc-stock">${r.stock}</div>
+        <div class="rc-bot">
+          <span class="rc-pv">${r.pts.toLocaleString()} pts</span>
+          ${canAfford ? `<button class="rc-btn" onclick="event.stopPropagation();openSheet('${r.name}','${r.cat}','${r.pts.toLocaleString()}','${r.pts}','${r.img}','${r.where}','${r.stock}','${r.desc}')">Canjear</button>` : `<span style="font-size:11px;color:var(--t3)">Puntos insuficientes</span>`}
+        </div>
+      </div>`;
+    g.appendChild(d);
+  });
+}
+
+function updatePtsUI(){
+  const fmt = userPts.toLocaleString();
+  document.getElementById('tb-pts-n').textContent = fmt;
+  const mc = document.getElementById('mc-pts-display');
+  if(mc) mc.textContent = fmt;
+  const pp = document.getElementById('mkt-pts-pill');
+  if(pp) pp.textContent = 'Tienes · ' + fmt + ' pts';
+  const hp = document.getElementById('prof-pts');
+  if(hp) hp.textContent = fmt;
+  const hs = document.getElementById('hist-saldo');
+  if(hs) hs.textContent = fmt;
+  const pv = document.getElementById('prog-val-txt');
+  if(pv) pv.textContent = fmt + ' / 10,000';
+  const pf = document.getElementById('prog-fill');
+  if(pf) pf.style.width = Math.min((userPts/10000)*100,100)+'%';
+  const pl = document.getElementById('prog-left');
+  if(pl) pl.textContent = Math.max(0,10000-userPts).toLocaleString() + ' pts.';
+}
+
+// ─ SPLASH ─
+setTimeout(()=>go('sob'),2500);
+
+// ─ SCREENS ─
+function go(id){
+  document.querySelectorAll('.s').forEach(s=>{s.classList.remove('on');s.style.display=''});
+  const el=document.getElementById(id);el.style.display='';el.classList.add('on');
+}
+function goApp(){
+  setTimeout(initCardLink, 100);
+  document.querySelectorAll('.s').forEach(s=>{s.classList.remove('on');s.style.display=''});
+  const el=document.getElementById('sa');el.style.display='grid';el.classList.add('on');
+  renderRewards();
+}
+
+// ─ ONBOARDING ─
+let obIdx=0;
+function obNext(){
+  if(obIdx<2){
+    document.getElementById('ob'+obIdx).classList.remove('on');
+    document.getElementById('d'+obIdx).classList.remove('on');
+    obIdx++;
+    document.getElementById('ob'+obIdx).classList.add('on');
+    document.getElementById('d'+obIdx).classList.add('on');
+    document.getElementById('ob-step').textContent=`0${obIdx+1} / 03`;
+    if(obIdx===2)document.querySelector('#sob .btn-main').textContent='Comenzar →';
+  }else go('sl');
+}
+
+// ─ LOGIN TABS ─
+function switchLoginTab(t){
+  document.getElementById('tab-code').classList.toggle('on',t==='code');
+  document.getElementById('tab-email').classList.toggle('on',t==='email');
+  document.getElementById('login-code-form').style.display=t==='code'?'block':'none';
+  document.getElementById('login-email-form').style.display=t==='email'?'block':'none';
+}
+
+// ─ FORGOT PWD ─
+function sendReset(){
+  const v=document.getElementById('inp-fp').value.trim();
+  if(!v){toast('⚠️ Ingresa tu correo o código');return;}
+  document.getElementById('fp-form').style.display='none';
+  document.getElementById('fp-sent').style.display='block';
+}
+
+// ─ TOGGLE PASS ─
+function togglePass(inputId,btn){
+  const inp=document.getElementById(inputId);
+  inp.type=inp.type==='password'?'text':'password';
+}
+
+// ─ NAV ─
+function showView(id,title){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  document.querySelector('.page').scrollTop=0;
+}
+function nav(el,id,title){
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  if(el)el.classList.add('on');
+  showView(id,title);
+}
+function mNav(el,id,title){
+  document.querySelectorAll('.mn-item').forEach(n=>n.classList.remove('on'));
+  if(el)el.classList.add('on');
+  showView(id,title);
+}
+const niIdx={0:0,1:1,2:2,3:3,4:4,5:5};
+function navQ(id,title,idx){
+  const nis=document.querySelectorAll('.ni');
+  nis.forEach(n=>n.classList.remove('on'));
+  if(nis[idx])nis[idx].classList.add('on');
+  showView(id,title);
+}
+
+// ─ PILLS ─
+function setPill(el){
+  el.closest('.pills').querySelectorAll('.pill').forEach(p=>p.classList.remove('on'));
+  el.classList.add('on');
+}
+
+// ─ ACCORDION ─
+function toggleEC(hd){
+  const body=hd.nextElementSibling;const tog=hd.querySelector('.ec-tog');
+  const open=body.style.display==='block';
+  body.style.display=open?'none':'block';
+  tog.textContent=open?'+':'−';tog.classList.toggle('open',!open);
+}
+
+// ─ QR MODAL ─
+let qrTimerInterval;
+function openQR(){
+  document.getElementById('qr-overlay').classList.add('on');
+  let secs=298;
+  document.getElementById('qr-timer').textContent=fmt(secs);
+  clearInterval(qrTimerInterval);
+  qrTimerInterval=setInterval(()=>{
+    secs--;if(secs<0)secs=298;
+    document.getElementById('qr-timer').textContent=fmt(secs);
+  },1000);
+}
+function closeQR(){
+  document.getElementById('qr-overlay').classList.remove('on');
+  clearInterval(qrTimerInterval);
+}
+function fmt(s){return Math.floor(s/60)+':'+(s%60<10?'0':'')+(s%60)}
+
+// ─ REWARD SHEET ─
+let pendingCost=0;
+function openSheet(name,cat,ptsStr,ptsCost,img,where,stock,desc){
+  pendingCost=parseInt(ptsCost);
+  document.getElementById('sh-title').textContent=name;
+  document.getElementById('sh-cat').textContent=cat;
+  document.getElementById('sh-pts').textContent=ptsStr+' pts';
+  document.getElementById('sh-img').src=img;
+  document.getElementById('sh-where').textContent=where;
+  document.getElementById('sh-stock').textContent=stock;
+  document.getElementById('sh-desc').textContent=desc;
+  const bal=document.getElementById('sh-balance');
+  bal.textContent=userPts.toLocaleString()+' pts';
+  bal.style.color=userPts>=pendingCost?'var(--green)':'var(--red)';
+  const btn=document.getElementById('sh-redeem');
+  btn.disabled=userPts<pendingCost;
+  btn.textContent=userPts>=pendingCost?'Confirmar canje':'Puntos insuficientes';
+  btn.onclick=()=>{
+    if(userPts<pendingCost)return;
+    userPts-=pendingCost;
+    updatePtsUI();renderRewards();
+    closeSheet();
+    toast('✅ Canje exitoso. Saldo: '+userPts.toLocaleString()+' pts');
+  };
+  document.getElementById('overlay').classList.add('on');
+}
+function closeSheet(){document.getElementById('overlay').classList.remove('on')}
+
+// ─ TOAST ─
+function toast(msg){
+  const t=document.createElement('div');t.className='toast';t.textContent=msg;
+  document.body.appendChild(t);
+  setTimeout(()=>{t.style.animation='toIn .28s ease reverse';setTimeout(()=>t.remove(),260)},3200);
+}
+
+// ─ DATE ─
+</script>
+</body>
+</html>

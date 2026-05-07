@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<title>Fritec Rewards · Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#0047FF;--blue-d:#0039CC;--blue-s:#EEF2FF;
+  --navy:#0C1830;
+  --gold:#F59E0B;--gold-s:#FEF3C7;
+  --bg:#F3F5FA;--white:#fff;
+  --t1:#0F172A;--t2:#4B5563;--t3:#94A3B8;
+  --bdr:#E2E8F0;
+  --green:#10B981;--green-s:#DCFCE7;
+  --red:#EF4444;--red-s:#FEE2E2;
+  --orange:#F97316;--orange-s:#FFEDD5;
+  --purple:#8B5CF6;--purple-s:#EDE9FE;
+  --r:12px;--rl:18px;--rx:22px;
+  --sh:0 1px 2px rgba(0,0,0,.04),0 3px 12px rgba(0,0,0,.06);
+  --shm:0 6px 24px rgba(0,0,0,.10);
+  --sw:240px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;font-size:16px;-webkit-font-smoothing:antialiased}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1)}
+h1,h2,h3,.syne{font-family:'Inter',sans-serif}
+button,input,select,textarea{font-family:inherit;outline:none}
+
+/* ── SCREEN SYSTEM ── */
+.screen{display:none}.screen.on{display:flex}
+#sa.on{display:grid;flex-direction:unset}
+
+/* ══════════════════ LOGIN ══════════════════ */
+#sl{
+  min-height:100dvh;align-items:center;justify-content:center;
+  background:linear-gradient(155deg,#060F22 0%,#0C1830 50%,#0C2060 100%);
+  position:relative;overflow:hidden;
+}
+.lg-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(0,71,255,.18) 0%,transparent 65%);top:-80px;left:50%;transform:translateX(-50%);pointer-events:none}
+.lg-grid{position:absolute;inset:0;opacity:.035;background-image:repeating-linear-gradient(0deg,rgba(255,255,255,1) 0,rgba(255,255,255,1) 1px,transparent 0,transparent 44px),repeating-linear-gradient(90deg,rgba(255,255,255,1) 0,rgba(255,255,255,1) 1px,transparent 0,transparent 44px)}
+.lg-box{background:#fff;border-radius:20px;padding:36px;width:100%;max-width:420px;margin:0 18px;position:relative;z-index:1;box-shadow:0 24px 60px rgba(0,0,0,.3)}
+.lg-brand{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.lg-tag{display:inline-block;background:var(--orange-s);color:var(--orange);font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:20px;letter-spacing:.05em;font-family:'Inter',sans-serif}
+.lg-title{font-family:'Inter',sans-serif;font-size:23px;font-weight:800;color:var(--t1);margin-bottom:4px}
+.lg-sub{font-size:14px;color:var(--t2);margin-bottom:24px}
+
+/* ── FORM ELEMENTS (shared) ── */
+.fg{margin-bottom:14px}
+.fg label{display:block;font-size:13px;font-weight:500;color:var(--t2);margin-bottom:6px}
+.fi{width:100%;padding:12px 14px;border:1.5px solid var(--bdr);border-radius:10px;background:#F8FAFC;font-size:14px;color:var(--t1);outline:none;transition:border-color .2s,box-shadow .2s,background .2s}
+.fi:focus{border-color:var(--blue);background:#fff;box-shadow:0 0 0 3px rgba(0,71,255,.08)}
+.fiw{position:relative}.fiw .fi{padding-right:42px}
+.fi-ic{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--t3);font-size:15px;cursor:pointer;border:none;background:none;padding:0}
+.sel{width:100%;padding:11px 36px 11px 14px;border:1.5px solid var(--bdr);border-radius:10px;background:#F8FAFC url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239CA3AF' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 14px center;font-size:14px;color:var(--t1);appearance:none;cursor:pointer;outline:none;transition:all .2s}
+.sel:focus{border-color:var(--blue);background-color:#fff;box-shadow:0 0 0 3px rgba(0,71,255,.08)}
+.btn-p{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:13px 20px;border-radius:10px;background:var(--blue);border:none;cursor:pointer;font-size:14px;font-weight:600;color:#fff;transition:all .2s;font-family:inherit}
+.btn-p:hover{background:var(--blue-d);box-shadow:0 6px 20px rgba(0,71,255,.26)}
+.btn-p:active{transform:scale(.98)}
+.btn-act{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 16px;background:var(--blue);border:none;border-radius:9px;font-size:13px;font-weight:600;color:#fff;cursor:pointer;transition:all .2s;font-family:inherit;white-space:nowrap;flex-shrink:0}
+.btn-act:hover{background:var(--blue-d);box-shadow:0 4px 14px rgba(0,71,255,.24)}
+.btn-act:active{transform:scale(.97)}
+.btn-sec{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:#fff;border:1.5px solid var(--bdr);border-radius:9px;font-size:13px;font-weight:600;color:var(--t1);cursor:pointer;transition:all .2s;font-family:inherit;white-space:nowrap;flex-shrink:0}
+.btn-sec:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-s)}
+.btn-danger{display:inline-flex;align-items:center;gap:5px;padding:7px 12px;background:#fff;border:1.5px solid rgba(239,68,68,.2);border-radius:8px;font-size:12px;font-weight:600;color:var(--red);cursor:pointer;transition:all .2s;font-family:inherit}
+.btn-danger:hover{background:var(--red-s)}
+.btn-success{display:inline-flex;align-items:center;gap:5px;padding:7px 12px;background:var(--green);border:none;border-radius:8px;font-size:12px;font-weight:600;color:#fff;cursor:pointer;transition:all .2s;font-family:inherit}
+.btn-success:hover{background:#059669}
+
+/* ══════════════════ APP SHELL ══════════════════ */
+#sa{background:var(--bg);position:relative}
+#sa.on{grid-template-columns:var(--sw) 1fr;height:100dvh;overflow:hidden}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  background:linear-gradient(180deg,#0A1628 0%,#0C1A34 100%);
+  display:flex;flex-direction:column;height:100dvh;position:sticky;top:0;
+  overflow-y:auto;width:var(--sw);flex-shrink:0;
+  border-right:1px solid rgba(255,255,255,.04);
+}
+.sb-hd{padding:24px 20px 16px;border-bottom:1px solid rgba(255,255,255,.05)}
+.sb-tag{font-size:9px;color:rgba(255,255,255,.2);letter-spacing:.14em;text-transform:uppercase;margin-top:5px;font-weight:600;font-family:'Inter',sans-serif}
+.sb-admin-badge{display:inline-block;margin-top:6px;background:rgba(249,115,22,.18);color:#FB923C;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px;letter-spacing:.05em}
+.sb-nav{flex:1;padding:8px 12px}
+.nsec{font-size:9px;color:rgba(255,255,255,.2);text-transform:uppercase;letter-spacing:.14em;font-weight:700;padding:14px 10px 5px;font-family:'Inter',sans-serif}
+.ni{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;cursor:pointer;color:rgba(255,255,255,.44);font-size:13px;font-weight:500;margin-bottom:1px;transition:all .18s;position:relative}
+.ni:hover{color:rgba(255,255,255,.9);background:rgba(255,255,255,.055)}
+.ni.on{color:#fff;font-weight:600;background:rgba(0,71,255,.18)}
+.ni.on::after{content:'';position:absolute;right:0;top:50%;transform:translateY(-50%);width:3px;height:60%;background:var(--blue);border-radius:2px 0 0 2px}
+.ni-ic{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .18s;background:rgba(255,255,255,.05)}
+.ni-ic svg{width:14px;height:14px}
+.ni:hover .ni-ic{background:rgba(255,255,255,.1)}
+.ni.on .ni-ic{background:rgba(0,71,255,.25)}
+.sb-bottom{padding:0 12px 16px;flex-shrink:0}
+.sb-logout{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;cursor:pointer;color:rgba(255,255,255,.4);font-size:13px;font-weight:500;transition:all .18s;background:transparent;border:none;width:100%;font-family:inherit;text-align:left}
+.sb-logout:hover{background:rgba(239,68,68,.12);color:var(--red)}
+.sb-logout .ni-ic{background:rgba(255,255,255,.05)}
+.sb-logout:hover .ni-ic{background:rgba(239,68,68,.15)}
+.sb-user{margin:0 0 6px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.04);display:flex;align-items:center;gap:10px;cursor:pointer;flex-shrink:0;transition:background .18s;border:1px solid rgba(255,255,255,.06)}
+.sb-user:hover{background:rgba(255,255,255,.08)}
+.sb-av{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--orange) 0%,#FBBF24 100%);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
+.sb-un{font-size:12px;font-weight:600;color:rgba(255,255,255,.9);line-height:1.3}
+.sb-uc{font-size:10px;color:rgba(255,255,255,.3);margin-top:1px}
+
+/* ── MAIN + TOPBAR ── */
+.main{display:flex;flex-direction:column;overflow:hidden;height:100dvh;min-width:0}
+.topbar{background:#fff;border-bottom:1px solid var(--bdr);display:flex;align-items:center;gap:10px;padding:0 22px;height:56px;flex-shrink:0}
+.tb-title{font-family:'Inter',sans-serif;font-size:15px;font-weight:700;color:var(--t1);white-space:nowrap}
+.tb-gap{flex:1}
+.tb-av{width:30px;height:30px;border-radius:10px;background:linear-gradient(135deg,var(--orange) 0%,#FBBF24 100%);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;cursor:pointer}
+
+/* ── PAGE ── */
+.page{flex:1;overflow-y:auto;padding:22px 22px 28px}
+@media(max-width:900px){.page{padding:14px 14px 80px}}
+.view{display:none}.view.on{display:block}
+.ph{margin-bottom:20px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px}
+.ph-ey{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;font-weight:600;margin-bottom:3px;font-family:'Inter',sans-serif}
+.ph h1{font-family:'Inter',sans-serif;font-size:clamp(19px,2vw,24px);font-weight:800;color:var(--t1);line-height:1.2}
+.ph p{font-size:14px;color:var(--t2);margin-top:3px}
+.ph-btns{display:flex;gap:8px;flex-wrap:wrap}
+
+/* ── KPI CARDS ── */
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:14px;margin-bottom:22px}
+.kpi{background:#fff;border-radius:var(--r);padding:16px 18px;box-shadow:var(--sh);border:1px solid var(--bdr)}
+.kpi-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;margin-bottom:10px}
+.kpi-icon svg{width:16px;height:16px}
+.kpi-lbl{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:3px;font-family:'Inter',sans-serif}
+.kpi-val{font-family:'Inter',sans-serif;font-size:24px;font-weight:800;color:var(--t1);line-height:1}
+.kpi-tr{font-size:12px;margin-top:4px;display:flex;align-items:center;gap:4px}
+.kpi-tr.up{color:var(--green)}.kpi-tr.dn{color:var(--red)}.kpi-tr.neu{color:var(--t3)}
+
+/* ── CHARTS ── */
+.chart-row{display:grid;gap:18px;margin-bottom:22px}
+@media(min-width:960px){.chart-row{grid-template-columns:2fr 1fr}}
+.chart-card{background:#fff;border-radius:var(--r);box-shadow:var(--sh);border:1px solid var(--bdr);padding:18px 20px}
+.chart-hd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;gap:10px;flex-wrap:wrap}
+.chart-title{font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:var(--t1)}
+.chart-sub{font-size:12px;color:var(--t3);margin-top:2px}
+.cpills{display:flex;gap:5px}
+.cpill{padding:4px 10px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;background:var(--bg);border:1px solid var(--bdr);color:var(--t2);transition:all .15s}
+.cpill.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.bar-chart{height:160px;display:flex;align-items:flex-end;gap:5px}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;height:100%}
+.bar-bg{flex:1;width:100%;background:var(--bg);border-radius:5px;position:relative;overflow:hidden;cursor:pointer}
+.bar-fill{position:absolute;bottom:0;left:0;right:0;border-radius:5px;transition:height .5s cubic-bezier(.4,0,.2,1)}
+.bar-bg:hover .bar-fill{filter:brightness(1.1)}
+.bar-lbl{font-size:10px;color:var(--t3);white-space:nowrap}
+.donut-wrap{display:flex;flex-direction:column;align-items:center;gap:14px}
+.donut-ring{position:relative;width:130px;height:130px;flex-shrink:0}
+.donut-ring svg{transform:rotate(-90deg)}
+.donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.dc-val{font-family:'Inter',sans-serif;font-size:20px;font-weight:800;color:var(--t1)}
+.dc-lbl{font-size:10px;color:var(--t3);margin-top:1px}
+.legend{display:grid;grid-template-columns:1fr 1fr;gap:7px 14px;width:100%}
+.leg-item{display:flex;align-items:center;gap:6px}
+.leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+.leg-nm{font-size:11px;color:var(--t2);flex:1}
+.leg-val{font-family:'Inter',sans-serif;font-size:11px;font-weight:700;color:var(--t1)}
+
+/* ── TABLE ── */
+.tbl-wrap{background:#fff;border-radius:var(--r);box-shadow:var(--sh);border:1px solid var(--bdr);overflow:hidden;margin-bottom:20px}
+.tbl-hd{padding:14px 18px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bdr);flex-wrap:wrap;gap:10px}
+.tbl-title{font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:var(--t1)}
+.tbl-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.tbl-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:550px}
+thead tr{background:var(--bg)}
+th{padding:9px 14px;font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;text-align:left;white-space:nowrap;border-bottom:1px solid var(--bdr);font-family:'Inter',sans-serif}
+td{padding:11px 14px;font-size:13px;color:var(--t1);border-bottom:1px solid var(--bdr);white-space:nowrap}
+tr:last-child td{border-bottom:none}
+tbody tr{transition:background .15s;cursor:pointer}
+tbody tr:hover{background:var(--bg)}
+.tag{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;font-family:'Inter',sans-serif}
+.tag-g{background:var(--green-s);color:#065F46}
+.tag-r{background:var(--red-s);color:#991B1B}
+.tag-y{background:var(--gold-s);color:#92400E}
+.tag-b{background:var(--blue-s);color:var(--blue)}
+.tag-o{background:var(--orange-s);color:#9A3412}
+.tag-p{background:var(--purple-s);color:#5B21B6}
+.av-cell{display:flex;align-items:center;gap:9px}
+.av-sm{width:28px;height:28px;border-radius:8px;background:var(--blue);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:10px;font-weight:700;color:#fff;flex-shrink:0}
+.av-nm{font-size:13px;font-weight:600;color:var(--t1);line-height:1.3}
+.av-id{font-size:11px;color:var(--t3)}
+.tbl-foot{padding:11px 18px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--bdr);flex-wrap:wrap;gap:8px}
+.tbl-info{font-size:13px;color:var(--t2)}
+.pg-btns{display:flex;gap:5px}
+.pg-btn{width:30px;height:30px;border-radius:7px;border:1.5px solid var(--bdr);background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;font-weight:500;color:var(--t2);transition:all .15s}
+.pg-btn:hover{border-color:var(--blue);color:var(--blue)}
+.pg-btn.on{background:var(--blue);border-color:var(--blue);color:#fff}
+
+/* ── ACTION BUTTONS IN TABLE ── */
+.tbl-btns{display:flex;gap:5px;flex-wrap:wrap}
+
+/* ── ASSIGN POINTS ── */
+.assign-wrap{max-width:600px}
+.assign-card{background:#fff;border-radius:var(--r);padding:20px;box-shadow:var(--sh);border:1px solid var(--bdr);margin-bottom:14px}
+.assign-card h3{font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:var(--t1);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--bdr)}
+.emp-select-wrap{display:flex;gap:8px;align-items:center}
+.qr-scan-btn{width:42px;height:42px;border-radius:10px;background:var(--blue-s);border:1.5px solid rgba(0,71,255,.15);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all .2s}
+.qr-scan-btn:hover{background:var(--blue);}
+.qr-scan-btn:hover svg{stroke:#fff}
+.qr-scan-btn svg{width:18px;height:18px;stroke:var(--blue);fill:none;stroke-width:2}
+.pts-wrap{display:flex;gap:10px;align-items:center}
+.pts-input{flex:1;padding:12px;border:1.5px solid var(--bdr);border-radius:10px;background:#F8FAFC;font-size:22px;font-family:'Inter',sans-serif;font-weight:800;color:var(--t1);text-align:center;outline:none;transition:all .2s}
+.pts-input:focus{border-color:var(--blue);background:#fff;box-shadow:0 0 0 3px rgba(0,71,255,.08)}
+.pts-quick{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.pq-btn{padding:7px 13px;border-radius:20px;border:1.5px solid var(--bdr);background:#fff;font-size:12px;font-weight:600;color:var(--t2);cursor:pointer;transition:all .15s;font-family:inherit}
+.pq-btn:hover,.pq-btn.on{border-color:var(--blue);color:var(--blue);background:var(--blue-s)}
+.assign-preview{background:var(--bg);border-radius:10px;padding:13px;margin-top:13px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.ap-left{display:flex;align-items:center;gap:10px}
+.ap-icon{width:34px;height:34px;border-radius:9px;background:var(--green-s);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.ap-icon svg{width:15px;height:15px;stroke:var(--green);fill:none;stroke-width:2}
+.ap-nm{font-size:13px;font-weight:600;color:var(--t1)}
+.ap-s{font-size:12px;color:var(--t3);margin-top:1px}
+.ap-pts{font-family:'Inter',sans-serif;font-size:17px;font-weight:800;color:var(--green)}
+
+/* ── ACTIVITY FEED ── */
+.feed{background:#fff;border-radius:var(--r);box-shadow:var(--sh);border:1px solid var(--bdr);overflow:hidden}
+.feed-hd{padding:14px 18px;border-bottom:1px solid var(--bdr);display:flex;justify-content:space-between;align-items:center}
+.feed-title{font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:var(--t1)}
+.feed-lnk{font-size:12px;color:var(--blue);font-weight:500;cursor:pointer}
+.feed-item{display:flex;align-items:flex-start;gap:10px;padding:12px 18px;border-bottom:1px solid var(--bdr);transition:background .15s}
+.feed-item:last-child{border-bottom:none}
+.feed-item:hover{background:var(--bg)}
+.feed-ic{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.feed-ic svg{width:14px;height:14px}
+.feed-ic.g{background:var(--green-s);color:var(--green)}
+.feed-ic.b{background:var(--blue-s);color:var(--blue)}
+.feed-ic.y{background:var(--gold-s);color:var(--gold)}
+.feed-ic.r{background:var(--red-s);color:var(--red)}
+.feed-b{flex:1;min-width:0}
+.feed-nm{font-size:13px;font-weight:600;color:var(--t1)}
+.feed-s{font-size:12px;color:var(--t3);margin-top:2px}
+.feed-time{font-size:11px;color:var(--t3);white-space:nowrap;flex-shrink:0;margin-top:2px}
+
+/* ── MODAL ── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.48);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(4px);padding:20px}
+.overlay.on{display:flex}
+.modal{background:#fff;border-radius:18px;padding:24px;width:100%;max-width:500px;animation:mIn .24s cubic-bezier(.4,0,.2,1);max-height:90dvh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,.2)}
+.modal-sm{max-width:400px}
+@keyframes mIn{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.modal-title{font-family:'Inter',sans-serif;font-size:17px;font-weight:800;color:var(--t1)}
+.modal-close{width:28px;height:28px;border-radius:7px;background:var(--bg);border:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;color:var(--t2);transition:all .15s;flex-shrink:0}
+.modal-close:hover{background:var(--bdr)}
+.modal-foot{display:flex;gap:8px;justify-content:flex-end;margin-top:20px}
+.modal-foot .btn-sec,.modal-foot .btn-act,.modal-foot .btn-danger,.modal-foot .btn-success{width:auto;flex:0 0 auto}
+.modal-frow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* ── QR SCANNER MODAL ── */
+.qr-scan-modal{text-align:center;padding:8px 0}
+.qr-frame{width:180px;height:180px;border:2px solid rgba(0,71,255,.3);border-radius:12px;margin:0 auto 16px;position:relative;background:rgba(0,71,255,.03);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.qr-scan-line{position:absolute;left:8%;right:8%;height:2px;background:linear-gradient(90deg,transparent,var(--blue),transparent);animation:scanLine 2s linear infinite}
+@keyframes scanLine{0%{top:10%}100%{top:88%}}
+.qr-corner{position:absolute;width:16px;height:16px;border-color:var(--blue);border-style:solid;border-width:0}
+.qc-tl{top:8px;left:8px;border-top-width:2px;border-left-width:2px;border-radius:2px 0 0 0}
+.qc-tr{top:8px;right:8px;border-top-width:2px;border-right-width:2px;border-radius:0 2px 0 0}
+.qc-bl{bottom:8px;left:8px;border-bottom-width:2px;border-left-width:2px;border-radius:0 0 0 2px}
+.qc-br{bottom:8px;right:8px;border-bottom-width:2px;border-right-width:2px;border-radius:0 0 2px 0}
+
+/* ── STATUS BADGES ── */
+.status-flow{display:flex;align-items:center;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.sf-step{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--t3)}
+.sf-step.done{color:var(--green)}
+.sf-step.active{color:var(--blue);font-weight:700}
+.sf-arrow{color:var(--t3);font-size:11px}
+
+/* ── TOAST ── */
+.toast{position:fixed;top:18px;right:18px;background:var(--navy);color:#fff;padding:11px 16px;border-radius:10px;font-size:14px;font-weight:500;z-index:300;box-shadow:0 8px 28px rgba(0,0,0,.2);animation:toIn .28s ease both;display:flex;align-items:center;gap:8px;max-width:calc(100vw - 28px)}
+@keyframes toIn{from{transform:translateX(110%);opacity:0}to{transform:translateX(0);opacity:1}}
+
+/* ── FLOATING CTA ── */
+.fab{
+  position:fixed;bottom:28px;right:28px;z-index:100;
+  width:52px;height:52px;border-radius:16px;
+  background:var(--blue);border:none;cursor:pointer;
+  display:none;align-items:center;justify-content:center;
+  box-shadow:0 8px 24px rgba(0,71,255,.38);
+  transition:all .2s;
+}
+.fab:hover{background:var(--blue-d);transform:scale(1.06);box-shadow:0 12px 32px rgba(0,71,255,.44)}
+.fab:active{transform:scale(.96)}
+.fab svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2}
+.fab-label{
+  position:fixed;bottom:90px;right:28px;z-index:100;
+  background:var(--navy);color:#fff;padding:7px 14px;border-radius:8px;
+  font-size:12px;font-weight:600;white-space:nowrap;
+  box-shadow:0 4px 16px rgba(0,0,0,.18);
+  display:none;animation:fadeU .2s ease;pointer-events:none;
+}
+@keyframes fadeU{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── MOBILE NAV ── */
+.mob-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--bdr);z-index:99;padding-bottom:env(safe-area-inset-bottom)}
+.mob-nav-inner{display:flex}
+.mn-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px 7px;cursor:pointer;color:var(--t3);font-size:10px;font-weight:600;transition:color .15s;border:none;background:none;font-family:inherit}
+.mn-item.on{color:var(--blue)}
+.mn-ic{width:22px;height:22px;display:flex;align-items:center;justify-content:center}
+.mn-ic svg{width:19px;height:19px}
+
+@media(max-width:767px){
+  .fab{bottom:80px;right:16px;width:48px;height:48px;border-radius:14px;}
+  .fab-label{bottom:136px;right:16px;}
+
+  #sa.on{grid-template-columns:1fr;height:auto}
+  .sidebar{display:none}
+  .main{height:auto;min-height:100dvh}
+  .page{padding:14px 14px 80px}
+  .mob-nav{display:block}
+  .fab{display:flex}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .chart-row{grid-template-columns:1fr}
+  .modal{max-width:100%;border-radius:18px}
+}
+@media(min-width:768px){
+  .fab{display:flex}
+  .main{height:100dvh}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="sl" class="screen on">
+  <div class="lg-glow"></div><div class="lg-grid"></div>
+  <div class="lg-box">
+    <div class="lg-brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 997.89 215" style="height:26px;width:auto;display:block" aria-label="Fritec"><path d="M861.73,58.89c-16,1.47-37.11,7.46-51,14.45-10.6,5.34-23.99,15.19-33.11,24.36-14.35,14.43-23.12,28.5-29.97,48.1-3.09,8.84-3.32,10.4-3.37,22.5-.05,12.7.03,13.15,3.24,19.7,5.63,11.46,15.41,18.49,32.01,23,6.16,1.68,10.8,2.1,23.2,2.14,14.79.04,21.5-.71,38.6-4.36l5.1-1.09,8.65-19.3c4.75-10.6,8.65-19.53,8.65-19.8s-2.8.27-6.3,1.24c-24.6,6.8-43.99,4.24-50.36-6.64-2.39-4.08-2.59-5.25-2.14-12.45.44-6.97,1.09-9.15,5.28-17.65,13.66-27.7,45.02-42.09,73.52-33.74,10.29,3.01,9.16,4.04,18.63-16.96,4.64-10.3,8.29-18.98,8.07-19.2-1.49-1.49-32.9-5.73-38.7-5.23-.83.07-5.3.48-10,.91h0Z" fill="#0047FF"/><path d="M493.03,61.6l-12.1.31-9.6,21.3c-5.27,11.7-9.6,21.59-9.6,21.95s10.9.76,24.3.9l24.3.25-23.25,51.5c-12.78,28.3-23.27,52.06-23.3,52.75-.04.99,5.8,1.2,27.6,1l27.65-.25,23.6-52.7,23.6-52.7,24.85-.3,24.85-.3,9.9-21.95c5.46-12.1,9.9-22.08,9.9-22.25,0-.38-125.6.05-142.7.49h0Z" fill="#0047FF"/><path d="M646.39,61.61c-1.48,2.5-66.67,148.38-66.67,149.2,0,1.06,126,.19,127.2-.88.69-.62,15.8-33.72,15.8-34.62,0-.27-16.2-.5-36-.5s-36-.34-36-.75,1.86-4.9,4.15-10l4.15-9.25,34.4-.25,34.4-.25,7.85-17.5,7.85-17.5-34-.25c-30.7-.23-33.94-.41-33.4-1.85.33-.89,2.48-5.8,4.8-11l4.2-9.4,35.95-.25,35.95-.25,7.85-17.45c4.32-9.6,7.85-17.58,7.85-17.75,0-.7-125.92-.2-126.33.5h0Z" fill="#0047FF"/><path d="M85.03,113.56c-12.78,28.5-27.92,62.2-33.7,75l-10.5,23.25,28.1-.25,28.1-.25,11.7-26,11.7-26,4.4-.3c2.42-.17,17.65-.61,33.85-1l29.45-.7,7.75-17c4.29-9.4,7.77-17.34,7.8-17.75.03-.41-14.85-.75-33.05-.75-26.1,0-32.99-.26-32.6-1.25.27-.69,2.64-6.1,5.25-12l4.75-10.75,34.6-.05,34.6-.05,7.2-16.2c3.96-8.9,7.49-16.99,7.85-17.95.62-1.66-2.7-1.75-61.7-1.75h-62.35l-23.2,51.75h0Z" fill="#0047FF"/><path d="M245.38,67.01c-1.29,2.92-16.35,36.4-33.5,74.5-17.15,38.1-31.15,69.45-31.15,69.75s12.45.55,27.75.55h27.75l11.4-25.5,11.4-25.5h6.85c3.8,0,6.85.13,6.85.3.01,1.1,27.82,107.83,28.2,108.2.27.27,12.9.39,28,.25l27.5-.25-16.35-63.5c-8.99-34.9-16.35-63.73-16.35-64s3-1.29,6.7-2.26c12.3-3.23,22.88-9.28,31.9-18.23,8.65-8.58,13-15.31,16.31-25.21,5.38-16.1.61-26.38-14.61-31.51-6.69-2.25-7.65-2.29-61.55-2.59l-54.75-.3-2.35,5.3h0ZM314.43,97.1c3.93,2.07,4.94,5.31,3.26,10.41-2.41,7.3-7.25,13.28-13.46,16.64-3.42,1.85-6.05,2.21-18.25,2.51l-14.25.35,3.55-7.85c1.96-4.32,5.19-11.6,7.2-16.2l3.65-8.35,12.55.4c9.3.3,13.38.84,15.75,2.09h0Z" fill="#0047FF"/><path d="M380.23,133.06c-17.61,39.2-32.76,72.94-33.7,75l-1.7,3.75,28.1-.25,28.1-.25,33.3-74c18.31-40.7,33.32-74.34,33.35-74.75.03-.41-12.4-.75-27.7-.75h-27.75l-32,71.25h0Z" fill="#0047FF"/></svg></div>
+    <div class="lg-tag">PANEL ADMINISTRATIVO</div>
+    <div class="lg-title">Bienvenido, Admin</div>
+    <div class="lg-sub">Accede al panel de gestión del programa.</div>
+    <div class="fg"><label>Correo electrónico</label><input class="fi" type="email" value="admin@fritec.com"></div>
+    <div class="fg"><label>Contraseña</label><div class="fiw"><input class="fi" type="password" value="admin2026"><button class="fi-ic" onclick="togglePass(this)" type="button"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
+    <button class="btn-p" onclick="goApp()">Ingresar al panel →</button>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="sa" class="screen">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sb-hd">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 997.89 215" style="height:20px;width:auto;display:block" aria-label="Fritec"><path d="M861.73,58.89c-16,1.47-37.11,7.46-51,14.45-10.6,5.34-23.99,15.19-33.11,24.36-14.35,14.43-23.12,28.5-29.97,48.1-3.09,8.84-3.32,10.4-3.37,22.5-.05,12.7.03,13.15,3.24,19.7,5.63,11.46,15.41,18.49,32.01,23,6.16,1.68,10.8,2.1,23.2,2.14,14.79.04,21.5-.71,38.6-4.36l5.1-1.09,8.65-19.3c4.75-10.6,8.65-19.53,8.65-19.8s-2.8.27-6.3,1.24c-24.6,6.8-43.99,4.24-50.36-6.64-2.39-4.08-2.59-5.25-2.14-12.45.44-6.97,1.09-9.15,5.28-17.65,13.66-27.7,45.02-42.09,73.52-33.74,10.29,3.01,9.16,4.04,18.63-16.96,4.64-10.3,8.29-18.98,8.07-19.2-1.49-1.49-32.9-5.73-38.7-5.23-.83.07-5.3.48-10,.91h0Z" fill="#ffffff"/><path d="M493.03,61.6l-12.1.31-9.6,21.3c-5.27,11.7-9.6,21.59-9.6,21.95s10.9.76,24.3.9l24.3.25-23.25,51.5c-12.78,28.3-23.27,52.06-23.3,52.75-.04.99,5.8,1.2,27.6,1l27.65-.25,23.6-52.7,23.6-52.7,24.85-.3,24.85-.3,9.9-21.95c5.46-12.1,9.9-22.08,9.9-22.25,0-.38-125.6.05-142.7.49h0Z" fill="#ffffff"/><path d="M646.39,61.61c-1.48,2.5-66.67,148.38-66.67,149.2,0,1.06,126,.19,127.2-.88.69-.62,15.8-33.72,15.8-34.62,0-.27-16.2-.5-36-.5s-36-.34-36-.75,1.86-4.9,4.15-10l4.15-9.25,34.4-.25,34.4-.25,7.85-17.5,7.85-17.5-34-.25c-30.7-.23-33.94-.41-33.4-1.85.33-.89,2.48-5.8,4.8-11l4.2-9.4,35.95-.25,35.95-.25,7.85-17.45c4.32-9.6,7.85-17.58,7.85-17.75,0-.7-125.92-.2-126.33.5h0Z" fill="#ffffff"/><path d="M85.03,113.56c-12.78,28.5-27.92,62.2-33.7,75l-10.5,23.25,28.1-.25,28.1-.25,11.7-26,11.7-26,4.4-.3c2.42-.17,17.65-.61,33.85-1l29.45-.7,7.75-17c4.29-9.4,7.77-17.34,7.8-17.75.03-.41-14.85-.75-33.05-.75-26.1,0-32.99-.26-32.6-1.25.27-.69,2.64-6.1,5.25-12l4.75-10.75,34.6-.05,34.6-.05,7.2-16.2c3.96-8.9,7.49-16.99,7.85-17.95.62-1.66-2.7-1.75-61.7-1.75h-62.35l-23.2,51.75h0Z" fill="#ffffff"/><path d="M245.38,67.01c-1.29,2.92-16.35,36.4-33.5,74.5-17.15,38.1-31.15,69.45-31.15,69.75s12.45.55,27.75.55h27.75l11.4-25.5,11.4-25.5h6.85c3.8,0,6.85.13,6.85.3.01,1.1,27.82,107.83,28.2,108.2.27.27,12.9.39,28,.25l27.5-.25-16.35-63.5c-8.99-34.9-16.35-63.73-16.35-64s3-1.29,6.7-2.26c12.3-3.23,22.88-9.28,31.9-18.23,8.65-8.58,13-15.31,16.31-25.21,5.38-16.1.61-26.38-14.61-31.51-6.69-2.25-7.65-2.29-61.55-2.59l-54.75-.3-2.35,5.3h0ZM314.43,97.1c3.93,2.07,4.94,5.31,3.26,10.41-2.41,7.3-7.25,13.28-13.46,16.64-3.42,1.85-6.05,2.21-18.25,2.51l-14.25.35,3.55-7.85c1.96-4.32,5.19-11.6,7.2-16.2l3.65-8.35,12.55.4c9.3.3,13.38.84,15.75,2.09h0Z" fill="#ffffff"/><path d="M380.23,133.06c-17.61,39.2-32.76,72.94-33.7,75l-1.7,3.75,28.1-.25,28.1-.25,33.3-74c18.31-40.7,33.32-74.34,33.35-74.75.03-.41-12.4-.75-27.7-.75h-27.75l-32,71.25h0Z" fill="#ffffff"/></svg>
+      <div class="sb-tag">Rewards</div>
+      <div class="sb-admin-badge">ADMIN</div>
+    </div>
+    <nav class="sb-nav">
+      <div class="nsec">Principal</div>
+      <div class="ni on" onclick="nav(this,'v-dash','Dashboard')">
+        <span class="ni-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></span>Dashboard
+      </div>
+      <div class="ni" onclick="nav(this,'v-assign','Asignar puntos')">
+        <span class="ni-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>Asignar puntos
+      </div>
+      <div class="nsec">Gestión</div>
+      <div class="ni" onclick="nav(this,'v-employees','Empleados')">
+        <span class="ni-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></span>Empleados
+      </div>
+      <div class="ni" onclick="nav(this,'v-activities','Actividades')">
+        <span class="ni-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>Actividades
+      </div>
+      <div class="ni" onclick="nav(this,'v-rewards','Recompensas')">
+        <span class="ni-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg></span>Recompensas
+      </div>
+      <div class="nsec">Reportes</div>
+      <div class="ni" onclick="nav(this,'v-history','Historial global')">
+        <span class="ni-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>Historial global
+      </div>
+      <div class="ni" onclick="nav(this,'v-redemptions','Canjes')">
+        <span class="ni-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></span>Canjes<div class="ni-dot" style="margin-left:auto;width:7px;height:7px;border-radius:50%;background:var(--orange);flex-shrink:0"></div>
+      </div>
+    </nav>
+    <div class="sb-bottom">
+      <div class="sb-user">
+        <div class="sb-av">AL</div>
+        <div><div class="sb-un">Ana López</div><div class="sb-uc">Administradora RH</div></div>
+      </div>
+      <button class="sb-logout" onclick="logout()">
+        <span class="ni-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></span>
+        Cerrar sesión
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <header class="topbar">
+      <div class="tb-title" id="tb-title">Dashboard</div>
+      <div class="tb-gap"></div>
+      <div class="tb-av">AL</div>
+    </header>
+
+    <div class="page">
+
+      <!-- ═══ DASHBOARD ═══ -->
+      <div class="view on" id="v-dash">
+        <div class="ph">
+          <div><div class="ph-ey">Resumen</div><h1>Dashboard</h1><p>Planta Saltillo · Mayo 2026</p></div>
+          <div class="ph-btns">
+            <button class="btn-sec" onclick="exportExcel('Dashboard')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Exportar Excel</button>
+            <button class="btn-act" onclick="nav(document.querySelector('.ni:nth-child(2)'),'v-assign','Asignar puntos')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Asignar puntos</button>
+          </div>
+        </div>
+        <div class="kpis">
+          <div class="kpi"><div class="kpi-icon" style="background:var(--blue-s)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div><div class="kpi-lbl">Empleados activos</div><div class="kpi-val">1,248</div><div class="kpi-tr up">↑ +23 este mes</div></div>
+          <div class="kpi"><div class="kpi-icon" style="background:var(--gold-s)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="kpi-lbl">Puntos emitidos (total)</div><div class="kpi-val">87.4M</div><div class="kpi-tr up">↑ +12% vs abril</div></div>
+          <div class="kpi"><div class="kpi-icon" style="background:var(--green-s)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7"/></svg></div><div class="kpi-lbl">Canjes este mes</div><div class="kpi-val">342</div><div class="kpi-tr up">↑ +8% vs abril</div></div>
+          <div class="kpi"><div class="kpi-icon" style="background:var(--orange-s)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="kpi-lbl">Puntos por validar</div><div class="kpi-val">4,820</div><div class="kpi-tr neu">Pendientes</div></div>
+          <div class="kpi"><div class="kpi-icon" style="background:var(--red-s)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="kpi-lbl">Puntos por vencer</div><div class="kpi-val">12,400</div><div class="kpi-tr dn">↓ En 30 días</div></div>
+          <div class="kpi"><div class="kpi-icon" style="background:var(--purple-s)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div><div class="kpi-lbl">Participación</div><div class="kpi-val">78%</div><div class="kpi-tr up">↑ +5% vs abril</div></div>
+        </div>
+        <div class="chart-row">
+          <div class="chart-card">
+            <div class="chart-hd">
+              <div><div class="chart-title">Puntos emitidos vs canjeados</div><div class="chart-sub">Últimos 7 meses (en millones)</div></div>
+              <div class="cpills">
+                <div class="cpill on" onclick="setCPill(this)">Emitidos</div>
+                <div class="cpill" onclick="setCPill(this)">Canjeados</div>
+              </div>
+            </div>
+            <div class="bar-chart" id="bar-chart"></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-hd"><div><div class="chart-title">Canjes por categoría</div><div class="chart-sub">Mayo 2026</div></div></div>
+            <div class="donut-wrap">
+              <div class="donut-ring">
+                <svg width="130" height="130" viewBox="0 0 130 130">
+                  <circle cx="65" cy="65" r="50" fill="none" stroke="#E2E8F0" stroke-width="16"/>
+                  <circle cx="65" cy="65" r="50" fill="none" stroke="#0047FF" stroke-width="16" stroke-dasharray="126 188" stroke-dashoffset="0" stroke-linecap="round"/>
+                  <circle cx="65" cy="65" r="50" fill="none" stroke="#10B981" stroke-width="16" stroke-dasharray="63 251" stroke-dashoffset="-126" stroke-linecap="round"/>
+                  <circle cx="65" cy="65" r="50" fill="none" stroke="#F59E0B" stroke-width="16" stroke-dasharray="50 264" stroke-dashoffset="-189" stroke-linecap="round"/>
+                  <circle cx="65" cy="65" r="50" fill="none" stroke="#F97316" stroke-width="16" stroke-dasharray="39 275" stroke-dashoffset="-239" stroke-linecap="round"/>
+                  <circle cx="65" cy="65" r="50" fill="none" stroke="#8B5CF6" stroke-width="16" stroke-dasharray="36 278" stroke-dashoffset="-278" stroke-linecap="round"/>
+                </svg>
+                <div class="donut-center"><div class="dc-val">342</div><div class="dc-lbl">canjes</div></div>
+              </div>
+              <div class="legend">
+                <div class="leg-item"><div class="leg-dot" style="background:#0047FF"></div><div class="leg-nm">Vales</div><div class="leg-val">40%</div></div>
+                <div class="leg-item"><div class="leg-dot" style="background:#10B981"></div><div class="leg-nm">EPP</div><div class="leg-val">20%</div></div>
+                <div class="leg-item"><div class="leg-dot" style="background:#F59E0B"></div><div class="leg-nm">Herramientas</div><div class="leg-val">16%</div></div>
+                <div class="leg-item"><div class="leg-dot" style="background:#F97316"></div><div class="leg-nm">Combustible</div><div class="leg-val">12%</div></div>
+                <div class="leg-item"><div class="leg-dot" style="background:#8B5CF6"></div><div class="leg-nm">Otros</div><div class="leg-val">12%</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="feed">
+          <div class="feed-hd"><div class="feed-title">Actividad reciente</div><div class="feed-lnk" onclick="nav(document.querySelector('.ni:nth-child(8)'),'v-history','Historial global')">Ver todo</div></div>
+          <div class="feed-item"><div class="feed-ic g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div><div class="feed-b"><div class="feed-nm">Asistencia perfecta — Semana 18</div><div class="feed-s">Carlos Mendoza · FRT-04821</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px"><span style="font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:var(--green)">+250 pts</span><span class="feed-time">hace 12 min</span></div></div>
+          <div class="feed-item"><div class="feed-ic b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg></div><div class="feed-b"><div class="feed-nm">Capacitación: Seguridad ISO</div><div class="feed-s">María González · FRT-03219</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px"><span style="font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:var(--green)">+500 pts</span><span class="feed-time">hace 28 min</span></div></div>
+          <div class="feed-item"><div class="feed-ic r"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7"/></svg></div><div class="feed-b"><div class="feed-nm">Canje: Vale despensa $500 MXN</div><div class="feed-s">Jorge Ramírez · FRT-02847 · Folio FRT-CJ-1291</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px"><span style="font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:var(--red)">−1,200 pts</span><span class="feed-time">hace 1h</span></div></div>
+          <div class="feed-item"><div class="feed-ic y"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><div class="feed-b"><div class="feed-nm">Sugerencia Kaizen aprobada</div><div class="feed-s">Ana Torres · FRT-05021</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px"><span style="font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:var(--green)">+800 pts</span><span class="feed-time">hace 2h</span></div></div>
+        </div>
+      </div>
+
+      <!-- ═══ ASIGNAR PUNTOS ═══ -->
+      <div class="view" id="v-assign">
+        <div class="ph"><div><div class="ph-ey">Acción</div><h1>Asignar puntos</h1><p>Registra manualmente puntos a un empleado.</p></div></div>
+        <div class="assign-wrap">
+          <div class="assign-card">
+            <h3>1. Selecciona el empleado</h3>
+            <div class="emp-select-wrap">
+              <select class="sel" id="emp-select" onchange="updatePreview()" style="flex:1">
+                <option value="">— Selecciona un empleado —</option>
+                <option value="Carlos Mendoza|FRT-04821">Carlos Mendoza — FRT-04821</option>
+                <option value="María González|FRT-03219">María González — FRT-03219</option>
+                <option value="Jorge Ramírez|FRT-02847">Jorge Ramírez — FRT-02847</option>
+                <option value="Ana Torres|FRT-05021">Ana Torres — FRT-05021</option>
+                <option value="Luis Herrera|FRT-01892">Luis Herrera — FRT-01892</option>
+              </select>
+              <button class="qr-scan-btn" onclick="openQRScan()" title="Escanear QR del empleado">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="5" y="5" width="3" height="3" fill="currentColor" stroke="none"/><rect x="16" y="5" width="3" height="3" fill="currentColor" stroke="none"/><rect x="5" y="16" width="3" height="3" fill="currentColor" stroke="none"/><line x1="14" y1="14" x2="14" y2="14" stroke-width="3"/><line x1="17" y1="14" x2="17" y2="14" stroke-width="3"/><line x1="20" y1="14" x2="20" y2="14" stroke-width="3"/><line x1="14" y1="17" x2="14" y2="17" stroke-width="3"/><line x1="20" y1="17" x2="20" y2="17" stroke-width="3"/><line x1="14" y1="20" x2="14" y2="20" stroke-width="3"/><line x1="17" y1="20" x2="20" y2="20" stroke-width="3"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="assign-card">
+            <h3>2. Tipo de actividad</h3>
+            <select class="sel" id="act-sel" onchange="updatePreview()">
+              <option value="">— Selecciona actividad —</option>
+              <option value="Asistencia perfecta semanal|250">Asistencia perfecta semanal</option>
+              <option value="Asistencia perfecta mensual|1000">Asistencia perfecta mensual</option>
+              <option value="Curso interno completado|200">Curso interno completado</option>
+              <option value="Certificación externa|500">Certificación externa</option>
+              <option value="Idea Kaizen registrada|100">Idea Kaizen registrada</option>
+              <option value="Idea Kaizen implementada|800">Idea Kaizen implementada</option>
+              <option value="Bono cero accidentes|600">Bono cero accidentes (mes)</option>
+              <option value="Empleado del mes|2500">Empleado del mes</option>
+              <option value="Puntos personalizados|0">Puntos personalizados...</option>
+            </select>
+          </div>
+          <div class="assign-card">
+            <h3>3. Cantidad de puntos</h3>
+            <div class="pts-wrap"><input class="pts-input" type="number" id="pts-val" value="" placeholder="0" oninput="updatePreview()"></div>
+            <div class="pts-quick">
+              <button class="pq-btn" onclick="setPoints(100,this)">+100</button>
+              <button class="pq-btn" onclick="setPoints(250,this)">+250</button>
+              <button class="pq-btn" onclick="setPoints(500,this)">+500</button>
+              <button class="pq-btn" onclick="setPoints(800,this)">+800</button>
+              <button class="pq-btn" onclick="setPoints(1000,this)">+1,000</button>
+              <button class="pq-btn" onclick="setPoints(2500,this)">+2,500</button>
+            </div>
+            <div class="assign-preview">
+              <div class="ap-left">
+                <div class="ap-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+                <div><div class="ap-nm" id="prev-act">Selecciona actividad y empleado</div><div class="ap-s" id="prev-emp">—</div></div>
+              </div>
+              <div class="ap-pts" id="prev-pts">— pts</div>
+            </div>
+          </div>
+          <div class="assign-card">
+            <h3>4. Nota (opcional)</h3>
+            <textarea class="fi" rows="2" placeholder="Observación o referencia..." style="resize:vertical;line-height:1.5"></textarea>
+          </div>
+          <div style="display:flex;gap:10px">
+            <button class="btn-sec" style="flex:1" onclick="clearAssign()">Cancelar</button>
+            <button class="btn-act" style="flex:2;padding:13px 20px;font-size:14px" onclick="confirmAssign()">✓ Confirmar asignación</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ EMPLOYEES ═══ -->
+      <div class="view" id="v-employees">
+        <div class="ph">
+          <div><div class="ph-ey">Gestión</div><h1>Empleados</h1><p id="emp-count-label">1,248 registrados · 1,196 activos</p></div>
+          <div class="ph-btns">
+            <button class="btn-sec" onclick="exportExcel('Empleados')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Exportar Excel</button>
+            <button class="btn-act" onclick="openEmpModal()">+ Nuevo empleado</button>
+          </div>
+        </div>
+        <div class="tbl-wrap">
+          <div class="tbl-hd">
+            <div class="tbl-title">Todos los empleados</div>
+            <div class="tbl-actions">
+              <select class="sel" style="width:auto;min-width:130px;padding:7px 32px 7px 12px;font-size:13px">
+                <option>Todos los turnos</option>
+                <option>Turno A</option><option>Turno B</option><option>Turno C</option>
+              </select>
+            </div>
+          </div>
+          <div class="tbl-scroll"><table id="emp-table">
+            <thead><tr><th>Empleado</th><th>Turno</th><th>Saldo pts</th><th>Canjes</th><th>Estado</th><th>Ingreso</th><th>Acciones</th></tr></thead>
+            <tbody id="emp-tbody"></tbody>
+          </table></div>
+          <div class="tbl-foot"><div class="tbl-info" id="emp-tbl-info">Mostrando 6 empleados</div><div class="pg-btns"><div class="pg-btn">‹</div><div class="pg-btn on">1</div><div class="pg-btn">2</div><div class="pg-btn">›</div></div></div>
+        </div>
+      </div>
+
+      <!-- ═══ ACTIVITIES ═══ -->
+      <div class="view" id="v-activities">
+        <div class="ph">
+          <div><div class="ph-ey">Configuración</div><h1>Actividades</h1><p>Define qué acciones otorgan puntos.</p></div>
+          <button class="btn-act" onclick="openActModal()">+ Nueva actividad</button>
+        </div>
+        <div class="tbl-wrap">
+          <div class="tbl-hd"><div class="tbl-title">Catálogo de actividades</div></div>
+          <div class="tbl-scroll"><table>
+            <thead><tr><th>Actividad</th><th>Categoría</th><th>Puntos</th><th>Frecuencia</th><th>Estado</th><th>Usos mes</th><th>Acciones</th></tr></thead>
+            <tbody id="act-tbody"></tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <!-- ═══ REWARDS CATALOG ═══ -->
+      <div class="view" id="v-rewards">
+        <div class="ph">
+          <div><div class="ph-ey">Catálogo</div><h1>Recompensas</h1><p>Gestiona las opciones de canje.</p></div>
+          <button class="btn-act" onclick="openRwdModal()">+ Nueva recompensa</button>
+        </div>
+        <div class="tbl-wrap">
+          <div class="tbl-hd"><div class="tbl-title">Catálogo de recompensas</div></div>
+          <div class="tbl-scroll"><table>
+            <thead><tr><th>Recompensa</th><th>Categoría</th><th>Costo (pts)</th><th>Stock</th><th>Canjes</th><th>Estado</th><th>Acciones</th></tr></thead>
+            <tbody id="rwd-tbody"></tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <!-- ═══ GLOBAL HISTORY ═══ -->
+      <div class="view" id="v-history">
+        <div class="ph">
+          <div><div class="ph-ey">Reportes</div><h1>Historial global</h1><p>Todos los movimientos de puntos del programa.</p></div>
+          <button class="btn-act" onclick="exportExcel('Historial')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Exportar Excel</button>
+        </div>
+        <!-- Summary clarified -->
+        <div style="background:#fff;border-radius:var(--r);padding:14px 18px;box-shadow:var(--sh);border:1px solid var(--bdr);margin-bottom:18px">
+          <div style="font-size:12px;color:var(--t3);margin-bottom:10px;font-family:'Inter',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.08em">Resumen acumulado 2026 — cifras en puntos reales</div>
+          <div class="kpis" style="margin-bottom:0;grid-template-columns:repeat(auto-fill,minmax(160px,1fr))">
+            <div class="kpi" style="border:none;box-shadow:none;background:var(--bg);padding:12px 14px"><div class="kpi-lbl">Total puntos emitidos</div><div class="kpi-val" style="font-size:20px">87,400,000</div><div class="kpi-tr neu">pts acumulados</div></div>
+            <div class="kpi" style="border:none;box-shadow:none;background:var(--bg);padding:12px 14px"><div class="kpi-lbl">Total puntos canjeados</div><div class="kpi-val" style="font-size:20px;color:var(--red)">24,100,000</div><div class="kpi-tr neu">pts redimidos</div></div>
+            <div class="kpi" style="border:none;box-shadow:none;background:var(--bg);padding:12px 14px"><div class="kpi-lbl">Saldo en circulación</div><div class="kpi-val" style="font-size:20px;color:var(--green)">63,300,000</div><div class="kpi-tr neu">pts activos</div></div>
+            <div class="kpi" style="border:none;box-shadow:none;background:var(--bg);padding:12px 14px"><div class="kpi-lbl">Transacciones totales</div><div class="kpi-val" style="font-size:20px">48,290</div><div class="kpi-tr neu">movimientos</div></div>
+          </div>
+        </div>
+        <div class="tbl-wrap">
+          <div class="tbl-hd">
+            <div class="tbl-title">Movimientos recientes</div>
+            <div class="tbl-actions">
+              <select class="sel" style="width:auto;min-width:110px;padding:7px 30px 7px 10px;font-size:13px">
+                <option>Todos</option><option>Ganados</option><option>Canjes</option>
+              </select>
+            </div>
+          </div>
+          <div class="tbl-scroll"><table>
+            <thead><tr><th>Folio</th><th>Empleado</th><th>Tipo</th><th>Actividad</th><th>Puntos</th><th>Fecha</th><th>Validado por</th></tr></thead>
+            <tbody>
+              <tr><td style="color:var(--t3);font-family:'Inter',sans-serif;font-size:12px">FRT-TX-9021</td><td><div class="av-cell"><div class="av-sm">CM</div><div><div class="av-nm">Carlos Mendoza</div></div></div></td><td><span class="tag tag-g">Ganado</span></td><td>Asistencia perfecta — Sem 18</td><td><strong style="color:var(--green);font-family:'Inter',sans-serif">+250 pts</strong></td><td>6 May 2026</td><td>Automático</td></tr>
+              <tr><td style="color:var(--t3);font-family:'Inter',sans-serif;font-size:12px">FRT-TX-9020</td><td><div class="av-cell"><div class="av-sm" style="background:#8B5CF6">MG</div><div><div class="av-nm">María González</div></div></div></td><td><span class="tag tag-g">Ganado</span></td><td>Capacitación: Seguridad ISO</td><td><strong style="color:var(--green);font-family:'Inter',sans-serif">+500 pts</strong></td><td>6 May 2026</td><td>Ana López</td></tr>
+              <tr><td style="color:var(--t3);font-family:'Inter',sans-serif;font-size:12px">FRT-CJ-1291</td><td><div class="av-cell"><div class="av-sm" style="background:#F97316">JR</div><div><div class="av-nm">Jorge Ramírez</div></div></div></td><td><span class="tag tag-r">Canje</span></td><td>Vale despensa $500 MXN</td><td><strong style="color:var(--red);font-family:'Inter',sans-serif">−1,200 pts</strong></td><td>5 May 2026</td><td>Sistema</td></tr>
+              <tr><td style="color:var(--t3);font-family:'Inter',sans-serif;font-size:12px">FRT-TX-9019</td><td><div class="av-cell"><div class="av-sm" style="background:#10B981">AT</div><div><div class="av-nm">Ana Torres</div></div></div></td><td><span class="tag tag-y">Bonificación</span></td><td>Idea Kaizen aprobada</td><td><strong style="color:var(--green);font-family:'Inter',sans-serif">+800 pts</strong></td><td>4 May 2026</td><td>Ana López</td></tr>
+              <tr><td style="color:var(--t3);font-family:'Inter',sans-serif;font-size:12px">FRT-TX-9018</td><td><div class="av-cell"><div class="av-sm" style="background:#F59E0B">LH</div><div><div class="av-nm">Luis Herrera</div></div></div></td><td><span class="tag tag-p">Reconocimiento</span></td><td>Empleado del mes</td><td><strong style="color:var(--green);font-family:'Inter',sans-serif">+2,500 pts</strong></td><td>1 May 2026</td><td>Ana López</td></tr>
+            </tbody>
+          </table></div>
+          <div class="tbl-foot"><div class="tbl-info">Mostrando 5 de 48,290 movimientos</div><div class="pg-btns"><div class="pg-btn">‹</div><div class="pg-btn on">1</div><div class="pg-btn">2</div><div class="pg-btn">3</div><div class="pg-btn">›</div></div></div>
+        </div>
+      </div>
+
+      <!-- ═══ REDEMPTIONS ═══ -->
+      <div class="view" id="v-redemptions">
+        <div class="ph">
+          <div><div class="ph-ey">Reportes</div><h1>Canjes</h1><p>Solicitudes pendientes, aprobadas y entregadas.</p></div>
+          <button class="btn-sec" onclick="exportExcel('Canjes')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Exportar Excel</button>
+        </div>
+        <!-- Status summary -->
+        <div style="display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap">
+          <div style="background:#fff;border-radius:var(--r);padding:13px 18px;box-shadow:var(--sh);border:1px solid var(--bdr);display:flex;align-items:center;gap:10px;min-width:130px">
+            <div style="width:32px;height:32px;border-radius:8px;background:var(--orange-s);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+            <div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;font-weight:600;font-family:'Inter',sans-serif">Pendientes</div><div style="font-family:'Inter',sans-serif;font-size:22px;font-weight:800;color:var(--orange)" id="cnt-pending">12</div></div>
+          </div>
+          <div style="background:#fff;border-radius:var(--r);padding:13px 18px;box-shadow:var(--sh);border:1px solid var(--bdr);display:flex;align-items:center;gap:10px;min-width:130px">
+            <div style="width:32px;height:32px;border-radius:8px;background:var(--blue-s);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;font-weight:600;font-family:'Inter',sans-serif">Aprobados</div><div style="font-family:'Inter',sans-serif;font-size:22px;font-weight:800;color:var(--blue)" id="cnt-approved">28</div></div>
+          </div>
+          <div style="background:#fff;border-radius:var(--r);padding:13px 18px;box-shadow:var(--sh);border:1px solid var(--bdr);display:flex;align-items:center;gap:10px;min-width:130px">
+            <div style="width:32px;height:32px;border-radius:8px;background:var(--green-s);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+            <div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;font-weight:600;font-family:'Inter',sans-serif">Entregados</div><div style="font-family:'Inter',sans-serif;font-size:22px;font-weight:800;color:var(--green)" id="cnt-delivered">145</div></div>
+          </div>
+          <div style="background:#fff;border-radius:var(--r);padding:13px 18px;box-shadow:var(--sh);border:1px solid var(--bdr);display:flex;align-items:center;gap:10px;min-width:130px">
+            <div style="width:32px;height:32px;border-radius:8px;background:var(--red-s);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div>
+            <div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;font-weight:600;font-family:'Inter',sans-serif">Rechazados</div><div style="font-family:'Inter',sans-serif;font-size:22px;font-weight:800;color:var(--red)" id="cnt-rejected">3</div></div>
+          </div>
+        </div>
+        <!-- flow explanation -->
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap;background:#fff;border-radius:var(--r);padding:10px 14px;border:1px solid var(--bdr);box-shadow:var(--sh)">
+          <div style="font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;font-family:'Inter',sans-serif;margin-right:4px">Flujo:</div>
+          <span class="tag tag-y" style="font-size:11px">Pendiente</span>
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--t3)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+          <span class="tag tag-b" style="font-size:11px">Aprobado + Notif. email</span>
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--t3)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+          <span class="tag tag-g" style="font-size:11px">Entregado</span>
+          <div style="margin-left:auto;font-size:12px;color:var(--t2)">Al aprobar se notifica por email al encargado de entregas.</div>
+        </div>
+        <div class="tbl-wrap">
+          <div class="tbl-hd">
+            <div class="tbl-title">Solicitudes de canje</div>
+            <div class="tbl-actions">
+              <select class="sel" id="red-filter" onchange="renderRedemptions()" style="width:auto;min-width:120px;padding:7px 28px 7px 10px;font-size:13px">
+                <option value="all">Todos</option><option value="pending">Pendientes</option><option value="approved">Aprobados</option><option value="delivered">Entregados</option><option value="rejected">Rechazados</option>
+              </select>
+            </div>
+          </div>
+          <div class="tbl-scroll"><table>
+            <thead><tr><th>Folio</th><th>Empleado</th><th>Recompensa</th><th>Costo</th><th>Estado</th><th>Fecha</th><th>Acciones</th></tr></thead>
+            <tbody id="red-tbody"></tbody>
+          </table></div>
+          <div class="tbl-foot"><div class="tbl-info" id="red-info">Mostrando canjes</div></div>
+        </div>
+      </div>
+
+    </div><!-- /page -->
+  </div><!-- /main -->
+
+  <!-- MOBILE NAV -->
+  <nav class="mob-nav">
+    <div class="mob-nav-inner">
+      <button class="mn-item on" onclick="mNav(this,'v-dash','Dashboard')"><div class="mn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>Dashboard</button>
+      <button class="mn-item" onclick="mNav(this,'v-assign','Asignar puntos')"><div class="mn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>Asignar</button>
+      <button class="mn-item" onclick="mNav(this,'v-employees','Empleados')"><div class="mn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>Empleados</button>
+      <button class="mn-item" onclick="mNav(this,'v-redemptions','Canjes')"><div class="mn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>Canjes</button>
+    </div>
+  </nav>
+</div><!-- /sa -->
+
+<!-- FLOATING CTA -->
+<button class="fab" id="fab" onclick="nav(document.querySelector('.ni:nth-child(2)'),'v-assign','Asignar puntos')" title="Asignar puntos" onmouseenter="showFabLabel()" onmouseleave="hideFabLabel()">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+</button>
+<div class="fab-label" id="fab-label">Asignar puntos</div>
+
+<!-- ═══ MODALS ═══ -->
+
+<!-- QR SCAN -->
+<div class="overlay" id="qr-overlay" onclick="if(event.target===this)closeModal('qr-overlay')">
+  <div class="modal modal-sm">
+    <div class="modal-hd"><div class="modal-title">Escanear QR del empleado</div><button class="modal-close" onclick="closeModal('qr-overlay')">✕</button></div>
+    <div class="qr-scan-modal">
+      <div class="qr-frame">
+        <div class="qr-scan-line"></div>
+        <div class="qr-corner qc-tl"></div><div class="qr-corner qc-tr"></div>
+        <div class="qr-corner qc-bl"></div><div class="qr-corner qc-br"></div>
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(0,71,255,.3)" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      </div>
+      <p style="font-size:13px;color:var(--t2);margin-bottom:14px">Apunta al código QR de la tarjeta del empleado</p>
+      <div style="height:1px;background:var(--bdr);margin-bottom:14px"></div>
+      <p style="font-size:12px;color:var(--t3);margin-bottom:10px">O simula un escaneo:</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
+        <button class="btn-sec" onclick="simulateScan('Carlos Mendoza|FRT-04821')">Carlos Mendoza</button>
+        <button class="btn-sec" onclick="simulateScan('María González|FRT-03219')">María González</button>
+        <button class="btn-sec" onclick="simulateScan('Luis Herrera|FRT-01892')">Luis Herrera</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NEW EMPLOYEE -->
+<div class="overlay" id="emp-modal" onclick="if(event.target===this)closeModal('emp-modal')">
+  <div class="modal">
+    <div class="modal-hd"><div class="modal-title" id="emp-modal-title">Nuevo empleado</div><button class="modal-close" onclick="closeModal('emp-modal')">✕</button></div>
+    <div class="modal-frow" style="margin-bottom:12px">
+      <div class="fg" style="margin:0"><label>Nombre</label><input class="fi" type="text" id="emp-f-name" placeholder="Carlos"></div>
+      <div class="fg" style="margin:0"><label>Apellido</label><input class="fi" type="text" id="emp-f-ap" placeholder="Mendoza"></div>
+    </div>
+    <div class="modal-frow" style="margin-bottom:12px">
+      <div class="fg" style="margin:0"><label>Código empleado</label><input class="fi" type="text" id="emp-f-code" placeholder="FRT-XXXXX"></div>
+      <div class="fg" style="margin:0"><label>Turno</label><select class="sel" id="emp-f-shift"><option>A</option><option>B</option><option>C</option></select></div>
+    </div>
+    <div class="fg"><label>Puesto</label><input class="fi" type="text" id="emp-f-job" placeholder="Operador de Línea"></div>
+    <div class="fg"><label>Correo electrónico</label><input class="fi" type="email" id="emp-f-email" placeholder="correo@fritec.com"></div>
+    <div class="modal-foot">
+      <button class="btn-sec" onclick="closeModal('emp-modal')">Cancelar</button>
+      <button class="btn-act" onclick="saveEmployee()">Guardar empleado</button>
+    </div>
+  </div>
+</div>
+
+<!-- EMPLOYEE DETAIL -->
+<div class="overlay" id="emp-detail-modal" onclick="if(event.target===this)closeModal('emp-detail-modal')">
+  <div class="modal">
+    <div class="modal-hd"><div class="modal-title">Detalle de empleado</div><button class="modal-close" onclick="closeModal('emp-detail-modal')">✕</button></div>
+    <div class="modal-frow" style="margin-bottom:12px">
+      <div><div style="font-size:12px;color:var(--t3);margin-bottom:3px">Nombre</div><div style="font-weight:600;font-size:14px" id="d-name">—</div></div>
+      <div><div style="font-size:12px;color:var(--t3);margin-bottom:3px">Código</div><div style="font-weight:600;font-size:14px" id="d-code">—</div></div>
+    </div>
+    <div class="modal-frow" style="margin-bottom:12px">
+      <div><div style="font-size:12px;color:var(--t3);margin-bottom:3px">Saldo de puntos</div><div style="font-family:'Inter',sans-serif;font-weight:800;font-size:18px;color:var(--blue)" id="d-pts">—</div></div>
+      <div><div style="font-size:12px;color:var(--t3);margin-bottom:3px">Canjes</div><div style="font-weight:600;font-size:14px" id="d-redeems">—</div></div>
+    </div>
+    <div class="modal-frow">
+      <div><div style="font-size:12px;color:var(--t3);margin-bottom:3px">Puesto</div><div style="font-weight:600;font-size:13px" id="d-job">—</div></div>
+      <div><div style="font-size:12px;color:var(--t3);margin-bottom:3px">Estado</div><div id="d-status">—</div></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-sec" onclick="closeModal('emp-detail-modal')">Cerrar</button>
+      <button class="btn-danger" onclick="deleteEmployee()">Eliminar empleado</button>
+      <button class="btn-act" onclick="closeModal('emp-detail-modal');nav(document.querySelector('.ni:nth-child(2)'),'v-assign','Asignar puntos')">⚡ Asignar puntos</button>
+    </div>
+  </div>
+</div>
+
+<!-- ACTIVITY MODAL -->
+<div class="overlay" id="act-modal" onclick="if(event.target===this)closeModal('act-modal')">
+  <div class="modal">
+    <div class="modal-hd"><div class="modal-title" id="act-modal-title">Nueva actividad</div><button class="modal-close" onclick="closeModal('act-modal')">✕</button></div>
+    <div class="fg"><label>Nombre de la actividad</label><input class="fi" type="text" id="act-f-name" placeholder="Asistencia perfecta semanal"></div>
+    <div class="modal-frow" style="margin-bottom:12px">
+      <div class="fg" style="margin:0"><label>Categoría</label><select class="sel" id="act-f-cat"><option>Asistencia</option><option>Capacitación</option><option>Mejora continua</option><option>Seguridad</option><option>Reconocimiento</option><option>Especial</option></select></div>
+      <div class="fg" style="margin:0"><label>Puntos</label><input class="fi" type="number" id="act-f-pts" placeholder="250" min="1"></div>
+    </div>
+    <div class="fg"><label>Frecuencia</label><select class="sel" id="act-f-freq"><option>Por evento</option><option>Semanal</option><option>Mensual</option><option>Trimestral</option><option>Anual</option></select></div>
+    <div class="modal-foot">
+      <button class="btn-sec" onclick="closeModal('act-modal')">Cancelar</button>
+      <button class="btn-act" onclick="saveActivity()">Guardar actividad</button>
+    </div>
+  </div>
+</div>
+
+<!-- REWARD MODAL -->
+<div class="overlay" id="rwd-modal" onclick="if(event.target===this)closeModal('rwd-modal')">
+  <div class="modal">
+    <div class="modal-hd"><div class="modal-title" id="rwd-modal-title">Nueva recompensa</div><button class="modal-close" onclick="closeModal('rwd-modal')">✕</button></div>
+    <div class="fg"><label>Nombre de la recompensa</label><input class="fi" type="text" id="rwd-f-name" placeholder="Vale despensa $500 MXN"></div>
+    <div class="modal-frow" style="margin-bottom:12px">
+      <div class="fg" style="margin:0"><label>Categoría</label><select class="sel" id="rwd-f-cat"><option>Vales</option><option>Herramientas</option><option>EPP</option><option>Combustible</option><option>Entretenimiento</option><option>Tiempo libre</option><option>Branded</option><option>Capacitación</option></select></div>
+      <div class="fg" style="margin:0"><label>Costo (pts)</label><input class="fi" type="number" id="rwd-f-pts" placeholder="1200" min="1"></div>
+    </div>
+    <div class="modal-frow" style="margin-bottom:12px">
+      <div class="fg" style="margin:0"><label>Stock disponible</label><input class="fi" type="number" id="rwd-f-stock" placeholder="50" min="0"></div>
+      <div class="fg" style="margin:0"><label>Dónde canjear</label><input class="fi" type="text" id="rwd-f-where" placeholder="Chedraui, Walmart..."></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-sec" onclick="closeModal('rwd-modal')">Cancelar</button>
+      <button class="btn-act" onclick="saveReward()">Guardar recompensa</button>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE CONFIRM -->
+<div class="overlay" id="del-modal" onclick="if(event.target===this)closeModal('del-modal')">
+  <div class="modal modal-sm">
+    <div class="modal-hd"><div class="modal-title">Confirmar eliminación</div><button class="modal-close" onclick="closeModal('del-modal')">✕</button></div>
+    <p style="font-size:14px;color:var(--t2);margin-bottom:6px" id="del-msg">¿Estás seguro de que deseas eliminar este elemento? Esta acción no se puede deshacer.</p>
+    <div class="modal-foot">
+      <button class="btn-sec" onclick="closeModal('del-modal')">Cancelar</button>
+      <button class="btn-danger" onclick="confirmDelete()">Sí, eliminar</button>
+    </div>
+  </div>
+</div>
+
+<!-- APPROVE REDEMPTION -->
+<div class="overlay" id="approve-modal" onclick="if(event.target===this)closeModal('approve-modal')">
+  <div class="modal modal-sm">
+    <div class="modal-hd"><div class="modal-title">Aprobar canje</div><button class="modal-close" onclick="closeModal('approve-modal')">✕</button></div>
+    <div style="background:var(--blue-s);border-radius:10px;padding:13px;margin-bottom:14px">
+      <div style="font-size:13px;font-weight:700;color:var(--t1);margin-bottom:4px" id="app-rwd-name">Vale despensa $500</div>
+      <div style="font-size:12px;color:var(--t2)" id="app-emp-name">Jorge Ramírez · FRT-02847</div>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:8px;background:var(--gold-s);border-radius:9px;padding:11px;margin-bottom:14px">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" style="flex-shrink:0;margin-top:1px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span style="font-size:12px;color:#92400E">Al aprobar, se enviará una notificación por correo electrónico al encargado de entregas (entregas@fritec.com) para coordinar la entrega al empleado.</span>
+    </div>
+    <div class="fg"><label>Encargado de entrega (correo)</label><input class="fi" type="email" value="entregas@fritec.com" id="app-email"></div>
+    <div class="modal-foot">
+      <button class="btn-sec" onclick="closeModal('approve-modal')">Cancelar</button>
+      <button class="btn-act" onclick="doApprove()">Aprobar y notificar →</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast-area"></div>
+
+<script>
+// ═══ STATE ═══
+let employees = [
+  {id:1,name:'Carlos Mendoza',code:'FRT-04821',shift:'A',job:'Operador de Línea',pts:8420,redeems:14,status:'active',joined:'Ene 2023',color:'#0047FF'},
+  {id:2,name:'María González',code:'FRT-03219',shift:'B',job:'Técnica de Calidad',pts:12150,redeems:22,status:'active',joined:'Mar 2022',color:'#8B5CF6'},
+  {id:3,name:'Jorge Ramírez',code:'FRT-02847',shift:'A',job:'Operador Máquina',pts:3280,redeems:8,status:'active',joined:'Jun 2021',color:'#F97316'},
+  {id:4,name:'Ana Torres',code:'FRT-05021',shift:'C',job:'Supervisora de Turno',pts:6740,redeems:11,status:'active',joined:'Sep 2023',color:'#10B981'},
+  {id:5,name:'Luis Herrera',code:'FRT-01892',shift:'B',job:'Jefe de Línea',pts:18900,redeems:31,status:'active',joined:'Feb 2020',color:'#F59E0B'},
+  {id:6,name:'Pedro Ruiz',code:'FRT-04198',shift:'A',job:'Operador de Línea',pts:0,redeems:0,status:'inactive',joined:'Nov 2023',color:'#9CA3AF'}
+];
+let activities = [
+  {id:1,name:'Asistencia perfecta semanal',cat:'Asistencia',pts:250,freq:'Semanal',status:'active',uses:487},
+  {id:2,name:'Asistencia perfecta mensual',cat:'Asistencia',pts:1000,freq:'Mensual',status:'active',uses:312},
+  {id:3,name:'Curso interno (2h)',cat:'Capacitación',pts:200,freq:'Por evento',status:'active',uses:94},
+  {id:4,name:'Certificación externa',cat:'Capacitación',pts:500,freq:'Por evento',status:'active',uses:28},
+  {id:5,name:'Idea Kaizen implementada',cat:'Mejora continua',pts:800,freq:'Por evento',status:'active',uses:17},
+  {id:6,name:'Bono cero accidentes mensual',cat:'Seguridad',pts:600,freq:'Mensual',status:'active',uses:1248},
+  {id:7,name:'Empleado del mes',cat:'Reconocimiento',pts:2500,freq:'Mensual',status:'active',uses:1},
+  {id:8,name:'Aniversario laboral',cat:'Reconocimiento',pts:500,freq:'Anual',status:'paused',uses:0}
+];
+let rewards = [
+  {id:1,name:'Vale despensa $500 MXN',cat:'Vales',pts:1200,stock:48,redeems:142,status:'active'},
+  {id:2,name:'Caja herramientas 24 pzas',cat:'Herramientas',pts:4500,stock:8,redeems:34,status:'active'},
+  {id:3,name:'Lentes de seguridad polarizados',cat:'EPP',pts:800,stock:22,redeems:89,status:'active'},
+  {id:4,name:'Tarjeta combustible $300 MXN',cat:'Combustible',pts:750,stock:35,redeems:67,status:'active'},
+  {id:5,name:'Bono Día Libre con goce',cat:'Tiempo libre',pts:6000,stock:10,redeems:12,status:'active'},
+  {id:6,name:'Boletos de cine 2x1',cat:'Entretenimiento',pts:1100,stock:60,redeems:28,status:'active'},
+  {id:7,name:'Termo Fritec acero inoxidable',cat:'Branded',pts:950,stock:0,redeems:45,status:'nostock'}
+];
+let redemptions = [
+  {id:'FRT-CJ-1295',emp:'Carlos Mendoza',code:'FRT-04821',rwd:'Botas industriales casquillo',pts:3200,status:'pending',date:'6 May 2026'},
+  {id:'FRT-CJ-1294',emp:'Ana Torres',code:'FRT-05021',rwd:'Bono Día Libre con goce',pts:6000,status:'pending',date:'6 May 2026'},
+  {id:'FRT-CJ-1293',emp:'Luis Herrera',code:'FRT-01892',rwd:'Caja herramientas 24 pzas',pts:4500,status:'approved',date:'5 May 2026'},
+  {id:'FRT-CJ-1292',emp:'María González',code:'FRT-03219',rwd:'Boletos de cine 2x1',pts:1100,status:'approved',date:'5 May 2026'},
+  {id:'FRT-CJ-1291',emp:'Jorge Ramírez',code:'FRT-02847',rwd:'Vale despensa $500 MXN',pts:1200,status:'delivered',date:'5 May 2026'},
+  {id:'FRT-CJ-1288',emp:'Carlos Mendoza',code:'FRT-04821',rwd:'Lentes de seguridad',pts:800,status:'delivered',date:'3 May 2026'},
+  {id:'FRT-CJ-1285',emp:'Pedro Ruiz',code:'FRT-04198',rwd:'Termo Fritec',pts:950,status:'rejected',date:'2 May 2026'}
+];
+let editingEmp=null, editingAct=null, editingRwd=null, deleteCb=null, approvingId=null;
+
+// ═══ SCREEN ═══
+function showFab(){
+  document.getElementById('fab').style.display='flex';
+  document.getElementById('fab-label').style.display='none';
+}
+function hideFab(){
+  document.getElementById('fab').style.display='none';
+  document.getElementById('fab-label').style.display='none';
+}
+function goApp(){
+  document.getElementById('sl').classList.remove('on');document.getElementById('sl').style.display='';
+  const sa=document.getElementById('sa');sa.style.display='grid';sa.classList.add('on');
+  renderAll();buildBarChart();showFab();
+}
+function logout(){toast('Cerrando sesión...');hideFab();setTimeout(()=>{document.getElementById('sa').classList.remove('on');document.getElementById('sa').style.display='';document.getElementById('sl').classList.add('on');},600)}
+
+// ═══ NAV ═══
+function nav(el,id,title){
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  if(el)el.classList.add('on');
+  showView(id,title);
+}
+function mNav(el,id,title){
+  document.querySelectorAll('.mn-item').forEach(n=>n.classList.remove('on'));
+  if(el)el.classList.add('on');
+  showView(id,title);
+}
+function showView(id,title){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  document.getElementById('tb-title').textContent=title;
+  document.querySelector('.page').scrollTop=0;
+}
+
+// ═══ RENDER ALL ═══
+function renderAll(){renderEmployees();renderActivities();renderRewards();renderRedemptions();}
+
+// ═══ EMPLOYEES ═══
+function renderEmployees(){
+  const tb=document.getElementById('emp-tbody');
+  tb.innerHTML=employees.map(e=>`
+    <tr onclick="viewEmployee(${e.id})">
+      <td><div class="av-cell"><div class="av-sm" style="background:${e.color}">${e.name.split(' ').map(w=>w[0]).join('').substring(0,2)}</div><div><div class="av-nm">${e.name}</div><div class="av-id">${e.code}</div></div></div></td>
+      <td>Turno ${e.shift}</td>
+      <td><strong style="font-family:'Inter',sans-serif">${e.pts.toLocaleString()}</strong></td>
+      <td>${e.redeems}</td>
+      <td><span class="tag ${e.status==='active'?'tag-g':'tag-y'}">${e.status==='active'?'Activo':'Inactivo'}</span></td>
+      <td>${e.joined}</td>
+      <td><div class="tbl-btns"><button class="btn-sec" style="padding:5px 10px;font-size:11px" onclick="event.stopPropagation();editEmployee(${e.id})">Editar</button><button class="btn-danger" style="padding:5px 10px;font-size:11px" onclick="event.stopPropagation();deleteEmp(${e.id})">Eliminar</button></div></td>
+    </tr>`).join('');
+  document.getElementById('emp-tbl-info').textContent=`Mostrando ${employees.length} empleados`;
+}
+
+function openEmpModal(id=null){
+  editingEmp=id;
+  document.getElementById('emp-modal-title').textContent=id?'Editar empleado':'Nuevo empleado';
+  const e=id?employees.find(x=>x.id===id):{};
+  document.getElementById('emp-f-name').value=e.name?.split(' ')[0]||'';
+  document.getElementById('emp-f-ap').value=e.name?.split(' ').slice(1).join(' ')||'';
+  document.getElementById('emp-f-code').value=e.code||'';
+  document.getElementById('emp-f-job').value=e.job||'';
+  document.getElementById('emp-f-email').value=e.email||'';
+  document.getElementById('emp-modal').classList.add('on');
+}
+function editEmployee(id){openEmpModal(id)}
+function saveEmployee(){
+  const name=document.getElementById('emp-f-name').value.trim()+' '+document.getElementById('emp-f-ap').value.trim();
+  const code=document.getElementById('emp-f-code').value.trim();
+  if(!name.trim()||!code){toast('⚠️ Nombre y código son requeridos');return;}
+  if(editingEmp){
+    const e=employees.find(x=>x.id===editingEmp);
+    e.name=name;e.code=code;e.job=document.getElementById('emp-f-job').value;
+    toast('✅ Empleado actualizado');
+  }else{
+    employees.push({id:Date.now(),name,code,shift:document.getElementById('emp-f-shift').value,job:document.getElementById('emp-f-job').value,pts:100,redeems:0,status:'active',joined:'May 2026',color:'#0047FF'});
+    toast('✅ Empleado registrado. +100 pts bienvenida asignados');
+  }
+  closeModal('emp-modal');renderEmployees();
+}
+function viewEmployee(id){
+  const e=employees.find(x=>x.id===id);if(!e)return;
+  document.getElementById('d-name').textContent=e.name;
+  document.getElementById('d-code').textContent=e.code;
+  document.getElementById('d-pts').textContent=e.pts.toLocaleString()+' pts';
+  document.getElementById('d-redeems').textContent=e.redeems+' canjes';
+  document.getElementById('d-job').textContent=e.job;
+  document.getElementById('d-status').innerHTML=`<span class="tag ${e.status==='active'?'tag-g':'tag-y'}">${e.status==='active'?'Activo':'Inactivo'}</span>`;
+  editingEmp=id;
+  document.getElementById('emp-detail-modal').classList.add('on');
+}
+function deleteEmployee(){
+  deleteCb=()=>{employees=employees.filter(x=>x.id!==editingEmp);renderEmployees();closeModal('emp-detail-modal');toast('Empleado eliminado');};
+  document.getElementById('del-msg').textContent='¿Eliminar a '+employees.find(x=>x.id===editingEmp)?.name+'? Esta acción no se puede deshacer.';
+  closeModal('emp-detail-modal');document.getElementById('del-modal').classList.add('on');
+}
+function deleteEmp(id){editingEmp=id;deleteEmployee();}
+
+// ═══ ACTIVITIES ═══
+function renderActivities(){
+  document.getElementById('act-tbody').innerHTML=activities.map(a=>`
+    <tr>
+      <td><strong>${a.name}</strong></td>
+      <td>${a.cat}</td>
+      <td><span style="font-family:'Inter',sans-serif;font-weight:700;color:var(--green)">+${a.pts.toLocaleString()} pts</span></td>
+      <td>${a.freq}</td>
+      <td><span class="tag ${a.status==='active'?'tag-g':a.status==='paused'?'tag-y':'tag-r'}">${a.status==='active'?'Activo':a.status==='paused'?'Pausado':'Inactivo'}</span></td>
+      <td>${a.uses.toLocaleString()}</td>
+      <td><div class="tbl-btns">
+        <button class="btn-sec" style="padding:5px 10px;font-size:11px" onclick="editAct(${a.id})">Editar</button>
+        <button class="btn-sec" style="padding:5px 10px;font-size:11px" onclick="toggleAct(${a.id})">${a.status==='active'?'Pausar':'Activar'}</button>
+        <button class="btn-danger" style="padding:5px 10px;font-size:11px" onclick="delAct(${a.id})">Eliminar</button>
+      </div></td>
+    </tr>`).join('');
+}
+function openActModal(id=null){
+  editingAct=id;
+  document.getElementById('act-modal-title').textContent=id?'Editar actividad':'Nueva actividad';
+  const a=id?activities.find(x=>x.id===id):{};
+  document.getElementById('act-f-name').value=a.name||'';
+  document.getElementById('act-f-pts').value=a.pts||'';
+  document.getElementById('act-modal').classList.add('on');
+}
+function editAct(id){openActModal(id)}
+function saveActivity(){
+  const name=document.getElementById('act-f-name').value.trim();
+  const pts=parseInt(document.getElementById('act-f-pts').value)||0;
+  if(!name||!pts){toast('⚠️ Nombre y puntos son requeridos');return;}
+  if(editingAct){const a=activities.find(x=>x.id===editingAct);a.name=name;a.pts=pts;a.cat=document.getElementById('act-f-cat').value;a.freq=document.getElementById('act-f-freq').value;toast('✅ Actividad actualizada');}
+  else{activities.push({id:Date.now(),name,cat:document.getElementById('act-f-cat').value,pts,freq:document.getElementById('act-f-freq').value,status:'active',uses:0});toast('✅ Actividad creada');}
+  closeModal('act-modal');renderActivities();
+}
+function toggleAct(id){const a=activities.find(x=>x.id===id);a.status=a.status==='active'?'paused':'active';renderActivities();toast(a.status==='active'?'Actividad activada':'Actividad pausada');}
+function delAct(id){editingAct=id;deleteCb=()=>{activities=activities.filter(x=>x.id!==id);renderActivities();toast('Actividad eliminada');};document.getElementById('del-msg').textContent='¿Eliminar actividad "'+activities.find(x=>x.id===id)?.name+'"?';document.getElementById('del-modal').classList.add('on');}
+
+// ═══ REWARDS ═══
+function renderRewards(){
+  document.getElementById('rwd-tbody').innerHTML=rewards.map(r=>`
+    <tr>
+      <td><strong>${r.name}</strong></td>
+      <td>${r.cat}</td>
+      <td><span style="font-family:'Inter',sans-serif;font-weight:700;color:var(--blue)">${r.pts.toLocaleString()}</span></td>
+      <td>${r.stock}</td>
+      <td>${r.redeems}</td>
+      <td><span class="tag ${r.status==='active'?'tag-g':r.status==='nostock'?'tag-r':'tag-y'}">${r.status==='active'?'Activo':r.status==='nostock'?'Sin stock':'Pausado'}</span></td>
+      <td><div class="tbl-btns">
+        <button class="btn-sec" style="padding:5px 10px;font-size:11px" onclick="editRwd(${r.id})">Editar</button>
+        ${r.status==='nostock'?`<button class="btn-act" style="padding:5px 10px;font-size:11px" onclick="restockRwd(${r.id})">Reabastecer</button>`:`<button class="btn-danger" style="padding:5px 10px;font-size:11px" onclick="delRwd(${r.id})">Eliminar</button>`}
+      </div></td>
+    </tr>`).join('');
+}
+function openRwdModal(id=null){
+  editingRwd=id;
+  document.getElementById('rwd-modal-title').textContent=id?'Editar recompensa':'Nueva recompensa';
+  const r=id?rewards.find(x=>x.id===id):{};
+  document.getElementById('rwd-f-name').value=r.name||'';
+  document.getElementById('rwd-f-pts').value=r.pts||'';
+  document.getElementById('rwd-f-stock').value=r.stock||'';
+  document.getElementById('rwd-f-where').value=r.where||'';
+  document.getElementById('rwd-modal').classList.add('on');
+}
+function editRwd(id){openRwdModal(id)}
+function saveReward(){
+  const name=document.getElementById('rwd-f-name').value.trim();
+  const pts=parseInt(document.getElementById('rwd-f-pts').value)||0;
+  const stock=parseInt(document.getElementById('rwd-f-stock').value)||0;
+  if(!name||!pts){toast('⚠️ Nombre y puntos son requeridos');return;}
+  if(editingRwd){const r=rewards.find(x=>x.id===editingRwd);r.name=name;r.pts=pts;r.stock=stock;r.cat=document.getElementById('rwd-f-cat').value;r.status=stock>0?'active':'nostock';toast('✅ Recompensa actualizada');}
+  else{rewards.push({id:Date.now(),name,cat:document.getElementById('rwd-f-cat').value,pts,stock,redeems:0,status:stock>0?'active':'nostock'});toast('✅ Recompensa creada');}
+  closeModal('rwd-modal');renderRewards();
+}
+function restockRwd(id){editingRwd=id;openRwdModal(id);}
+function delRwd(id){editingRwd=id;deleteCb=()=>{rewards=rewards.filter(x=>x.id!==id);renderRewards();toast('Recompensa eliminada');};document.getElementById('del-msg').textContent='¿Eliminar "'+rewards.find(x=>x.id===id)?.name+'"?';document.getElementById('del-modal').classList.add('on');}
+
+// ═══ REDEMPTIONS ═══
+function renderRedemptions(){
+  const filter=document.getElementById('red-filter')?.value||'all';
+  const filtered=filter==='all'?redemptions:redemptions.filter(r=>r.status===filter);
+  const statusMap={pending:'tag-y',approved:'tag-b',delivered:'tag-g',rejected:'tag-r'};
+  const labelMap={pending:'Pendiente',approved:'Aprobado',delivered:'Entregado',rejected:'Rechazado'};
+  document.getElementById('red-tbody').innerHTML=filtered.map(r=>`
+    <tr>
+      <td style="font-family:'Inter',sans-serif;font-size:12px;color:var(--t3)">${r.id}</td>
+      <td><div class="av-cell"><div class="av-sm" style="background:${employees.find(e=>e.code===r.code)?.color||'#9CA3AF'}">${r.emp.split(' ').map(w=>w[0]).join('').substring(0,2)}</div><div class="av-nm">${r.emp}</div></div></td>
+      <td>${r.rwd}</td>
+      <td><strong style="font-family:'Inter',sans-serif">${r.pts.toLocaleString()} pts</strong></td>
+      <td><span class="tag ${statusMap[r.status]}">${labelMap[r.status]}</span></td>
+      <td>${r.date}</td>
+      <td><div class="tbl-btns">
+        ${r.status==='pending'?`<button class="btn-act" style="padding:5px 10px;font-size:11px" onclick="openApprove('${r.id}')">Aprobar</button><button class="btn-danger" style="padding:5px 10px;font-size:11px" onclick="rejectRed('${r.id}')">Rechazar</button>`:''}
+        ${r.status==='approved'?`<button class="btn-success" style="padding:5px 10px;font-size:11px" onclick="deliverRed('${r.id}')">Marcar entregado</button>`:''}
+        ${r.status==='delivered'?`<span style="font-size:12px;color:var(--green);font-weight:600">✓ Entregado</span>`:''}
+        ${r.status==='rejected'?`<span style="font-size:12px;color:var(--red)">✗ Rechazado</span>`:''}
+      </div></td>
+    </tr>`).join('');
+  const cnt={pending:0,approved:0,delivered:0,rejected:0};
+  redemptions.forEach(r=>cnt[r.status]++);
+  document.getElementById('cnt-pending').textContent=cnt.pending;
+  document.getElementById('cnt-approved').textContent=cnt.approved;
+  document.getElementById('cnt-delivered').textContent=cnt.delivered;
+  document.getElementById('cnt-rejected').textContent=cnt.rejected;
+  document.getElementById('red-info').textContent=`Mostrando ${filtered.length} de ${redemptions.length} canjes`;
+}
+
+function openApprove(id){
+  approvingId=id;
+  const r=redemptions.find(x=>x.id===id);
+  document.getElementById('app-rwd-name').textContent=r.rwd;
+  document.getElementById('app-emp-name').textContent=r.emp+' · '+r.code;
+  document.getElementById('approve-modal').classList.add('on');
+}
+function doApprove(){
+  const r=redemptions.find(x=>x.id===approvingId);
+  r.status='approved';
+  const email=document.getElementById('app-email').value;
+  closeModal('approve-modal');
+  renderRedemptions();
+  toast(`✅ Canje aprobado. Notificación enviada a ${email}`);
+}
+function rejectRed(id){
+  deleteCb=()=>{redemptions.find(x=>x.id===id).status='rejected';renderRedemptions();toast('Canje rechazado');};
+  document.getElementById('del-msg').textContent='¿Rechazar el canje '+id+'? Se notificará al empleado.';
+  document.getElementById('del-modal').classList.add('on');
+}
+function deliverRed(id){
+  redemptions.find(x=>x.id===id).status='delivered';
+  renderRedemptions();
+  toast('✅ Canje marcado como entregado');
+}
+
+// ═══ ASSIGN POINTS ═══
+function updatePreview(){
+  const empSel=document.getElementById('emp-select').value;
+  const actSel=document.getElementById('act-sel').value;
+  const pts=document.getElementById('pts-val').value;
+  const empParts=empSel.split('|');
+  const actParts=actSel.split('|');
+  document.getElementById('prev-emp').textContent=empSel?empParts[0]+' · '+empParts[1]:'—';
+  document.getElementById('prev-act').textContent=actSel?actParts[0]:'Selecciona actividad y empleado';
+  if(actParts[1]&&actParts[1]!=='0'&&!document.getElementById('pts-val').value){document.getElementById('pts-val').value=actParts[1];}
+  document.getElementById('prev-pts').textContent=(pts||'—')+' pts';
+}
+function setPoints(val,btn){
+  document.getElementById('pts-val').value=val;
+  document.querySelectorAll('.pq-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  updatePreview();
+}
+function clearAssign(){
+  document.getElementById('emp-select').value='';
+  document.getElementById('act-sel').value='';
+  document.getElementById('pts-val').value='';
+  document.querySelectorAll('.pq-btn').forEach(b=>b.classList.remove('on'));
+  updatePreview();
+}
+function confirmAssign(){
+  const emp=document.getElementById('emp-select').value;
+  const pts=parseInt(document.getElementById('pts-val').value)||0;
+  if(!emp){toast('⚠️ Selecciona un empleado');return;}
+  if(!pts){toast('⚠️ Ingresa la cantidad de puntos');return;}
+  const e=employees.find(x=>x.code===emp.split('|')[1]);
+  if(e){e.pts+=pts;}
+  toast('✅ Asignados +'+pts.toLocaleString()+' pts a '+emp.split('|')[0]);
+  clearAssign();renderEmployees();
+}
+
+// ═══ QR SCAN ═══
+function openQRScan(){document.getElementById('qr-overlay').classList.add('on')}
+function simulateScan(empValue){
+  document.getElementById('emp-select').value=empValue;
+  closeModal('qr-overlay');
+  updatePreview();
+  toast('✅ Empleado escaneado: '+empValue.split('|')[0]);
+}
+
+// ═══ DELETE ═══
+function confirmDelete(){if(deleteCb){deleteCb();deleteCb=null;}closeModal('del-modal');}
+
+// ═══ MODALS ═══
+function closeModal(id){document.getElementById(id).classList.remove('on')}
+
+// ═══ FAB ═══
+function showFabLabel(){document.getElementById('fab-label').style.display='block'}
+function hideFabLabel(){document.getElementById('fab-label').style.display='none'}
+
+// ═══ EXPORT EXCEL ═══
+function exportExcel(section){
+  toast('📊 Exportando '+section+' a Excel... (descarga simulada)');
+}
+
+// ═══ BAR CHART ═══
+function buildBarChart(){
+  const data=[{lbl:'Nov',val:58},{lbl:'Dic',val:44},{lbl:'Ene',val:68},{lbl:'Feb',val:54},{lbl:'Mar',val:80},{lbl:'Abr',val:72},{lbl:'May',val:87}];
+  const max=Math.max(...data.map(d=>d.val));
+  const c=document.getElementById('bar-chart');if(!c)return;
+  c.innerHTML='';
+  data.forEach(d=>{
+    const pct=Math.round((d.val/max)*100);
+    const col=document.createElement('div');col.className='bar-col';
+    col.innerHTML=`<div class="bar-bg" title="${d.val}M pts"><div class="bar-fill" style="height:${pct}%;background:linear-gradient(180deg,#0047FF,#60A5FA)"></div></div><div class="bar-lbl">${d.lbl}</div>`;
+    c.appendChild(col);
+  });
+}
+
+// ═══ MISC ═══
+function setCPill(el){el.closest('.cpills').querySelectorAll('.cpill').forEach(p=>p.classList.remove('on'));el.classList.add('on');}
+function togglePass(btn){const inp=btn.previousElementSibling||btn.parentElement.querySelector('input');if(inp)inp.type=inp.type==='password'?'text':'password';}
+
+// ═══ TOAST ═══
+function toast(msg){
+  const t=document.createElement('div');t.className='toast';t.textContent=msg;
+  document.getElementById('toast-area').appendChild(t);
+  setTimeout(()=>{t.style.animation='toIn .28s ease reverse';setTimeout(()=>t.remove(),260)},3200);
+}
+</script>
+</body>
+</html>
