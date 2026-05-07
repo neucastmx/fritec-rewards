@@ -321,13 +321,7 @@ tbody tr:hover{background:var(--bg)}
 }
 
 @media(max-width:767px){
-  .topbar{
-    background:linear-gradient(135deg,#0A1628 0%,#0C1A34 100%);
-    border-bottom:1px solid rgba(255,255,255,.06);
-  }
-  .tb-title{color:#fff}
-  .tb-av{background:linear-gradient(135deg,var(--orange) 0%,#FBBF24 100%)}
-  /* Dark mobile nav */
+  /* Topbar stays white on mobile */
   .mob-nav{
     background:linear-gradient(180deg,#0C1A34 0%,#0A1628 100%);
     border-top:1px solid rgba(255,255,255,.06);
@@ -335,11 +329,8 @@ tbody tr:hover{background:var(--bg)}
   .mn-item{color:rgba(255,255,255,.38);background:transparent;border:none}
   .mn-item.on{color:#60A5FA}
   .mn-item svg{stroke:currentColor}
-  /* Red logout item */
   .mn-item[onclick*="logout"]{color:rgba(239,68,68,.7)}
   .mn-item[onclick*="logout"]:hover{color:var(--red)}
-  /* Logo in topbar stays white */
-  .tb-logo-svg svg path,.sb-logo-svg svg path{fill:#fff !important}
 }
 </style>
 </head>
