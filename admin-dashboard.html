@@ -282,6 +282,12 @@ tbody tr:hover{background:var(--bg)}
   transition:all .2s;
 }
 .fab:hover{background:var(--blue-d);transform:scale(1.06);box-shadow:0 12px 32px rgba(0,71,255,.44)}
+/* FAB visibility — controlled by JS adding .visible class */
+.fab.visible{display:flex}
+@media(max-width:767px){
+  .fab.visible{bottom:76px;right:16px;width:46px;height:46px;border-radius:13px}
+  .fab-label{bottom:130px;right:16px}
+}
 .fab:active{transform:scale(.96)}
 .fab svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2}
 .fab-label{
@@ -302,26 +308,16 @@ tbody tr:hover{background:var(--bg)}
 .mn-ic svg{width:19px;height:19px}
 
 @media(max-width:767px){
-  .fab.visible{bottom:80px;right:16px;width:48px;height:48px;border-radius:14px;display:flex}
-  .fab-label{bottom:136px;right:16px;}
-
+  /* Layout */
   #sa.on{grid-template-columns:1fr;height:auto}
   .sidebar{display:none}
   .main{height:auto;min-height:100dvh}
   .page{padding:14px 14px 80px}
   .mob-nav{display:block}
-  .fab{display:flex}
   .kpis{grid-template-columns:repeat(2,1fr)}
   .chart-row{grid-template-columns:1fr}
-  .modal{max-width:100%;border-radius:18px}
-}
-@media(min-width:768px){
-  .fab.visible{display:flex}
-  .main{height:100dvh}
-}
-
-@media(max-width:767px){
-  /* Topbar stays white on mobile */
+  .modal{max-width:100%;border-radius:18px}.fab-label{bottom:136px;right:16px}
+  /* Dark bottom navbar only */
   .mob-nav{
     background:linear-gradient(180deg,#0C1A34 0%,#0A1628 100%);
     border-top:1px solid rgba(255,255,255,.06);
@@ -330,8 +326,13 @@ tbody tr:hover{background:var(--bg)}
   .mn-item.on{color:#60A5FA}
   .mn-item svg{stroke:currentColor}
   .mn-item[onclick*="logout"]{color:rgba(239,68,68,.7)}
-  .mn-item[onclick*="logout"]:hover{color:var(--red)}
 }
+@media(min-width:768px){
+  .main{height:100dvh}
+  .fab{display:none}
+}
+
+
 </style>
 </head>
 <body>
